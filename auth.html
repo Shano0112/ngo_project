@@ -119,7 +119,7 @@
   </nav> -->
 
   <main>
-    <div class="hero">
+    <!-- <div class="hero">
       <div class="hero-text">
         <h1>Join the network that <span>connects help with action</span></h1>
         <p>This page keeps the same Helpinghands visual style while adding a role-based join and login system for volunteers, organizations, and users.</p>
@@ -163,12 +163,12 @@
             <div><strong>Separate login mode</strong><span>A second mode is included for signing in with username, email, and password using the same card style.</span></div>
           </div>
         </div>
-      </section>
+      </section> -->
 
       <section class="auth-shell">
         <div class="auth-head">
           <div class="mode-toggle" role="tablist" aria-label="Authentication mode">
-            <button type="button" class="mode-btn active" data-mode="signup">Join Now</button>
+            <button type="button" class="mode-btn active" data-mode="signup" >Join Now</button>
             <button type="button" class="mode-btn" data-mode="login">Log In</button>
           </div>
           <div>
@@ -227,6 +227,14 @@
                 <input id="specialty" type="text" placeholder="First aid, teaching, logistics...">
               </div>
               <div class="form-group">
+                <label for="name">Name</label>
+                <input id="name" type="text" placeholder="Enter your name" >
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input id="address" type="text" placeholder="Street, city, region">
+              </div>
+              <div class="form-group">
                 <label for="volunteer-username">Username</label>
                 <input id="volunteer-username" type="text" placeholder="Choose a username">
               </div>
@@ -268,6 +276,14 @@
             </div>
 
             <div id="user-fields" class="form-grid role-group hidden">
+              <div class="form-group full">
+                <label for="name">Name</label>
+                <input id="name" type="text" placeholder="Enter your name" >
+              </div>
+              <div class="form-group full">
+                <label for="address">Address</label>
+                <input id="address" type="text" placeholder="Street, city, region">
+              </div>
               <div class="form-group full">
                 <label for="user-username">Username</label>
                 <input id="user-username" type="text" placeholder="Choose a username">
