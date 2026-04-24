@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<title>Helpinghands Auth</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --emerald:#00C896;--emerald-dark:#00A07A;--emerald-glow:#00C89620;
+    --coral:#FF6B6B;--coral-glow:#FF6B6B20;
+    --amber:#FFB347;--amber-glow:#FFB34720;
+    --violet:#7C3AED;--violet-glow:#7C3AED15;
+    --navy:#0F1729;--navy2:#162040;--navy3:#1E2D52;
+    --slate:#8B9ABF;--slate2:#C4CEDE;
+    --white:#FFFFFF;--white80:rgba(255,255,255,0.8);--white10:rgba(255,255,255,0.07);--white05:rgba(255,255,255,0.04);
+    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+    --text:#E8EDF8;--text2:#A8B4CC;
+    --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  }
+  body{font-family:'Satoshi',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden}
+  .bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg-mesh::before{content:'';position:absolute;top:-40%;left:-20%;width:80%;height:80%;background:radial-gradient(ellipse,rgba(0,200,150,0.07) 0%,transparent 70%)}
+  .bg-mesh::after{content:'';position:absolute;bottom:-30%;right:-15%;width:70%;height:70%;background:radial-gradient(ellipse,rgba(124,58,237,0.06) 0%,transparent 70%)}
+  .bg-dots{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:28px 28px}
+  .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
+  header{padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:rgba(15,23,41,0.7);position:sticky;top:0;z-index:100}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Clash Display',sans-serif;font-weight:700;font-size:1.3rem;color:var(--white)}
+  .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--emerald),#00E5B0);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(0,200,150,0.35)}
+  .logo span{color:var(--emerald)}
+  .header-actions{display:flex;align-items:center;gap:10px}
+  .btn-sm{padding:7px 16px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
+  .btn-sm:hover{background:rgba(255,255,255,0.12);color:var(--white)}
+  .btn-primary{background:linear-gradient(135deg,var(--emerald),#00E5B0);border-color:transparent;color:#003320;font-weight:700}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
+  nav{padding:0 2rem;border-bottom:1px solid var(--border);background:rgba(15,23,41,0.5);backdrop-filter:blur(10px);display:flex;gap:0;overflow-x:auto}
+  .tab{padding:16px 20px;font-size:13.5px;font-weight:500;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:7px;position:relative}
+  .tab:hover{color:var(--white80)}
+  .tab.active{color:var(--emerald);border-bottom-color:var(--emerald)}
+  main{flex:1;padding:2rem;max-width:1200px;margin:0 auto;width:100%}
+  .hero{background:linear-gradient(120deg,rgba(0,200,150,0.08),rgba(124,58,237,0.06));border:1px solid var(--border);border-radius:var(--r20);padding:2rem 2.5rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;animation:fadeUp .5s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .hero-text h1{font-family:'Clash Display',sans-serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.6rem}
+  .hero-text h1 span{background:linear-gradient(90deg,var(--emerald),#5BC8FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero-text p{color:var(--text2);font-size:15px;line-height:1.6;max-width:520px}
+  .hero-stats{display:flex;gap:1.5rem;flex-shrink:0}
+  .hero-stat{text-align:center}
+  .hero-stat-num{font-family:'Clash Display',sans-serif;font-size:2rem;font-weight:700;color:var(--emerald)}
+  .hero-stat-label{font-size:12px;color:var(--text2);margin-top:2px}
+  .auth-layout{display:grid;grid-template-columns:1.05fr 1fr;gap:1.5rem}
+  .panel{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r20);padding:1.5rem;animation:fadeUp .5s ease both;box-shadow:0 12px 40px rgba(0,0,0,0.2)}
+  .section-title{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:1rem}
+  .info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+  .info-card{background:var(--navy3);border:1px solid var(--border);border-radius:var(--r16);padding:1rem;transition:all .25s}
+  .info-card:hover{transform:translateY(-2px);border-color:rgba(0,200,150,0.22)}
+  .info-card h3{font-family:'Clash Display',sans-serif;font-size:1rem;margin-bottom:.35rem}
+  .info-card p{font-size:13px;color:var(--text2);line-height:1.55}
+  .feature-list{display:grid;gap:.85rem;margin-top:1rem}
+  .feature-item{display:flex;gap:.8rem;align-items:flex-start;padding:.9rem 1rem;background:var(--white05);border:1px solid var(--border);border-radius:var(--r12)}
+  .feature-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(0,200,150,0.12);color:var(--emerald);font-size:16px;flex-shrink:0}
+  .feature-item strong{display:block;font-size:13.5px;margin-bottom:.15rem}
+  .feature-item span{font-size:12.5px;color:var(--text2);line-height:1.5}
+  .auth-shell{background:linear-gradient(180deg,rgba(30,45,82,0.95),rgba(22,32,64,0.95));border:1px solid var(--border);border-radius:var(--r20);overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,0.28)}
+  .auth-head{padding:1.4rem 1.5rem;border-bottom:1px solid var(--border);display:grid;gap:1rem}
+  .mode-toggle{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;padding:.35rem;background:var(--white05);border-radius:12px}
+  .mode-btn{padding:.8rem 1rem;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--text2);font-family:'Satoshi',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+  .mode-btn.active{background:rgba(0,200,150,0.12);color:var(--emerald);border-color:rgba(0,200,150,0.28);box-shadow:inset 0 0 0 1px rgba(0,200,150,0.08)}
+  .auth-head h2{font-family:'Clash Display',sans-serif;font-size:1.5rem;margin-bottom:.25rem}
+  .auth-head p{font-size:13.5px;color:var(--text2);line-height:1.55}
+  .auth-body{padding:1.5rem}
+  fieldset{border:none;display:grid;gap:1rem;margin-bottom:1.2rem}
+  legend{font-size:13px;font-weight:700;color:var(--text2);margin-bottom:.2rem}
+  .role-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+  .role-option input{position:absolute;opacity:0;pointer-events:none}
+  .role-option label{display:grid;gap:.25rem;min-height:84px;padding:.9rem;border-radius:var(--r12);background:var(--white05);border:1px solid var(--border2);cursor:pointer;transition:all .2s}
+  .role-option label strong{font-size:13.5px}
+  .role-option label span{font-size:11.5px;color:var(--text2);line-height:1.4}
+  .role-option input:checked + label{background:rgba(0,200,150,0.12);border-color:rgba(0,200,150,0.38);box-shadow:0 0 0 1px rgba(0,200,150,0.1),0 10px 28px rgba(0,200,150,0.08)}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .form-group{display:flex;flex-direction:column;gap:.42rem}
+  .form-group.full{grid-column:1/-1}
+  label{font-size:12.5px;font-weight:600;color:var(--text2)}
+  input,textarea,select{background:var(--navy3);border:1px solid var(--border2);border-radius:var(--r8);padding:11px 13px;color:var(--text);font-family:'Satoshi',sans-serif;font-size:14px;width:100%;outline:none;transition:border-color .2s, box-shadow .2s, transform .2s}
+  input:focus,textarea:focus,select:focus{border-color:rgba(0,200,150,0.55);box-shadow:0 0 0 3px rgba(0,200,150,0.12)}
+  textarea{resize:vertical;min-height:100px}
+  select option{background:var(--navy3)}
+  input::placeholder,textarea::placeholder{color:#93a0bb}
+  .helper{font-size:11.5px;color:var(--slate);margin-top:.1rem}
+  .hidden{display:none}
+  .submit-row{display:grid;gap:.9rem;margin-top:1.15rem}
+  .btn-submit{padding:12px 20px;border-radius:var(--r8);border:none;background:linear-gradient(135deg,var(--emerald),#00E5B0);color:#003320;font-family:'Satoshi',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+  .btn-submit:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
+  .support-text{text-align:center;font-size:12.5px;color:var(--text2)}
+  .link-btn{background:none;border:none;color:var(--emerald);font:inherit;font-weight:700;cursor:pointer}
+  .mini-note{margin-bottom:1rem;background:rgba(124,58,237,0.09);border:1px solid rgba(124,58,237,0.22);border-radius:var(--r12);padding:.95rem 1rem;font-size:12.5px;color:var(--text2);line-height:1.55}
+  .toast{position:fixed;bottom:2rem;right:2rem;background:linear-gradient(135deg,var(--emerald),#00E5B0);color:#003320;padding:12px 22px;border-radius:var(--r12);font-weight:700;font-size:14px;z-index:9999;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 8px 32px rgba(0,200,150,0.45);display:flex;align-items:center;gap:8px}
+  .toast.show{transform:translateY(0);opacity:1}
+  @media(max-width:980px){.auth-layout{grid-template-columns:1fr}.hero-stats{display:none}.info-grid,.role-options,.form-grid{grid-template-columns:1fr}.hero-text h1{font-size:1.75rem}}
+  @media(max-width:640px){header,nav,main{padding-left:1rem;padding-right:1rem}.hero,.panel,.auth-head,.auth-body{padding:1.1rem}.tab{padding:14px 16px}}
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+<div class="bg-dots"></div>
+<div class="shell">
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🌱</div>
+      Helping<span>Hands</span>
+    </div>
+    </header>
+
+  <!-- <nav>
+    <div class="tab active"><span>🔐</span> Authentication</div>
+    <div class="tab"><span>🤝</span> Volunteers</div>
+    <div class="tab"><span>🏢</span> Organizations</div>
+    <div class="tab"><span>👤</span> Users</div>
+  </nav> -->
+
+  <main>
+    <div class="hero">
+      <div class="hero-text">
+        <h1>Join the network that <span>connects help with action</span></h1>
+        <p>This page keeps the same Helpinghands visual style while adding a role-based join and login system for volunteers, organizations, and users.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Account Types</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">1</div><div class="hero-stat-label">Unified Login</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">100%</div><div class="hero-stat-label">Theme Match</div></div>
+      </div>
+    </div>
+
+    <div class="auth-layout">
+      <section class="panel">
+        <div class="section-title">🌿 Role Overview</div>
+        <div class="info-grid">
+          <article class="info-card">
+            <h3>Volunteer</h3>
+            <p>Collects past workings, gender, specialty, username, email, and password for skilled community contributors.</p>
+          </article>
+          <article class="info-card">
+            <h3>Organization</h3>
+            <p>Captures organization type, address, official link, username, email, and password for verified groups.</p>
+          </article>
+          <article class="info-card">
+            <h3>User</h3>
+            <p>Keeps account creation fast with username, email, and password only.</p>
+          </article>
+        </div>
+
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon">✨</div>
+            <div><strong>Same visual system</strong><span>Uses the same emerald, navy, violet glow, Clash Display, and Satoshi styling from your original page.</span></div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🧩</div>
+            <div><strong>Role-based fields</strong><span>Fields switch instantly when the user selects volunteer, organization, or user during signup.</span></div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔐</div>
+            <div><strong>Separate login mode</strong><span>A second mode is included for signing in with username, email, and password using the same card style.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="auth-shell">
+        <div class="auth-head">
+          <div class="mode-toggle" role="tablist" aria-label="Authentication mode">
+            <button type="button" class="mode-btn active" data-mode="signup">Join Now</button>
+            <button type="button" class="mode-btn" data-mode="login">Log In</button>
+          </div>
+          <div>
+            <h2 id="form-title">Create your HelpingHands account</h2>
+            <p id="form-copy">Choose your account type and complete only the fields needed for that role.</p>
+          </div>
+        </div>
+
+        <div class="auth-body">
+          <form id="signup-form" novalidate>
+            <fieldset>
+              <legend>Select your role</legend>
+              <div class="role-options">
+                <div class="role-option">
+                  <input type="radio" name="role" id="role-volunteer" value="volunteer" checked>
+                  <label for="role-volunteer">
+                    <strong>Volunteer</strong>
+                    <span>Service history and specialty</span>
+                  </label>
+                </div>
+                <div class="role-option">
+                  <input type="radio" name="role" id="role-organization" value="organization">
+                  <label for="role-organization">
+                    <strong>Organization</strong>
+                    <span>Institution profile details</span>
+                  </label>
+                </div>
+                <div class="role-option">
+                  <input type="radio" name="role" id="role-user" value="user">
+                  <label for="role-user">
+                    <strong>User</strong>
+                    <span>Quick personal signup</span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+
+            <div id="volunteer-fields" class="form-grid role-group">
+              <div class="form-group full">
+                <label for="past-workings">Past workings</label>
+                <textarea id="past-workings" placeholder="Describe past volunteer work or relevant experience"></textarea>
+                <span class="helper">Example: teaching camps, rescue drives, medical support, logistics.</span>
+              </div>
+              <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender">
+                  <option value="">Select gender</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Non-binary</option>
+                  <option>Prefer not to say</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="specialty">Specialty</label>
+                <input id="specialty" type="text" placeholder="First aid, teaching, logistics...">
+              </div>
+              <div class="form-group">
+                <label for="volunteer-username">Username</label>
+                <input id="volunteer-username" type="text" placeholder="Choose a username">
+              </div>
+              <div class="form-group">
+                <label for="volunteer-email">Email</label>
+                <input id="volunteer-email" type="email" placeholder="name@example.com">
+              </div>
+              <div class="form-group full">
+                <label for="volunteer-password">Password</label>
+                <input id="volunteer-password" type="password" placeholder="Create a secure password">
+              </div>
+            </div>
+
+            <div id="organization-fields" class="form-grid role-group hidden">
+              <div class="form-group">
+                <label for="org-type">Type</label>
+                <input id="org-type" type="text" placeholder="NGO, shelter, hospital...">
+              </div>
+              <div class="form-group">
+                <label for="org-address">Address</label>
+                <input id="org-address" type="text" placeholder="Street, city, region">
+              </div>
+              <div class="form-group full">
+                <label for="org-link">Official link</label>
+                <input id="org-link" type="url" placeholder="https://organization.org">
+              </div>
+              <div class="form-group">
+                <label for="org-username">Username</label>
+                <input id="org-username" type="text" placeholder="Choose a username">
+              </div>
+              <div class="form-group">
+                <label for="org-email">Email</label>
+                <input id="org-email" type="email" placeholder="team@example.org">
+              </div>
+              <div class="form-group full">
+                <label for="org-password">Password</label>
+                <input id="org-password" type="password" placeholder="Create a secure password">
+              </div>
+            </div>
+
+            <div id="user-fields" class="form-grid role-group hidden">
+              <div class="form-group full">
+                <label for="user-username">Username</label>
+                <input id="user-username" type="text" placeholder="Choose a username">
+              </div>
+              <div class="form-group full">
+                <label for="user-email">Email</label>
+                <input id="user-email" type="email" placeholder="name@example.com">
+              </div>
+              <div class="form-group full">
+                <label for="user-password">Password</label>
+                <input id="user-password" type="password" placeholder="Create a secure password">
+              </div>
+            </div>
+
+            <div class="submit-row">
+              <button class="btn-submit" type="submit">Create Account</button>
+              <p class="support-text">Already have an account? <button class="link-btn" type="button" data-mode-trigger="login">Log in</button></p>
+            </div>
+          </form>
+
+          <form id="login-form" class="hidden" novalidate>
+            <div class="mini-note">Use your username, email, and password to log in, whether you joined as a volunteer, organization, or user.</div>
+            <div class="form-grid">
+              <div class="form-group full">
+                <label for="login-username">Username</label>
+                <input id="login-username" type="text" placeholder="Enter your username">
+              </div>
+              <div class="form-group full">
+                <label for="login-email">Email</label>
+                <input id="login-email" type="email" placeholder="Enter your email">
+              </div>
+              <div class="form-group full">
+                <label for="login-password">Password</label>
+                <input id="login-password" type="password" placeholder="Enter your password">
+              </div>
+            </div>
+            <div class="submit-row">
+              <button class="btn-submit" type="submit">Log In</button>
+              <p class="support-text">Need an account? <button class="link-btn" type="button" data-mode-trigger="signup">Join now</button></p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const roleInputs = document.querySelectorAll('input[name="role"]');
+  const roleGroups = {
+    volunteer: document.getElementById('volunteer-fields'),
+    organization: document.getElementById('organization-fields'),
+    user: document.getElementById('user-fields')
+  };
+  const signupForm = document.getElementById('signup-form');
+  const loginForm = document.getElementById('login-form');
+  const modeButtons = document.querySelectorAll('[data-mode]');
+  const modeTriggers = document.querySelectorAll('[data-mode-trigger]');
+  const formTitle = document.getElementById('form-title');
+  const formCopy = document.getElementById('form-copy');
+  const toast = document.getElementById('toast');
+
+  function showRole(role){
+    Object.entries(roleGroups).forEach(([key, el]) => el.classList.toggle('hidden', key !== role));
+  }
+
+  roleInputs.forEach(input => {
+    input.addEventListener('change', e => showRole(e.target.value));
+  });
+
+  function setMode(mode){
+    const signupActive = mode === 'signup';
+    signupForm.classList.toggle('hidden', !signupActive);
+    loginForm.classList.toggle('hidden', signupActive);
+    formTitle.textContent = signupActive ? 'Create your HelpingHands account' : 'Welcome back';
+    formCopy.textContent = signupActive
+      ? 'Choose your account type and complete only the fields needed for that role.'
+      : 'Sign in with your username, email, and password to continue.';
+
+    modeButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.mode === mode));
+  }
+
+  modeButtons.forEach(btn => btn.addEventListener('click', () => setMode(btn.dataset.mode)));
+  modeTriggers.forEach(btn => btn.addEventListener('click', () => setMode(btn.dataset.modeTrigger)));
+
+  function showToast(message){
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  signupForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const role = document.querySelector('input[name="role"]:checked').value;
+    showToast('✨ ' + role.charAt(0).toUpperCase() + role.slice(1) + ' signup form is ready to connect with your backend.');
+  });
+
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    showToast('🔐 Login form is ready to connect with your backend.');
+  });
+
+  window.setMode = setMode;
+
+(function(){
+  const explorePath='explore.html';
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    const params=new URLSearchParams(location.search);
+
+    if(params.get('logout')==='1'){
+      sessionStorage.removeItem('hh_logged_in');
+      sessionStorage.removeItem('hh_user');
+    }
+
+    if(sessionStorage.getItem('hh_logged_in')==='true'){
+      location.href=explorePath;
+      return;
+    }
+
+    const forms=[...document.querySelectorAll('form')];
+    const loginForm=
+      forms.find(f => /login/i.test(
+        (f.id || '') + ' ' +
+        (f.className || '') + ' ' +
+        (f.getAttribute('data-mode') || '')
+      )) || forms[0];
+
+    if(!loginForm) return;
+
+    loginForm.addEventListener('submit',function(e){
+      e.preventDefault();
+
+      const fd=new FormData(loginForm);
+      const email=(fd.get('email') || fd.get('loginEmail') || '').toString().trim();
+      const username=(fd.get('username') || fd.get('loginUsername') || email.split('@')[0] || 'Guest').toString().trim() || 'Guest';
+      const password=(fd.get('password') || fd.get('loginPassword') || '').toString();
+
+      if(!email && !username){
+        alert('Enter your email or username to continue.');
+        return;
+      }
+
+      if(!password){
+        alert('Enter your password to continue.');
+        return;
+      }
+
+      sessionStorage.setItem('hh_logged_in','true');
+      sessionStorage.setItem('hh_user', JSON.stringify({ username, email }));
+
+      location.href=explorePath;
+    });
+  });
+})();
+</script>
+</body>
+</html>

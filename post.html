@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post a Need - HelpingHands</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --emerald:#00C896;--emerald-dark:#00A07A;--emerald-glow:#00C89620;
+    --coral:#FF6B6B;--coral-glow:#FF6B6B20;
+    --amber:#FFB347;--amber-glow:#FFB34720;
+    --violet:#7C3AED;--violet-glow:#7C3AED15;
+    --navy:#0F1729;--navy2:#162040;--navy3:#1E2D52;
+    --slate:#8B9ABF;--slate2:#C4CEDE;
+    --white:#FFFFFF;--white80:rgba(255,255,255,0.8);--white10:rgba(255,255,255,0.07);--white05:rgba(255,255,255,0.04);
+    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+    --text:#E8EDF8;--text2:#A8B4CC;
+    --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  }
+  body{font-family:'Satoshi',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden}
+  
+  .bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg-mesh::before{content:'';position:absolute;top:-40%;left:-20%;width:80%;height:80%;background:radial-gradient(ellipse,rgba(0,200,150,0.07) 0%,transparent 70%)}
+  .bg-mesh::after{content:'';position:absolute;bottom:-30%;right:-15%;width:70%;height:70%;background:radial-gradient(ellipse,rgba(124,58,237,0.06) 0%,transparent 70%)}
+  .bg-dots{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:28px 28px}
+
+  .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
+  
+  header{padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:rgba(15,23,41,0.7);position:sticky;top:0;z-index:100}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Clash Display',sans-serif;font-weight:700;font-size:1.3rem;color:var(--white);text-decoration:none}
+  .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--emerald),#00E5B0);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(0,200,150,0.35)}
+  .logo span{color:var(--emerald)}
+  .header-actions{display:flex;align-items:center;gap:10px}
+  .btn-sm{padding:7px 16px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none}
+  .btn-sm:hover{background:rgba(255,255,255,0.12);color:var(--white)}
+  .btn-primary{background:linear-gradient(135deg,var(--emerald),#00E5B0);border-color:transparent;color:#003320;font-weight:700}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
+  .notif{width:36px;height:36px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px}
+  .notif-dot{position:absolute;top:7px;right:8px;width:6px;height:6px;background:var(--coral);border-radius:50%;border:1.5px solid var(--navy)}
+
+  nav{padding:0 2rem;border-bottom:1px solid var(--border);background:rgba(15,23,41,0.5);backdrop-filter:blur(10px);display:flex;gap:0;overflow-x:auto}
+  .tab{padding:16px 20px;font-size:13.5px;font-weight:500;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:7px;position:relative;text-decoration:none}
+  .tab:hover{color:var(--white80)}
+  .tab.active{color:var(--emerald);border-bottom-color:var(--emerald)}
+  .tab-icon{font-size:14px}
+  .urgent-tab{color:#FF6B6B !important}
+  .urgent-tab.active{color:#FF6B6B !important;border-bottom-color:#FF6B6B !important}
+  .urgent-pulse{width:7px;height:7px;background:#FF6B6B;border-radius:50%;animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+  .badge-count{background:var(--coral);color:white;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:18px;text-align:center}
+
+  main{flex:1;padding:2rem;max-width:900px;margin:0 auto;width:100%}
+
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+  .section-title{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:600;display:flex;align-items:center;gap:8px}
+
+  .post-form{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r16);padding:2rem;margin-bottom:2rem;animation:fadeUp .4s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .form-title{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .form-group{display:flex;flex-direction:column;gap:.4rem}
+  .form-group.full{grid-column:1/-1}
+  label{font-size:12.5px;font-weight:600;color:var(--text2)}
+  input,textarea,select{background:var(--navy3);border:1px solid var(--border2);border-radius:var(--r8);padding:10px 13px;color:var(--text);font-family:'Satoshi',sans-serif;font-size:14px;width:100%;outline:none;transition:border-color .2s}
+  input:focus,textarea:focus,select:focus{border-color:rgba(0,200,150,0.5)}
+  select option{background:var(--navy3)}
+  textarea{resize:vertical;min-height:90px}
+  .skill-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.4rem}
+  .skill-tag{padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--white10);font-size:12px;color:var(--text2);cursor:pointer;transition:all .2s}
+  .skill-tag.selected{background:rgba(0,200,150,0.15);border-color:rgba(0,200,150,0.4);color:var(--emerald)}
+  .urgency-toggle{display:flex;align-items:center;gap:12px}
+  .toggle{width:44px;height:24px;border-radius:12px;background:var(--border2);position:relative;cursor:pointer;transition:background .2s}
+  .toggle.on{background:var(--coral)}
+  .toggle-knob{width:18px;height:18px;border-radius:50%;background:white;position:absolute;top:3px;left:3px;transition:left .2s}
+  .toggle.on .toggle-knob{left:23px}
+  .form-actions{display:flex;justify-content:flex-end;gap:.75rem;margin-top:1.25rem}
+  .btn-post{padding:10px 28px;border-radius:var(--r8);border:none;background:linear-gradient(135deg,var(--emerald),#00E5B0);color:#003320;font-family:'Satoshi',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+  .btn-post:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
+
+  .toast{position:fixed;bottom:2rem;right:2rem;background:linear-gradient(135deg,var(--emerald),#00E5B0);color:#003320;padding:12px 22px;border-radius:var(--r12);font-weight:700;font-size:14px;z-index:9999;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 8px 32px rgba(0,200,150,0.45);display:flex;align-items:center;gap:8px}
+  .toast.show{transform:translateY(0);opacity:1}
+
+  @media(max-width:768px){
+    .form-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+<div class="bg-dots"></div>
+<div class="shell">
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🌱</div>
+    Helping<span>Hands</span>
+  </a>
+  <div class="header-actions">
+    <div class="notif" title="Notifications"><a href="notification.html"> 🔔</a><div class="notif-dot"></div></div>
+    <a href="post.html" class="btn-sm">Post Need</a>
+    <a href="#" class="btn-sm btn-primary">Join Now</a>
+  </div>
+</header>
+
+<nav>
+  <a href="explore.html" class="tab"><span class="tab-icon">🌍</span>Explore</a>
+  <a href="urgent.html" class="tab urgent-tab"><span class="tab-icon"><span class="urgent-pulse"></span></span>Urgent<span class="badge-count">4</span></a>
+  <a href="individual.html" class="tab"><span class="tab-icon">🤝</span>Individuals</a>
+  <a href="leaderboard.html" class="tab"><span class="tab-icon">🏆</span>Leaderboard</a>
+  <a href="badges.html" class="tab"><span class="tab-icon">🎖️</span>My Badges</a>
+  <a href="post.html" class="tab active"><span class="tab-icon">✍️</span>Post Need</a>
+</nav>
+
+<main>
+  <div class="section-header">
+    <div class="section-title">✍️ Post a Volunteering Need</div>
+  </div>
+
+  <div class="post-form">
+    <div class="form-title">📋 NGO Opportunity Listing</div>
+    <div class="form-grid">
+      <div class="form-group"><label>Organization Name</label><input type="text" placeholder="e.g. GreenEarth Foundation"></div>
+      <div class="form-group"><label>Category</label><select><option>🌿 Environment</option><option>🏥 Healthcare</option><option>📚 Education</option><option>🏠 Shelter & Housing</option><option>💻 Technology</option><option>🐾 Animals</option><option>🎨 Arts & Culture</option></select></div>
+      <div class="form-group full"><label>Opportunity Title</label><input type="text" placeholder="What volunteers will be doing..."></div>
+      <div class="form-group full"><label>Description</label><textarea placeholder="Describe the role, responsibilities, and expected impact..."></textarea></div>
+      <div class="form-group"><label>Location</label><input type="text" placeholder="City or 'Remote'"></div>
+      <div class="form-group"><label>Volunteers Needed</label><input type="number" min="1" value="10"></div>
+      <div class="form-group"><label>Date / Duration</label><input type="text" placeholder="e.g. Apr 22 · 6 hours"></div>
+      <div class="form-group"><label>Urgency</label>
+        <div class="urgency-toggle" style="margin-top:.4rem">
+          <div class="toggle" id="urgToggle1" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+          <span style="font-size:13.5px;color:var(--text2)">Mark as Urgent / Crisis</span>
+        </div>
+      </div>
+      <div class="form-group full"><label>Skills Required</label>
+        <div class="skill-tags">
+          <div class="skill-tag" onclick="this.classList.toggle('selected')">First Aid</div>
+          <div class="skill-tag" onclick="this.classList.toggle('selected')">Teaching</div>
+          <div class="skill-tag" onclick="this.classList.toggle('selected')">Programming</div>
+          <div class="skill-tag" onclick="this.classList.toggle('selected')">Photography</div>
+          <div class="skill-tag" onclick="this.classList.toggle('selected')">Logistics</div>
+          <div class="skill-tag" onclick="this.classList.toggle('selected')">Fundraising</div>
+          <div class="skill-tag" onclick="this.classList.toggle('selected')">Counseling</div>
+          <div class="skill-tag" onclick="this.classList.toggle('selected')">Translation</div>
+          <div class="skill-tag" onclick="this.classList.toggle('selected')">Driving</div>
+          <div class="skill-tag" onclick="this.classList.toggle('selected')">Construction</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <a href="explore.html" class="btn-sm">Cancel</a>
+      <button class="btn-post" onclick="handlePost()">🚀 Publish Opportunity</button>
+    </div>
+  </div>
+
+  <div class="post-form" style="animation-delay:.1s">
+    <div class="form-title">🤝 Post Individual Help Request</div>
+    <div class="form-grid">
+      <div class="form-group full"><label>What do you need help with?</label><textarea placeholder="Describe your situation and how volunteers can help you..."></textarea></div>
+      <div class="form-group"><label>Your Location</label><input type="text" placeholder="City / Area"></div>
+      <div class="form-group"><label>When do you need help?</label><input type="text" placeholder="Date or ASAP"></div>
+    </div>
+    <div class="form-actions"><button class="btn-post" onclick="handlePost()">🤝 Submit Request</button></div>
+  </div>
+</main>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function handlePost(){
+  showToast('🚀 Published! Your listing is now live.');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>

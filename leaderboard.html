@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard - HelpingHands</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --emerald:#00C896;--emerald-dark:#00A07A;--emerald-glow:#00C89620;
+    --coral:#FF6B6B;--coral-glow:#FF6B6B20;
+    --amber:#FFB347;--amber-glow:#FFB34720;
+    --violet:#7C3AED;--violet-glow:#7C3AED15;
+    --navy:#0F1729;--navy2:#162040;--navy3:#1E2D52;
+    --slate:#8B9ABF;--slate2:#C4CEDE;
+    --white:#FFFFFF;--white80:rgba(255,255,255,0.8);--white10:rgba(255,255,255,0.07);--white05:rgba(255,255,255,0.04);
+    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+    --text:#E8EDF8;--text2:#A8B4CC;
+    --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  }
+  body{font-family:'Satoshi',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden}
+  
+  .bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg-mesh::before{content:'';position:absolute;top:-40%;left:-20%;width:80%;height:80%;background:radial-gradient(ellipse,rgba(0,200,150,0.07) 0%,transparent 70%)}
+  .bg-mesh::after{content:'';position:absolute;bottom:-30%;right:-15%;width:70%;height:70%;background:radial-gradient(ellipse,rgba(124,58,237,0.06) 0%,transparent 70%)}
+  .bg-dots{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:28px 28px}
+
+  .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
+  
+  header{padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:rgba(15,23,41,0.7);position:sticky;top:0;z-index:100}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Clash Display',sans-serif;font-weight:700;font-size:1.3rem;color:var(--white);text-decoration:none}
+  .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--emerald),#00E5B0);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(0,200,150,0.35)}
+  .logo span{color:var(--emerald)}
+  .header-actions{display:flex;align-items:center;gap:10px}
+  .btn-sm{padding:7px 16px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none}
+  .btn-sm:hover{background:rgba(255,255,255,0.12);color:var(--white)}
+  .btn-primary{background:linear-gradient(135deg,var(--emerald),#00E5B0);border-color:transparent;color:#003320;font-weight:700}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
+  .notif{width:36px;height:36px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px}
+  .notif-dot{position:absolute;top:7px;right:8px;width:6px;height:6px;background:var(--coral);border-radius:50%;border:1.5px solid var(--navy)}
+
+  nav{padding:0 2rem;border-bottom:1px solid var(--border);background:rgba(15,23,41,0.5);backdrop-filter:blur(10px);display:flex;gap:0;overflow-x:auto}
+  .tab{padding:16px 20px;font-size:13.5px;font-weight:500;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:7px;position:relative;text-decoration:none}
+  .tab:hover{color:var(--white80)}
+  .tab.active{color:var(--emerald);border-bottom-color:var(--emerald)}
+  .tab-icon{font-size:14px}
+  .urgent-tab{color:#FF6B6B !important}
+  .urgent-tab.active{color:#FF6B6B !important;border-bottom-color:#FF6B6B !important}
+  .urgent-pulse{width:7px;height:7px;background:#FF6B6B;border-radius:50%;animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+  .badge-count{background:var(--coral);color:white;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:18px;text-align:center}
+
+  main{flex:1;padding:2rem;max-width:1200px;margin:0 auto;width:100%}
+
+  .hero{background:linear-gradient(120deg,rgba(255,179,71,0.08),rgba(124,58,237,0.06));border:1px solid var(--border);border-radius:var(--r20);padding:1.5rem 2rem;margin-bottom:1.5rem;animation:fadeUp .5s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .hero-text h1{font-family:'Clash Display',sans-serif;font-size:1.7rem;font-weight:700;line-height:1.2;margin-bottom:.6rem}
+  .hero-text h1 span{background:linear-gradient(90deg,var(--amber),#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero-text p{color:var(--text2);font-size:14px;line-height:1.6}
+  .hero-stats{display:flex;gap:1.5rem;flex-shrink:0}
+  .hero-stat{text-align:center}
+  .hero-stat-num{font-family:'Clash Display',sans-serif;font-size:1.5rem;font-weight:700;color:var(--amber)}
+  .hero-stat-label{font-size:12px;color:var(--text2);margin-top:2px}
+
+  .two-col{display:grid;grid-template-columns:1fr 340px;gap:1.5rem}
+  
+  .lb-card{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r16);padding:1.5rem;animation:fadeUp .5s ease .1s both}
+  .lb-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+  .lb-row:last-child{border-bottom:none}
+  .lb-rank{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;width:28px;text-align:center;flex-shrink:0}
+  .rank1{color:#FFD700;text-shadow:0 0 10px rgba(255,215,0,0.5)}
+  .rank2{color:#C0C8D8}
+  .rank3{color:#CD853F}
+  .rank-other{color:var(--slate)}
+  .lb-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;font-weight:700}
+  .lb-info{flex:1}
+  .lb-name{font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px}
+  .lb-meta{font-size:12px;color:var(--slate);margin-top:1px}
+  .lb-points{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:700;color:var(--amber)}
+  .lb-badges-row{display:flex;gap:3px;margin-top:3px}
+  .mini-badge{font-size:13px}
+
+  .side-widget{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r16);padding:1.25rem;margin-bottom:1.25rem;animation:fadeUp .5s ease .15s both}
+  .widget-title{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:1rem}
+  .stat-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0}
+  .stat-label{font-size:13px;color:var(--text2);display:flex;align-items:center;gap:7px}
+  .stat-val{font-family:'Clash Display',sans-serif;font-size:1.05rem;font-weight:700}
+  .crown{font-size:16px}
+
+  @media(max-width:900px){
+    .two-col{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+<div class="bg-dots"></div>
+<div class="shell">
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🌱</div>
+    Helping<span>Hands</span>
+  </a>
+  <div class="header-actions">
+    <div class="notif" title="Notifications"><a href="notification.html"> 🔔</a><div class="notif-dot"></div></div>
+    <a href="post.html" class="btn-sm">Post Need</a>
+    <a href="#" class="btn-sm btn-primary">Join Now</a>
+  </div>
+</header>
+
+<nav>
+  <a href="explore.html" class="tab"><span class="tab-icon">🌍</span>Explore</a>
+  <a href="urgent.html" class="tab urgent-tab"><span class="tab-icon"><span class="urgent-pulse"></span></span>Urgent<span class="badge-count">4</span></a>
+  <a href="individual.html" class="tab"><span class="tab-icon">🤝</span>Individuals</a>
+  <a href="leaderboard.html" class="tab active"><span class="tab-icon">🏆</span>Leaderboard</a>
+  <a href="badges.html" class="tab"><span class="tab-icon">🎖️</span>My Badges</a>
+  <a href="post.html" class="tab"><span class="tab-icon">✍️</span>Post Need</a>
+</nav>
+
+<main>
+  <div class="hero" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap">
+    <div class="hero-text">
+      <h1>🏆 <span>Hall of Changemakers</span></h1>
+      <p>Every point is a life touched. Every hour is a future shaped.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">128</div><div class="hero-stat-label">Active Volunteers</div></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="lb-card" id="leaderboard-list"></div>
+    <div>
+      <div class="side-widget">
+        <div class="widget-title">Your Rank</div>
+        <div style="text-align:center;padding:1rem 0">
+          <div style="font-size:3.5rem;font-family:'Clash Display',sans-serif;font-weight:700;color:var(--violet)">#12</div>
+          <div style="font-size:14px;color:var(--text2);margin-bottom:.75rem">out of 128 volunteers</div>
+          <div style="font-size:13px;color:var(--text2)">1,360 XP · Level 4</div>
+          <div style="margin-top:.75rem;font-size:12px;color:var(--emerald)">340 XP to reach Top 10!</div>
+        </div>
+      </div>
+      <div class="side-widget">
+        <div class="widget-title">Points Guide</div>
+        <div class="stat-row"><span class="stat-label" style="font-size:12.5px">Task Completion</span><span style="font-size:13px;color:var(--emerald);font-weight:700">+50 XP</span></div>
+        <div class="stat-row"><span class="stat-label" style="font-size:12.5px">Emergency Response</span><span style="font-size:13px;color:var(--coral);font-weight:700">+150 XP</span></div>
+        <div class="stat-row"><span class="stat-label" style="font-size:12.5px">100h Milestone</span><span style="font-size:13px;color:var(--amber);font-weight:700">+500 XP</span></div>
+        <div class="stat-row"><span class="stat-label" style="font-size:12.5px">Streak Bonus (7d)</span><span style="font-size:13px;color:#A78BFA;font-weight:700">+100 XP</span></div>
+      </div>
+      <div class="side-widget">
+        <div class="widget-title">Weekly Challenge</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">
+          <div style="padding:.5rem 0;border-bottom:1px solid var(--border)">🎯 Complete <strong style="color:var(--emerald)">5 tasks</strong> this week</div>
+          <div style="padding:.5rem 0;border-bottom:1px solid var(--border)">🔥 Maintain <strong style="color:var(--coral)">7-day streak</strong></div>
+          <div style="padding:.5rem 0">🚨 Respond to <strong style="color:var(--amber)">1 emergency</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+</div>
+
+<script>
+const LEADERBOARD=[
+  {name:'Aryan Mehta',loc:'Mumbai',tasks:23,xp:2840,avatar:'AM',col:'#FFD700',bg:'rgba(255,215,0,0.15)',badges:['🌟','🔥','🏆']},
+  {name:'Sia Patel',loc:'Pune',tasks:19,xp:2310,avatar:'SP',col:'#C0C8D8',bg:'rgba(192,200,216,0.15)',badges:['🌟','🔥']},
+  {name:'Riya Kapoor',loc:'Delhi',tasks:17,xp:1980,avatar:'RK',col:'#CD853F',bg:'rgba(205,133,63,0.15)',badges:['🌟','💧']},
+  {name:'Karan Shah',loc:'Chennai',tasks:15,xp:1760,avatar:'KS',col:'#00C896',bg:'rgba(0,200,150,0.15)',badges:['🌿']},
+  {name:'Meera Nair',loc:'Kochi',tasks:14,xp:1640,avatar:'MN',col:'#5BC8FF',bg:'rgba(91,200,255,0.15)',badges:['📚','💧']},
+  {name:'Dev Rawat',loc:'Dehradun',tasks:13,xp:1540,avatar:'DR',col:'#A78BFA',bg:'rgba(167,139,250,0.15)',badges:['🌟']},
+  {name:'Pooja Das',loc:'Kolkata',tasks:12,xp:1420,avatar:'PD',col:'#FF6B6B',bg:'rgba(255,107,107,0.15)',badges:['🔥']},
+  {name:'Amit Verma',loc:'Lucknow',tasks:12,xp:1380,avatar:'AV',col:'#FFB347',bg:'rgba(255,179,71,0.15)',badges:['🌿']},
+];
+
+function renderLeaderboard(){
+  const c=document.getElementById('leaderboard-list');
+  const medals=['🥇','🥈','🥉'];
+  c.innerHTML=`<div class="widget-title" style="margin-bottom:1.25rem">All-Time Rankings</div>`+LEADERBOARD.map((v,i)=>`
+    <div class="lb-row">
+      <span class="lb-rank ${i<3?'rank'+(i+1):'rank-other'}">${i<3?medals[i]:i+1}</span>
+      <div class="lb-avatar" style="background:${v.bg};color:${v.col}">${v.avatar}</div>
+      <div class="lb-info">
+        <div class="lb-name">${v.name} <span class="lb-badges-row">${v.badges.map(b=>`<span class="mini-badge">${b}</span>`).join('')}</span></div>
+        <div class="lb-meta">📍 ${v.loc} · ${v.tasks} tasks</div>
+      </div>
+      <span class="lb-points">${v.xp.toLocaleString()}</span>
+    </div>`).join('');
+}
+
+renderLeaderboard();
+</script>
+</body>
+</html>
