@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Explore Opportunities - Helpinghands</title>
+<title>Explore Opportunities - VolConnect</title>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
@@ -37,7 +37,7 @@
   .btn-sm:hover{background:rgba(255,255,255,0.12);color:var(--white)}
   .btn-primary{background:linear-gradient(135deg,var(--emerald),#00E5B0);border-color:transparent;color:#003320;font-weight:700}
   .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
-  .notif{width:36px;height:36px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px}
+  .notif{width:36px;height:36px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px;text-decoration:none}
   .notif-dot{position:absolute;top:7px;right:8px;width:6px;height:6px;background:var(--coral);border-radius:50%;border:1.5px solid var(--navy)}
 
   nav{padding:0 2rem;border-bottom:1px solid var(--border);background:rgba(15,23,41,0.5);backdrop-filter:blur(10px);display:flex;gap:0;overflow-x:auto}
@@ -144,12 +144,12 @@
 <div class="shell">
 
 <header>
-  <a href="index.html" class="logo">
+  <a href="explore.html" class="logo">
     <div class="logo-icon">🌱</div>
     Helping<span>Hands</span>
   </a>
   <div class="header-actions">
-    <div class="notif" title="Notifications"><a href="notification.html"> 🔔</a><div class="notif-dot"></div></div>
+    <a href="notification.html" class="notif" title="Notifications">🔔<div class="notif-dot"></div></a>
     <a href="post.html" class="btn-sm">Post Need</a>
     <a href="auth.html" class="btn-sm btn-primary">Join Now</a>
   </div>
@@ -232,14 +232,14 @@
 
 <script>
 const OPPS=[
-  {ngo:'GreenEarth India',emoji:'🌿',cat:'env',title:'River Ganga Cleanup Drive',desc:'Join our annual cleanup initiative along the riverfront. Collect plastic waste, plant saplings, and raise community awareness.',loc:'Kolkata',date:'Apr 22 · 6h',spots:8,total:20,fill:60},
-  {ngo:'HealthBridge Foundation',emoji:'🏥',cat:'med',title:'Free Medical Camp — Rural Areas',desc:'Assist doctors during free health camps in remote villages. Roles: registration, patient guidance, logistics.',loc:'Bardhaman',date:'Apr 25 · 8h',spots:5,total:15,fill:67},
-  {ngo:'EduForAll Trust',emoji:'📚',cat:'edu',title:'Digital Literacy Educators',desc:'Teach basic smartphone & internet skills to senior citizens and rural women. Materials provided.',loc:'Remote / Online',date:'May 3 · Ongoing',spots:12,total:30,fill:60},
-  {ngo:'PawsAndHope',emoji:'🐾',cat:'animal',title:'Stray Animal Rescue & Rehab',desc:'Help rescue injured stray animals, assist with feeding rounds, and support adoption events on weekends.',loc:'Howrah',date:'Weekends',spots:3,total:10,fill:70},
-  {ngo:'TechForGood',emoji:'💻',cat:'tech',title:'Code Camp for Underprivileged Youth',desc:'Teach basic programming and web development to high school students. Laptops provided.',loc:'Durgapur',date:'May 5 · 4h',spots:4,total:12,fill:67},
-  {ngo:'ShelterFirst',emoji:'🏠',cat:'shelter',title:'Community Housing Repair',desc:'Help repair and paint homes for elderly residents in low-income neighborhoods. No experience needed.',loc:'Asansol',date:'Apr 28 · 8h',spots:6,total:15,fill:60},
-  {ngo:'GreenPlanet Trust',emoji:'🌿',cat:'env',title:'Tree Plantation Drive',desc:'Plant 1000 trees across the city. Help with digging, planting, and setting up irrigation systems.',loc:'Kolkata',date:'May 8 · 5h',spots:15,total:50,fill:70},
-  {ngo:'MediCare Volunteers',emoji:'🏥',cat:'med',title:'Vaccination Drive Support',desc:'Assist healthcare workers during community vaccination drives. Roles: crowd management, data entry.',loc:'Siliguri',date:'Apr 30 · 6h',spots:8,total:20,fill:60},
+  {id:'river-cleanup',ngo:'GreenEarth India',emoji:'🌿',cat:'env',title:'River Ganga Cleanup Drive',desc:'Join our annual cleanup initiative along the riverfront. Collect plastic waste, plant saplings, and raise community awareness.',loc:'Kolkata',date:'Apr 22 · 6h',spots:8,total:20,fill:60},
+  {id:'medical-camp',ngo:'HealthBridge Foundation',emoji:'🏥',cat:'med',title:'Free Medical Camp — Rural Areas',desc:'Assist doctors during free health camps in remote villages. Roles: registration, patient guidance, logistics.',loc:'Bardhaman',date:'Apr 25 · 8h',spots:5,total:15,fill:67},
+  {id:'digital-literacy',ngo:'EduForAll Trust',emoji:'📚',cat:'edu',title:'Digital Literacy Educators',desc:'Teach basic smartphone & internet skills to senior citizens and rural women. Materials provided.',loc:'Remote / Online',date:'May 3 · Ongoing',spots:12,total:30,fill:60},
+  {id:'animal-rescue',ngo:'PawsAndHope',emoji:'🐾',cat:'animal',title:'Stray Animal Rescue & Rehab',desc:'Help rescue injured stray animals, assist with feeding rounds, and support adoption events on weekends.',loc:'Howrah',date:'Weekends',spots:3,total:10,fill:70},
+  {id:'code-camp',ngo:'TechForGood',emoji:'💻',cat:'tech',title:'Code Camp for Underprivileged Youth',desc:'Teach basic programming and web development to high school students. Laptops provided. No advanced coding skills required.',loc:'Durgapur',date:'May 5 · 4h',spots:4,total:12,fill:67},
+  {id:'shelter-repair',ngo:'ShelterFirst',emoji:'🏠',cat:'shelter',title:'Community Housing Repair',desc:'Help repair and paint homes for elderly residents in low-income neighborhoods. All tools and materials provided.',loc:'Asansol',date:'Apr 28 · 8h',spots:6,total:15,fill:60},
+  {id:'tree-plantation',ngo:'GreenPlanet Trust',emoji:'🌿',cat:'env',title:'Tree Plantation Drive',desc:'Plant 1000 trees across the city. Help with digging, planting, and setting up irrigation systems. Family-friendly event.',loc:'Kolkata',date:'May 8 · 5h',spots:15,total:50,fill:70},
+  {id:'vaccination-drive',ngo:'MediCare Volunteers',emoji:'🏥',cat:'med',title:'Vaccination Drive Support',desc:'Assist healthcare workers during community vaccination drives. Roles include crowd management and data entry.',loc:'Siliguri',date:'Apr 30 · 6h',spots:8,total:20,fill:60},
 ];
 
 let currentFilter = 'all';
@@ -274,7 +274,7 @@ function renderExplore(filter='all'){
   }
   
   c.innerHTML=filtered.map((o, index)=>`
-    <div class="opp-card" style="animation-delay:${index * 0.05}s">
+    <div class="opp-card" style="animation-delay:${index * 0.05}s" onclick="window.location.href='opportunities.html?id=${o.id}'">
       <div class="card-top">
         <div class="ngo-info"><div class="ngo-avatar" style="background:rgba(0,200,150,0.15)">${o.emoji}</div><div><div class="ngo-name">${o.ngo}</div><div class="ngo-verified">✓ Verified NGO</div></div></div>
         ${catBadge(o.cat)}
@@ -288,7 +288,7 @@ function renderExplore(filter='all'){
       <div class="spots"><strong>${o.total-Math.round(o.total*o.fill/100)}</strong> spots left of ${o.total} ${fillProgress(o.fill)}</div>
       <div class="card-footer" style="margin-top:.75rem">
         <span style="font-size:11.5px;color:var(--text2)">+50 XP on completion</span>
-        <button class="btn-signup" onclick="signup(this)">Sign Up</button>
+        <button class="btn-signup" onclick="event.stopPropagation();signup(this)">Sign Up</button>
       </div>
     </div>`).join('');
   animateBars();
