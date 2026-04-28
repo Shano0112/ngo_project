@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>HelpingHands — Login | Join Your Impact Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --mint: #34D399;
+  --mint-mid: #10B981;
+  --mint-deep: #059669;
+  --mint-pale: #D1FAE5;
+  --mint-glow: rgba(52, 211, 153, 0.25);
+  --bg: #F5FAF7;
+  --bg2: #EDFAF3;
+  --surface: #FFFFFF;
+  --ink: #0C1E15;
+  --ink2: #2D5240;
+  --ink3: #5A8A72;
+  --ink4: #8BB8A0;
+  --coral: #F87171;
+  --amber: #F59E0B;
+  --border: rgba(16, 185, 129, 0.14);
+  --border2: rgba(16, 185, 129, 0.22);
+  --shadow-sm: 0 1px 4px rgba(12,30,21,0.06);
+  --shadow-md: 0 12px 28px rgba(12,30,21,0.08);
+  --shadow-lg: 0 25px 45px -12px rgba(12,30,21,0.2);
+  --r14: 14px; --r18: 18px; --r24: 24px; --r32: 32px;
+  --ease-spring: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* background orbs + grid */
+.bg-layer {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.bg-orb {
+  position: absolute; border-radius: 50%; filter: blur(90px);
+  animation: floatOrb 20s infinite alternate ease-in-out;
+}
+.bg-orb-1 { width: 700px; height: 700px; top: -300px; right: -200px; background: radial-gradient(circle, rgba(52,211,153,0.2), transparent 70%); }
+.bg-orb-2 { width: 550px; height: 550px; bottom: -250px; left: -150px; background: radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%); animation-delay: -5s; }
+.bg-orb-3 { width: 400px; height: 400px; top: 40%; left: 20%; background: radial-gradient(circle, rgba(52,211,153,0.08), transparent 70%); animation-delay: -10s; }
+@keyframes floatOrb {
+  0% { transform: translate(0,0) scale(1); }
+  100% { transform: translate(50px, 30px) scale(1.08); }
+}
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0;
+  background-image: linear-gradient(rgba(16,185,129,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,0.045) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none;
+}
+
+/* particles */
+.particles {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+}
+.particle {
+  position: absolute;
+  background: var(--mint);
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: particleDrift 14s infinite linear;
+}
+@keyframes particleDrift {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.2; }
+  100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+.shell { position: relative; z-index: 5; display: flex; flex-direction: column; min-height: 100vh; }
+
+/* header */
+header {
+  height: 70px;
+  padding: 0 max(2rem, calc((100% - 1280px)/2 + 2rem));
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(245,250,247,0.82);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+  font-family: 'Fraunces', serif;
+  font-weight: 700; font-size: 1.4rem;
+  color: var(--ink);
+}
+.logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--mint), var(--mint-mid));
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(52,211,153,0.4);
+  transition: transform 0.2s;
+}
+.logo:hover .logo-icon { transform: rotate(-6deg) scale(1.05); }
+.logo em { color: var(--mint-deep); font-style: normal; }
+.btn-ghost {
+  padding: 8px 20px; border-radius: 40px;
+  border: 1.5px solid var(--border2);
+  background: transparent;
+  color: var(--ink2);
+  font-weight: 500; font-size: 13px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--mint-mid); background: var(--mint-glow2); color: var(--mint-deep); transform: translateY(-1px); }
+.btn-cta {
+  padding: 8px 22px; border-radius: 40px;
+  background: linear-gradient(135deg, var(--mint), var(--mint-mid));
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(52,211,153,0.4);
+  transition: all 0.2s;
+}
+.btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(52,211,153,0.5); }
+
+/* main */
+main {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+/* login card */
+.login-card {
+  max-width: 520px;
+  width: 100%;
+  background: var(--surface);
+  border-radius: var(--r32);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: fadeUp 0.6s var(--ease-spring) forwards;
+  opacity: 0;
+  transform: translateY(24px);
+}
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+.panel-inner {
+  padding: 2rem 2rem 2.2rem;
+}
+@media (max-width: 560px) {
+  .panel-inner { padding: 1.5rem; }
+}
+
+/* role toggle */
+.role-switch {
+  background: var(--bg2);
+  border-radius: 100px;
+  display: flex;
+  margin-bottom: 2rem;
+  padding: 6px;
+  gap: 6px;
+  border: 1px solid var(--border);
+}
+.role-btn {
+  flex: 1;
+  text-align: center;
+  padding: 12px 10px;
+  font-weight: 700;
+  border-radius: 60px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  color: var(--ink3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+.role-btn i { font-size: 1.1rem; }
+.role-btn.active {
+  background: var(--surface);
+  color: var(--mint-deep);
+  box-shadow: var(--shadow-sm);
+  transform: scale(0.98);
+}
+.role-btn:not(.active):hover {
+  background: var(--mint-glow2);
+  color: var(--mint-mid);
+  transform: translateY(-1px);
+}
+
+/* form groups */
+.input-group {
+  margin-bottom: 1.4rem;
+}
+.input-group label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink2);
+  margin-bottom: 6px;
+}
+.icon-input {
+  position: relative;
+}
+.icon-input i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink4);
+  font-size: 1rem;
+  pointer-events: none;
+}
+.icon-input input {
+  width: 100%;
+  padding: 13px 16px 13px 44px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  border-radius: 20px;
+  border: 1.5px solid var(--border2);
+  background: var(--surface);
+  transition: all 0.2s;
+  outline: none;
+}
+.icon-input input:focus {
+  border-color: var(--mint-mid);
+  box-shadow: 0 0 0 3px var(--mint-glow);
+}
+.password-wrapper {
+  position: relative;
+}
+.password-wrapper i.toggle-pw {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--ink4);
+  z-index: 10;
+  font-size: 1rem;
+}
+.password-wrapper i.toggle-pw:hover { color: var(--mint-mid); }
+.forgot-link {
+  text-align: right;
+  margin-top: 4px;
+  font-size: 0.7rem;
+}
+.forgot-link a {
+  color: var(--ink3);
+  text-decoration: none;
+}
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 60px;
+  background: linear-gradient(125deg, var(--mint), var(--mint-mid));
+  border: none;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.25s;
+  margin-top: 0.5rem;
+  box-shadow: 0 6px 16px rgba(52,211,153,0.4);
+}
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(52,211,153,0.5); }
+.divider {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--ink4);
+  margin: 1.2rem 0;
+  position: relative;
+}
+.divider::before, .divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: var(--border);
+}
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+.signup-prompt {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--ink3);
+}
+.signup-prompt a {
+  color: var(--mint-deep);
+  font-weight: 600;
+  text-decoration: none;
+}
+.signup-prompt a:hover { text-decoration: underline; }
+
+/* toast */
+.toast-notify {
+  position: fixed; bottom: 2rem; right: 2rem;
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  border-left: 5px solid var(--mint-mid);
+  box-shadow: var(--shadow-lg);
+  padding: 0.9rem 1.8rem;
+  border-radius: 60px;
+  font-weight: 600;
+  z-index: 1000;
+  transform: translateX(150%);
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.toast-notify.show { transform: translateX(0); }
+.toast-notify i { font-size: 1.3rem; color: var(--mint-mid); }
+
+/* micro pulse */
+.pulse-click { animation: microPulse 0.25s ease-out; }
+@keyframes microPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+</div>
+<div class="bg-grid"></div>
+<div class="particles" id="particlesContainer"></div>
+
+<div class="shell">
+  <header>
+    <a href="index.html" class="logo"><div class="logo-icon">🌱</div>Helping<em>Hands</em></a>
+    <div class="header-actions">
+      <!-- <a href="login.html" class="btn-ghost"><i class="fas fa-sign-in-alt"></i> Sign In</a> -->
+      <a href="signup.html" class="btn-cta"><i class="fas fa-hand-sparkles"></i> Join Now</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="login-card">
+      <div class="panel-inner">
+        <div class="role-switch" id="roleToggle">
+          <div class="role-btn active" data-role="individual"><i class="fas fa-user-astronaut"></i> Individual</div>
+          <div class="role-btn" data-role="ngo"><i class="fas fa-seedling"></i> NGO</div>
+        </div>
+
+        <form id="loginForm">
+          <div class="input-group">
+            <label><i class="far fa-envelope"></i> Email Address</label>
+            <div class="icon-input"><i class="fas fa-envelope"></i><input type="email" id="loginEmail" placeholder="hello@mail.com" autocomplete="email"></div>
+          </div>
+          <div class="input-group">
+            <label><i class="fas fa-lock"></i> Password</label>
+            <div class="icon-input password-wrapper">
+              <i class="fas fa-key"></i>
+              <input type="password" id="loginPassword" placeholder="Enter your password">
+              <i class="fas fa-eye-slash toggle-pw" id="togglePassword"></i>
+            </div>
+            <div class="forgot-link"><a href="#">Forgot password?</a></div>
+          </div>
+          <button type="submit" class="submit-btn" id="loginBtn"><span>✨</span> Sign In <i class="fas fa-arrow-right"></i></button>
+        </form>
+        
+        <div class="divider">or</div>
+        <div class="signup-prompt">
+          New to HelpingHands? <a href="signup.html">Create an account →</a>
+        </div>
+        <div class="terms-note" style="margin-top:1.2rem; text-align:center; font-size:0.7rem; color:var(--ink4);">
+          By signing in, you agree to our Terms & Privacy.
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast-notify" id="globalToast"><i class="fas fa-leaf"></i> <span id="toastMessage">Welcome back!</span></div>
+
+<script>
+  // Particles background
+  function initParticles() {
+    const container = document.getElementById('particlesContainer');
+    if(!container) return;
+    for(let i=0; i<55; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      const size = Math.random() * 6 + 2;
+      p.style.width = size+'px';
+      p.style.height = size+'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = 9 + Math.random() * 14 + 's';
+      p.style.animationDelay = Math.random() * 8 + 's';
+      p.style.background = `rgba(52,211,153,${0.2+Math.random()*0.3})`;
+      container.appendChild(p);
+    }
+  }
+  initParticles();
+
+  // Password visibility toggle
+  const togglePw = document.getElementById('togglePassword');
+  const pwInput = document.getElementById('loginPassword');
+  if(togglePw && pwInput) {
+    togglePw.addEventListener('click', () => {
+      const type = pwInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      pwInput.setAttribute('type', type);
+      togglePw.classList.toggle('fa-eye');
+      togglePw.classList.toggle('fa-eye-slash');
+    });
+  }
+
+  // Role toggle (Individual / NGO) - UI only, but used for checking correct account type
+  let selectedRole = 'individual'; // default
+  const roleBtns = document.querySelectorAll('#roleToggle .role-btn');
+  roleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      roleBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedRole = btn.getAttribute('data-role');
+      addPulse(btn);
+    });
+  });
+
+  // Toast helper
+  function showToast(message, isError = false) {
+    const toastEl = document.getElementById('globalToast');
+    const msgSpan = document.getElementById('toastMessage');
+    msgSpan.innerText = message;
+    toastEl.classList.add('show');
+    if(isError) {
+      toastEl.style.borderLeftColor = '#F87171';
+      toastEl.querySelector('i').style.color = '#F87171';
+    } else {
+      toastEl.style.borderLeftColor = '#10B981';
+      toastEl.querySelector('i').style.color = '#10B981';
+    }
+    setTimeout(() => {
+      toastEl.classList.remove('show');
+      setTimeout(() => {
+        toastEl.style.borderLeftColor = '#10B981';
+        toastEl.querySelector('i').style.color = '#10B981';
+      }, 200);
+    }, 3200);
+  }
+
+  function addPulse(el) { el.classList.add('pulse-click'); setTimeout(() => el.classList.remove('pulse-click'), 250); }
+
+  // Helper to get users from localStorage
+  function getStoredUsers() {
+    return JSON.parse(localStorage.getItem('helpinghands_users') || '[]');
+  }
+
+  // Login handler
+  const loginForm = document.getElementById('loginForm');
+  const loginBtn = document.getElementById('loginBtn');
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    
+    if(!email || !password) {
+      showToast('Please enter both email and password', true);
+      return;
+    }
+    
+    const users = getStoredUsers();
+    // Find user with matching email and account type (based on selected role)
+    const matchedUser = users.find(user => 
+      user.email.toLowerCase() === email.toLowerCase() && 
+      user.accountType === selectedRole
+    );
+    
+    if(!matchedUser) {
+      showToast(`No ${selectedRole === 'individual' ? 'Individual' : 'NGO'} account found with this email. Please sign up.`, true);
+      return;
+    }
+    
+    // Verify password (stored as base64 encoded for demo)
+    const storedPassword = matchedUser.password ? atob(matchedUser.password) : null;
+    if(!storedPassword || storedPassword !== password) {
+      showToast('Incorrect password. Please try again.', true);
+      return;
+    }
+    
+    // Successful login
+    // Extract display name: for individual -> fullName; for NGO -> organizationName
+    let displayName = '';
+    let profileData = {};
+    if(selectedRole === 'individual') {
+      displayName = matchedUser.fullName || 'Volunteer';
+      profileData = {
+        name: displayName,
+        email: matchedUser.email,
+        accountType: 'individual',
+        gender: matchedUser.gender || 'Not specified',
+        address: matchedUser.address || 'Not provided',
+        xp: matchedUser.xpEarned || 80,
+        badges: matchedUser.badges || ['🌱 New Changemaker'],
+        joinedAt: matchedUser.joinedAt
+      };
+    } else {
+      displayName = matchedUser.organizationName || 'NGO Partner';
+      profileData = {
+        name: displayName,
+        email: matchedUser.email,
+        accountType: 'ngo',
+        organizationName: matchedUser.organizationName,
+        address: matchedUser.address,
+        verifiedStatus: matchedUser.verifiedStatus || 'pending',
+        joinedAt: matchedUser.joinedAt
+      };
+    }
+    
+    // Store current session in localStorage
+    localStorage.setItem('currentUser', JSON.stringify({
+      email: matchedUser.email,
+      accountType: selectedRole,
+      displayName: displayName,
+      profile: profileData,
+      loggedInAt: new Date().toISOString()
+    }));
+    
+    showToast(`🎉 Welcome back, ${displayName.split(' ')[0]}! Redirecting...`, false);
+    
+    // Add subtle animation to button
+    addPulse(loginBtn);
+    
+    // Redirect to explore.html after short delay
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 1000);
+  });
+  
+  // Preload demo data if localStorage is empty (for testing convenience)
+  function seedDemoAccounts() {
+    const existing = getStoredUsers();
+    if(existing.length === 0) {
+      // Create demo Individual
+      const demoIndividual = {
+        accountType: 'individual',
+        fullName: 'Aarav Sharma',
+        email: 'aarav@example.com',
+        password: btoa('demo123'),
+        gender: 'Male',
+        address: 'Mumbai, Maharashtra',
+        joinedAt: new Date().toISOString(),
+        xpEarned: 340,
+        badges: ['🌱 Seed Volunteer', '🔥 5 Hours Club']
+      };
+      // Demo NGO
+      const demoNGO = {
+        accountType: 'ngo',
+        organizationName: 'GreenEarth Foundation',
+        address: 'Delhi, India',
+        email: 'contact@greenearth.org',
+        password: btoa('ngo123'),
+        joinedAt: new Date().toISOString(),
+        verifiedStatus: 'verified',
+        totalOpportunities: 12
+      };
+      localStorage.setItem('helpinghands_users', JSON.stringify([demoIndividual, demoNGO]));
+      console.log('Demo accounts created: aarav@example.com / demo123 (Individual) | contact@greenearth.org / ngo123 (NGO)');
+    }
+  }
+  seedDemoAccounts();
+
+  // header scroll effect
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    if(window.scrollY > 20) header.style.background = 'rgba(245,250,247,0.96)';
+    else header.style.background = 'rgba(245,250,247,0.82)';
+  });
+  
+  // input focus micro effect
+  const inputs = document.querySelectorAll('.icon-input input');
+  inputs.forEach(inp => {
+    inp.addEventListener('focus', (e) => {
+      e.target.parentElement.style.transform = 'scale(1.01)';
+      e.target.parentElement.style.transition = '0.15s';
+    });
+    inp.addEventListener('blur', (e) => {
+      e.target.parentElement.style.transform = 'scale(1)';
+    });
+  });
+</script>
+</body>
+</html>

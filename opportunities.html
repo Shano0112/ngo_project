@@ -1,561 +1,262 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Opportunity Details - Helpinghands</title>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --emerald:#00C896;--emerald-dark:#00A07A;--emerald-glow:#00C89620;
-    --coral:#FF6B6B;--coral-glow:#FF6B6B20;
-    --amber:#FFB347;--amber-glow:#FFB34720;
-    --violet:#7C3AED;--violet-glow:#7C3AED15;
-    --navy:#0F1729;--navy2:#162040;--navy3:#1E2D52;
-    --slate:#8B9ABF;--slate2:#C4CEDE;
-    --white:#FFFFFF;--white80:rgba(255,255,255,0.8);--white10:rgba(255,255,255,0.07);--white05:rgba(255,255,255,0.04);
-    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
-    --text:#E8EDF8;--text2:#A8B4CC;
-    --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #0F4C3A; --primary-light: #1A6B4F; --accent: #E85D3A; --gold: #D4A017; --purple: #5B4FA1;
+    --bg: #F7F8FA; --bg2: #FFFFFF; --bg3: #EDEFF3; --slate: #6B7280; --white: #FFFFFF;
+    --text: #111827; --text2: #4B5563; --border: rgba(0, 0, 0, 0.06); --border2: rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04); --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.08); --shadow-xl: 0 16px 48px rgba(0,0,0,0.12);
+    --r8: 8px; --r12: 12px; --r16: 16px; --r20: 20px;
   }
-  body{font-family:'Satoshi',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden}
-  
-  .bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  .bg-mesh::before{content:'';position:absolute;top:-40%;left:-20%;width:80%;height:80%;background:radial-gradient(ellipse,rgba(0,200,150,0.07) 0%,transparent 70%)}
-  .bg-mesh::after{content:'';position:absolute;bottom:-30%;right:-15%;width:70%;height:70%;background:radial-gradient(ellipse,rgba(124,58,237,0.06) 0%,transparent 70%)}
-  .bg-dots{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:28px 28px}
-
-  .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
-  
-  header{padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:rgba(15,23,41,0.7);position:sticky;top:0;z-index:100}
-  .logo{display:flex;align-items:center;gap:10px;font-family:'Clash Display',sans-serif;font-weight:700;font-size:1.3rem;color:var(--white);text-decoration:none}
-  .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--emerald),#00E5B0);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(0,200,150,0.35)}
-  .logo span{color:var(--emerald)}
-  .header-actions{display:flex;align-items:center;gap:10px}
-  .btn-sm{padding:7px 16px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none}
-  .btn-sm:hover{background:rgba(255,255,255,0.12);color:var(--white)}
-  .btn-primary{background:linear-gradient(135deg,var(--emerald),#00E5B0);border-color:transparent;color:#003320;font-weight:700}
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
-  .notif{width:36px;height:36px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px;text-decoration:none}
-  .notif-dot{position:absolute;top:7px;right:8px;width:6px;height:6px;background:var(--coral);border-radius:50%;border:1.5px solid var(--navy)}
-
-  nav{padding:0 2rem;border-bottom:1px solid var(--border);background:rgba(15,23,41,0.5);backdrop-filter:blur(10px);display:flex;gap:0;overflow-x:auto}
-  .tab{padding:16px 20px;font-size:13.5px;font-weight:500;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:7px;position:relative;text-decoration:none}
-  .tab:hover{color:var(--white80)}
-
-  main{flex:1;padding:2rem;max-width:1100px;margin:0 auto;width:100%}
-
-  .breadcrumb{display:flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;font-size:13px;color:var(--text2)}
-  .breadcrumb a{color:var(--emerald);text-decoration:none}
-  .breadcrumb a:hover{text-decoration:underline}
-  .breadcrumb span{color:var(--slate)}
-
-  .opportunity-hero{background:linear-gradient(120deg,rgba(0,200,150,0.08),rgba(124,58,237,0.06));border:1px solid var(--border);border-radius:var(--r20);padding:2.5rem;margin-bottom:2rem;animation:fadeUp .5s ease both}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  
-  .opp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
-  .opp-title-section{flex:1}
-  .opp-category{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;margin-bottom:1rem}
-  .opp-category.env{background:rgba(0,200,150,0.12);color:#00C896;border:1px solid rgba(0,200,150,0.25)}
-  .opp-category.med{background:rgba(91,200,255,0.12);color:#5BC8FF;border:1px solid rgba(91,200,255,0.25)}
-  .opp-category.edu{background:rgba(255,179,71,0.12);color:#FFB347;border:1px solid rgba(255,179,71,0.3)}
-  .opp-category.animal{background:rgba(255,182,193,0.12);color:#FFB6C1;border:1px solid rgba(255,182,193,0.3)}
-  .opp-category.tech{background:rgba(167,139,250,0.12);color:#A78BFA;border:1px solid rgba(167,139,250,0.3)}
-  .opp-category.shelter{background:rgba(0,200,150,0.12);color:#00C896;border:1px solid rgba(0,200,150,0.25)}
-  
-  .opp-title{font-family:'Clash Display',sans-serif;font-size:2rem;font-weight:700;line-height:1.2;margin-bottom:.75rem}
-  .opp-ngo{display:flex;align-items:center;gap:.75rem}
-  .opp-ngo-avatar{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
-  .opp-ngo-name{font-size:15px;font-weight:600}
-  .opp-ngo-verified{font-size:12px;color:var(--emerald)}
-  
-  .signup-card{background:var(--navy3);border:1px solid var(--border);border-radius:var(--r16);padding:1.5rem;min-width:240px;text-align:center}
-  .signup-spots{font-family:'Clash Display',sans-serif;font-size:2rem;font-weight:700;color:var(--emerald);margin-bottom:.3rem}
-  .signup-total{font-size:13px;color:var(--text2);margin-bottom:1rem}
-  .progress-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:4px;margin-bottom:1rem;overflow:hidden}
-  .progress-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--emerald),#5BC8FF);transition:width 1s ease}
-  .btn-signup-large{padding:12px 28px;border-radius:var(--r8);border:none;background:linear-gradient(135deg,var(--emerald),#00E5B0);color:#003320;font-family:'Satoshi',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;width:100%;margin-bottom:.75rem}
-  .btn-signup-large:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,200,150,0.4)}
-  .btn-signup-large.signed{background:linear-gradient(135deg,#444,#333);color:var(--text2);cursor:default}
-  .btn-signup-large.signed:hover{transform:none;box-shadow:none}
-  .xp-badge{font-size:12px;color:var(--amber);font-weight:600}
-  .share-buttons{display:flex;gap:.5rem;margin-top:.75rem}
-  .btn-share{padding:6px 12px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-size:11px;cursor:pointer;transition:all .2s;flex:1}
-  .btn-share:hover{background:rgba(255,255,255,0.12);color:var(--white)}
-
-  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
-  .detail-card{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r12);padding:1.25rem;display:flex;align-items:flex-start;gap:1rem;animation:fadeUp .5s ease both}
-  .detail-icon{font-size:1.5rem;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .detail-content{flex:1}
-  .detail-label{font-size:11px;color:var(--slate);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
-  .detail-value{font-size:15px;font-weight:600;color:var(--text)}
-  .detail-sub{font-size:12px;color:var(--text2);margin-top:.2rem}
-
-  .section-card{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r16);padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .5s ease both}
-  .section-title{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:1rem;display:flex;align-items:center;gap:8px}
-  .section-desc{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:1rem}
-
-  .skills-list{display:flex;flex-wrap:wrap;gap:.5rem}
-  .skill-tag{padding:6px 14px;border-radius:20px;border:1px solid var(--border2);background:var(--white10);font-size:12.5px;color:var(--text2)}
-  .skill-tag.highlight{background:rgba(0,200,150,0.12);border-color:rgba(0,200,150,0.3);color:var(--emerald)}
-
-  .volunteers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.75rem}
-  .volunteer-card{background:var(--navy3);border:1px solid var(--border);border-radius:var(--r12);padding:1rem;display:flex;align-items:center;gap:.75rem;animation:fadeUp .4s ease both}
-  .volunteer-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
-  .volunteer-info{flex:1}
-  .volunteer-name{font-size:14px;font-weight:600}
-  .volunteer-role{font-size:12px;color:var(--text2)}
-  .volunteer-badge{font-size:18px}
-
-  .timeline{position:relative;padding-left:2rem}
-  .timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border)}
-  .timeline-item{position:relative;margin-bottom:1.5rem;padding-left:1rem}
-  .timeline-item::before{content:'';position:absolute;left:-1.65rem;top:4px;width:12px;height:12px;border-radius:50%;background:var(--emerald);border:2px solid var(--navy2)}
-  .timeline-item.completed::before{background:var(--text2)}
-  .timeline-time{font-size:11px;color:var(--slate);margin-bottom:.2rem}
-  .timeline-text{font-size:13.5px;color:var(--text)}
-
-  .agenda-item{display:flex;gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--border)}
-  .agenda-item:last-child{border-bottom:none}
-  .agenda-time{font-size:12px;color:var(--emerald);font-weight:600;min-width:60px}
-  .agenda-desc{font-size:13.5px;color:var(--text)}
-  .agenda-sub{font-size:12px;color:var(--text2)}
-
-  .toast{position:fixed;bottom:2rem;right:2rem;background:linear-gradient(135deg,var(--emerald),#00E5B0);color:#003320;padding:12px 22px;border-radius:var(--r12);font-weight:700;font-size:14px;z-index:9999;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 8px 32px rgba(0,200,150,0.45);display:flex;align-items:center;gap:8px}
-  .toast.show{transform:translateY(0);opacity:1}
-
-  .detail-card:nth-child(1){animation-delay:.05s}
-  .detail-card:nth-child(2){animation-delay:.1s}
-  .detail-card:nth-child(3){animation-delay:.15s}
-  .detail-card:nth-child(4){animation-delay:.2s}
-  .volunteer-card:nth-child(1){animation-delay:.05s}
-  .volunteer-card:nth-child(2){animation-delay:.1s}
-  .volunteer-card:nth-child(3){animation-delay:.15s}
-  .volunteer-card:nth-child(4){animation-delay:.2s}
-  .volunteer-card:nth-child(5){animation-delay:.25s}
-  .volunteer-card:nth-child(6){animation-delay:.3s}
-
-  @media(max-width:768px){
-    .detail-grid{grid-template-columns:1fr}
-    .opp-header{flex-direction:column}
-    .signup-card{width:100%}
-    .opp-title{font-size:1.5rem}
-    .opportunity-hero{padding:1.5rem}
-    .volunteers-grid{grid-template-columns:1fr}
-  }
+  body { font-family: 'Satoshi', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+  .bg-mesh { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .bg-mesh::before { content: ''; position: absolute; top: -40%; left: -20%; width: 80%; height: 80%; background: radial-gradient(ellipse, rgba(15, 76, 58, 0.03) 0%, transparent 70%); }
+  .bg-mesh::after { content: ''; position: absolute; bottom: -30%; right: -15%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(91, 79, 161, 0.025) 0%, transparent 70%); }
+  .bg-dots { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: radial-gradient(circle, rgba(0, 0, 0, 0.03) 1px, transparent 1px); background-size: 28px 28px; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes resultPopIn { 0% { opacity: 0; transform: translateY(20px) scale(0.95); } 60% { opacity: 1; transform: translateY(-4px) scale(1.02); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes slideInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+  .shell { position: relative; z-index: 1; display: flex; flex-direction: column; min-height: 100vh; }
+  header { padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); backdrop-filter: blur(20px); background: rgba(255,255,255,0.9); position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm); }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 1.3rem; color: var(--primary); text-decoration: none; }
+  .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; box-shadow: 0 2px 12px rgba(15,76,58,0.2); transition: transform 0.2s ease; }
+  .logo:hover .logo-icon { transform: rotate(-5deg) scale(1.05); }
+  .logo span { color: var(--primary-light); }
+  .header-actions { display: flex; align-items: center; gap: 10px; }
+  .btn-sm { padding: 7px 16px; border-radius: var(--r8); border: 1px solid var(--border2); background: var(--white); color: var(--text2); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.25s ease; text-decoration: none; box-shadow: var(--shadow-sm); }
+  .btn-sm:hover { background: var(--bg3); color: var(--text); border-color: rgba(0,0,0,0.15); transform: translateY(-1px); }
+  .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-color: transparent; color: #fff; font-weight: 600; box-shadow: 0 2px 12px rgba(15,76,58,0.25); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(15,76,58,0.35); color: #fff; }
+  .notif { width: 36px; height: 36px; border-radius: var(--r8); border: 1px solid var(--border2); background: var(--white); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; font-size: 16px; transition: all 0.2s ease; }
+  .notif:hover { background: var(--bg3); transform: scale(0.98); }
+  .notif-dot { position: absolute; top: 7px; right: 8px; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; border: 1.5px solid #fff; }
+  .profile-section { display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 4px 16px 4px 8px; border-radius: 980px; background: rgba(255,255,255,0.9); transition: all 0.3s; border: 1px solid var(--border2); position: relative; animation: slideInRight 0.4s ease; }
+  .profile-section:hover { background: white; box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .profile-avatar { width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 16px; }
+  .profile-info { text-align: left; }
+  .profile-name { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .profile-type { font-size: 10px; color: var(--slate); font-weight: 500; }
+  .profile-dropdown { position: absolute; top: calc(100% + 8px); right: 0; background: var(--white); border-radius: var(--r12); box-shadow: var(--shadow-xl); border: 1px solid var(--border); min-width: 220px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.25s ease; z-index: 200; overflow: hidden; }
+  .profile-section.active .profile-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .dropdown-item { padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-size: 13px; cursor: pointer; transition: background 0.2s; border-bottom: 1px solid var(--border); color: var(--text2); }
+  .dropdown-item:last-child { border-bottom: none; }
+  .dropdown-item:hover { background: var(--bg3); color: var(--primary); }
+  .dropdown-item i { width: 20px; color: var(--primary-light); }
+  nav { padding: 0 2rem; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); display: flex; gap: 0; overflow-x: auto; }
+  nav::-webkit-scrollbar { display: none; }
+  .tab { padding: 16px 20px; font-size: 13.5px; font-weight: 500; color: var(--slate); cursor: pointer; border-bottom: 2px solid transparent; display: flex; align-items: center; gap: 7px; text-decoration: none; transition: all 0.25s ease; }
+  .tab:hover { color: var(--text); transform: translateY(-1px); }
+  .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+  .badge-count { background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 20px; }
+  .urgent-pulse { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; animation: pulse 1.4s infinite; display: inline-block; }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
+  main { flex: 1; padding: 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
+  .breadcrumb { display: flex; align-items: center; gap: .5rem; margin-bottom: 1.5rem; font-size: 13px; color: var(--text2); animation: fadeUp .4s ease both; }
+  .breadcrumb a { color: var(--primary); text-decoration: none; font-weight: 500; }
+  .opportunity-hero { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r20); margin-bottom: 2rem; overflow: hidden; transition: transform 0.4s, box-shadow 0.4s; animation: resultPopIn .5s ease both; box-shadow: var(--shadow-sm); }
+  .opportunity-hero:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .hero-image { width: 100%; height: 320px; object-fit: cover; }
+  .hero-content { padding: 2rem; }
+  .opp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; }
+  .opp-category { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 600; background: rgba(15,76,58,0.06); color: var(--primary); margin-bottom: 1rem; }
+  .opp-title { font-family: 'Clash Display', sans-serif; font-size: 2rem; font-weight: 700; line-height: 1.2; margin-bottom: .75rem; }
+  .opp-ngo { display: flex; align-items: center; gap: .75rem; }
+  .opp-ngo-avatar { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; background: var(--bg3); transition: transform 0.35s ease; }
+  .opp-ngo-name { font-size: 15px; font-weight: 600; }
+  .opp-ngo-verified { font-size: 12px; color: var(--primary-light); font-weight: 500; }
+  .signup-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r16); padding: 1.5rem; min-width: 240px; text-align: center; transition: all 0.3s; box-shadow: var(--shadow-sm); }
+  .signup-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .signup-spots { font-family: 'Clash Display', sans-serif; font-size: 2rem; font-weight: 700; color: var(--primary); }
+  .signup-total { font-size: 13px; color: var(--text2); margin-bottom: 1rem; }
+  .progress-bar { height: 6px; background: var(--bg3); border-radius: 4px; margin-bottom: 1rem; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--primary), var(--primary-light)); transition: width 0.8s; width: 0%; }
+  .btn-signup-large { padding: 12px 28px; border-radius: var(--r8); border: none; background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: #fff; font-size: 15px; font-weight: 700; cursor: pointer; width: 100%; margin-bottom: .75rem; transition: all 0.3s; }
+  .btn-signup-large:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(15,76,58,0.4); }
+  .btn-signup-large.signed { background: var(--bg3); color: var(--slate); cursor: default; pointer-events: none; }
+  .xp-badge { font-size: 12px; color: var(--gold); font-weight: 600; }
+  .share-buttons { display: flex; gap: .5rem; margin-top: .75rem; }
+  .btn-share { padding: 6px 12px; border-radius: var(--r8); border: 1px solid var(--border2); background: var(--white); color: var(--text2); font-size: 11px; cursor: pointer; flex: 1; }
+  .btn-share:hover { background: var(--bg3); transform: translateY(-1px); }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+  .detail-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r12); padding: 1.25rem; display: flex; align-items: center; gap: 1rem; transition: all 0.3s; }
+  .detail-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .detail-icon { font-size: 1.5rem; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: var(--bg3); }
+  .detail-label { font-size: 11px; color: var(--slate); text-transform: uppercase; margin-bottom: .3rem; }
+  .detail-value { font-size: 15px; font-weight: 600; }
+  .section-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r16); padding: 1.5rem; margin-bottom: 1.5rem; transition: all 0.3s; }
+  .section-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .section-title { font-family: 'Clash Display', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+  .section-desc { font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .skills-list { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .skill-tag { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border2); background: var(--bg); font-size: 12.5px; }
+  .skill-tag.highlight { background: rgba(15,76,58,0.06); border-color: rgba(15,76,58,0.2); color: var(--primary); font-weight: 500; }
+  .agenda-item { display: flex; gap: 1rem; padding: .75rem 0; border-bottom: 1px solid var(--border); }
+  .agenda-item:last-child { border-bottom: none; }
+  .agenda-time { font-size: 12px; color: var(--primary); font-weight: 700; min-width: 80px; }
+  .agenda-desc { font-size: 13.5px; font-weight: 500; }
+  .volunteers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: .75rem; }
+  .volunteer-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r12); padding: 1rem; display: flex; align-items: center; gap: .75rem; transition: all 0.3s; }
+  .volunteer-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .volunteer-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
+  .volunteer-name { font-size: 14px; font-weight: 600; }
+  .volunteer-role { font-size: 12px; color: var(--text2); }
+  .toast { position: fixed; bottom: 2rem; right: 2rem; background: #fff; color: var(--primary); padding: 12px 22px; border-radius: var(--r12); font-weight: 600; font-size: 14px; z-index: 9999; transform: translateY(80px); opacity: 0; transition: all 0.35s; box-shadow: var(--shadow-xl); border: 1px solid var(--border); }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  @media (max-width:768px) { .detail-grid { grid-template-columns: 1fr; } .opp-header { flex-direction: column; } .signup-card { width: 100%; } .opp-title { font-size: 1.6rem; } .hero-image { height: 200px; } .hero-content { padding: 1.5rem; } main { padding: 1rem; } header, nav { padding: 0 1rem; } }
 </style>
 </head>
 <body>
 <div class="bg-mesh"></div>
 <div class="bg-dots"></div>
 <div class="shell">
-
 <header>
-  <a href="index.html" class="logo">
-    <div class="logo-icon">🌱</div>
-    Helping<span>Hands</span>
-  </a>
-  <div class="header-actions">
-    <a href="notification.html" class="notif" title="Notifications">🔔<div class="notif-dot"></div></a>
-    <a href="post.html" class="btn-sm">Post Need</a>
-    <a href="#" class="btn-sm btn-primary">Join Now</a>
-  </div>
+  <a href="index.html" class="logo"><div class="logo-icon">🌱</div>Helping<span>Hands</span></a>
+  <div class="header-actions" id="headerActions"></div>
 </header>
-
 <nav>
-  <a href="index.html" class="tab"><span class="tab-icon">🌍</span>Explore</a>
-  <a href="urgent.html" class="tab urgent-tab"><span class="tab-icon"><span class="urgent-pulse"></span></span>Urgent<span class="badge-count">4</span></a>
-  <a href="individual.html" class="tab"><span class="tab-icon">🤝</span>Individuals</a>
-  <a href="leaderboard.html" class="tab"><span class="tab-icon">🏆</span>Leaderboard</a>
-  <a href="badges.html" class="tab"><span class="tab-icon">🎖️</span>My Badges</a>
-  <a href="post.html" class="tab"><span class="tab-icon">✍️</span>Post Need</a>
+  <a href="index.html" class="tab active"><span>🌍</span>Explore</a>
+  <a href="urgent.html" class="tab urgent-tab"><span class="urgent-pulse"></span>Urgent<span class="badge-count">4</span></a>
+  <a href="individual.html" class="tab"><span>🤝</span>Individuals</a>
+  <a href="leaderboard.html" class="tab"><span>🏆</span>Leaderboard</a>
+  <a href="post.html" class="tab"><span>✍️</span>Post Need</a>
 </nav>
-
-<main>
-  <div class="breadcrumb">
-    <a href="index.html">Home</a>
-    <span>›</span>
-    <a href="explore.html">Explore</a>
-    <span>›</span>
-    <span id="breadcrumb-title">Opportunity Details</span>
-  </div>
-
-  <div class="opportunity-hero" id="opportunityHero"></div>
-
-  <div class="section-card">
-    <div class="section-title">📋 About This Opportunity</div>
-    <div class="section-desc" id="aboutDesc"></div>
-    <div class="section-title" style="margin-top:1.5rem">🛠 Skills Required</div>
-    <div class="skills-list" id="skillsList"></div>
-  </div>
-
-  <div class="section-card">
-    <div class="section-title">📅 Event Agenda</div>
-    <div id="eventAgenda"></div>
-  </div>
-
-  <div class="section-card">
-    <div class="section-title">👥 Joined Volunteers</div>
-    <div class="volunteers-grid" id="volunteersList"></div>
-    <div style="text-align:center;margin-top:1rem;font-size:13px;color:var(--text2)" id="volunteerCount"></div>
-  </div>
-</main>
-
-</div>
-
+<main><div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <a href="index.html">Explore</a> <span>›</span> <span id="breadcrumb-title">Opportunity Details</span></div>
+<div id="opportunityHero"></div><div id="detailGridContainer"></div>
+<div class="section-card"><div class="section-title">📋 About This Opportunity</div><div class="section-desc" id="aboutDesc"></div><div class="section-title" style="margin-top:1.5rem">🛠 Skills Required</div><div class="skills-list" id="skillsList"></div></div>
+<div class="section-card"><div class="section-title">📅 Event Agenda</div><div id="eventAgenda"></div></div>
+<div class="section-card"><div class="section-title">👥 Joined Volunteers</div><div class="volunteers-grid" id="volunteersList"></div><div style="text-align:center;margin-top:1rem;font-size:13px;color:var(--text2)" id="volunteerCount"></div></div>
+</main></div>
 <div class="toast" id="toast"></div>
 
 <script>
+// High-quality web images for all opportunities
+const OPP_IMAGES = {
+  'river-cleanup': 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&h=400&fit=crop',
+  'medical-camp': 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&h=400&fit=crop',
+  'digital-literacy': 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=400&fit=crop',
+  'animal-rescue': 'https://images.unsplash.com/photo-1548199973-03cce0c87e7b?w=800&h=400&fit=crop',
+  'code-camp': 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=800&h=400&fit=crop',
+  'shelter-repair': 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=400&fit=crop',
+  'tree-plantation': 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=400&fit=crop',
+  'vaccination-drive': 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=800&h=400&fit=crop'
+};
+
 const OPPORTUNITIES_DB = {
-  'river-cleanup': {
-    id: 'river-cleanup',
-    title: 'River Ganga Cleanup Drive',
-    ngo: 'GreenEarth India',
-    ngoEmoji: '🌿',
-    ngoBg: 'rgba(0,200,150,0.15)',
-    category: 'env',
-    categoryLabel: 'Environment',
-    description: 'Join our annual cleanup initiative along the Kolkata riverfront. This large-scale environmental effort brings together hundreds of volunteers to remove plastic waste, plant native saplings, and raise community awareness about river pollution. Volunteers will work in teams led by experienced environmentalists. All equipment including gloves, bags, and saplings will be provided. This is a family-friendly event - children above 12 are welcome with adult supervision.',
-    longDescription: 'The River Ganga Cleanup Drive is one of the largest volunteer-led environmental initiatives in West Bengal. Over the past 3 years, we have removed over 50 tons of waste from the riverfront and planted 10,000+ trees. This year, our goal is to expand to 5 new locations along the river. Volunteers will participate in waste segregation, recycling workshops, and community education programs. A post-event celebration with refreshments will be held for all participants.',
-    skills: ['Waste Management', 'Tree Planting', 'Community Outreach', 'Team Coordination', 'Physical Fitness', 'Environmental Awareness'],
-    location: 'Kolkata Riverfront (Near Howrah Bridge)',
-    date: 'April 22, 2025',
-    time: '6:00 AM - 12:00 PM (6 hours)',
-    totalSpots: 20,
-    filledSpots: 12,
-    xpReward: 50,
-    agenda: [
-      {time: '6:00 AM', activity: 'Registration & Team Briefing', desc: 'Check-in, receive equipment, and attend safety orientation'},
-      {time: '6:30 AM', activity: 'Waste Collection Phase 1', desc: 'Teams spread across designated zones for plastic and debris collection'},
-      {time: '8:30 AM', activity: 'Refreshment Break', desc: 'Light breakfast and water break for all volunteers'},
-      {time: '9:00 AM', activity: 'Tree Plantation Drive', desc: 'Planting native saplings along the riverbank with guidance from botanists'},
-      {time: '10:30 AM', activity: 'Community Awareness Campaign', desc: 'Distribute educational materials and interact with local residents'},
-      {time: '11:30 AM', activity: 'Closing Ceremony & Certificates', desc: 'Group photo, volunteer recognition, and distribution of participation certificates'}
-    ],
-    volunteers: [
-      {name: 'Aryan Mehta', role: 'Team Lead', avatar: 'AM', color: '#FFD700', bg: 'rgba(255,215,0,0.15)', badge: '🌟'},
-      {name: 'Sia Patel', role: 'Coordinator', avatar: 'SP', color: '#C0C8D8', bg: 'rgba(192,200,216,0.15)', badge: '🔥'},
-      {name: 'Riya Kapoor', role: 'Volunteer', avatar: 'RK', color: '#CD853F', bg: 'rgba(205,133,63,0.15)', badge: '🌿'},
-      {name: 'Karan Shah', role: 'Volunteer', avatar: 'KS', color: '#00C896', bg: 'rgba(0,200,150,0.15)', badge: ''},
-      {name: 'Meera Nair', role: 'First Aid', avatar: 'MN', color: '#5BC8FF', bg: 'rgba(91,200,255,0.15)', badge: '🩺'},
-      {name: 'Dev Rawat', role: 'Volunteer', avatar: 'DR', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)', badge: ''},
-      {name: 'Pooja Das', role: 'Photographer', avatar: 'PD', color: '#FF6B6B', bg: 'rgba(255,107,107,0.15)', badge: '📸'},
-      {name: 'Amit Verma', role: 'Volunteer', avatar: 'AV', color: '#FFB347', bg: 'rgba(255,179,71,0.15)', badge: ''},
-      {name: 'Neha Gupta', role: 'Logistics', avatar: 'NG', color: '#FF69B4', bg: 'rgba(255,105,180,0.15)', badge: '📋'},
-      {name: 'Raj Singh', role: 'Volunteer', avatar: 'RS', color: '#87CEEB', bg: 'rgba(135,206,235,0.15)', badge: ''},
-      {name: 'Anita Sharma', role: 'Community Lead', avatar: 'AS', color: '#98FB98', bg: 'rgba(152,251,152,0.15)', badge: '🤝'},
-      {name: 'Vikram Patel', role: 'Volunteer', avatar: 'VP', color: '#DDA0DD', bg: 'rgba(221,160,221,0.15)', badge: ''}
-    ]
+  'river-cleanup': { 
+    id:'river-cleanup', title:'River Ganga Cleanup Drive', ngo:'GreenEarth India', ngoEmoji:'🌿', ngoBg:'rgba(15,76,58,0.08)', 
+    category:'env', categoryLabel:'Environment', 
+    longDescription:'The River Ganga Cleanup Drive is one of the largest volunteer-led environmental initiatives in West Bengal. Over the past 3 years, we have removed over 50 tons of waste from the riverfront and planted 10,000+ trees. Volunteers will participate in waste segregation, recycling workshops, and community education programs.', 
+    skills:['Waste Management','Tree Planting','Community Outreach','Team Coordination'], 
+    location:'Kolkata Riverfront', date:'April 22, 2025', time:'6:00 AM - 12:00 PM', 
+    totalSpots:20, filledSpots:12, xpReward:50, 
+    agenda:[{time:'6:00 AM',activity:'Registration & Briefing'},{time:'6:30 AM',activity:'Waste Collection'},{time:'9:00 AM',activity:'Tree Plantation'},{time:'11:30 AM',activity:'Closing'}], 
+    volunteers:[{name:'Aryan Mehta',role:'Team Lead',avatar:'AM',color:'#D4A017',bg:'rgba(212,160,23,0.1)'},{name:'Sia Patel',role:'Coordinator',avatar:'SP',color:'#6B7280',bg:'rgba(107,114,128,0.1)'},{name:'Riya Kapoor',role:'Volunteer',avatar:'RK',color:'#B8860B',bg:'rgba(184,134,11,0.1)'}] 
   },
-  'medical-camp': {
-    id: 'medical-camp',
-    title: 'Free Medical Camp — Rural Areas',
-    ngo: 'HealthBridge Foundation',
-    ngoEmoji: '🏥',
-    ngoBg: 'rgba(91,200,255,0.15)',
-    category: 'med',
-    categoryLabel: 'Healthcare',
-    description: 'Assist doctors during free health camps in remote villages. This initiative aims to provide basic healthcare services to underserved communities. Volunteers will help with patient registration, guide patients to different stations, manage crowd flow, and assist with basic logistics. Medical background is preferred but not required for all roles.',
-    longDescription: 'HealthBridge Foundation has been organizing free medical camps across rural West Bengal for 5 years. This camp will serve approximately 500+ patients from 12 surrounding villages. Services include general check-ups, eye examinations, dental care, and distribution of free medicines. We partner with 8 local doctors and 3 hospitals for this initiative.',
-    skills: ['Patient Registration', 'Crowd Management', 'Basic First Aid', 'Data Entry', 'Language Skills (Bengali/Hindi)', 'Empathy & Communication'],
-    location: 'Bardhaman Rural Health Center',
-    date: 'April 25, 2025',
-    time: '8:00 AM - 4:00 PM (8 hours)',
-    totalSpots: 15,
-    filledSpots: 10,
-    xpReward: 75,
-    agenda: [
-      {time: '7:30 AM', activity: 'Setup & Preparation', desc: 'Arrange medical stations, set up registration desk, organize medicines'},
-      {time: '8:00 AM', activity: 'Patient Registration Begins', desc: 'Register patients, record vital signs, direct to appropriate stations'},
-      {time: '9:00 AM', activity: 'Medical Consultations Start', desc: 'Assist doctors with patient flow and basic procedures'},
-      {time: '12:30 PM', activity: 'Lunch Break', desc: 'Rotating breaks for volunteers and medical staff'},
-      {time: '1:30 PM', activity: 'Afternoon Session', desc: 'Continue consultations, manage pharmacy distribution'},
-      {time: '3:30 PM', activity: 'Wrap-up & Cleanup', desc: 'Final patients, pack equipment, collect feedback forms'}
-    ],
-    volunteers: [
-      {name: 'Dr. Sharma', role: 'Lead Doctor', avatar: 'DS', color: '#5BC8FF', bg: 'rgba(91,200,255,0.15)', badge: '👨‍⚕️'},
-      {name: 'Priya M.', role: 'Nurse', avatar: 'PM', color: '#FF69B4', bg: 'rgba(255,105,180,0.15)', badge: '🩺'},
-      {name: 'Rahul K.', role: 'Coordinator', avatar: 'RK', color: '#CD853F', bg: 'rgba(205,133,63,0.15)', badge: '📋'},
-      {name: 'Ananya S.', role: 'Registration', avatar: 'AS', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)', badge: ''},
-      {name: 'Vivek T.', role: 'Pharmacy', avatar: 'VT', color: '#00C896', bg: 'rgba(0,200,150,0.15)', badge: '💊'},
-      {name: 'Deepa R.', role: 'Volunteer', avatar: 'DR', color: '#FFB347', bg: 'rgba(255,179,71,0.15)', badge: ''},
-      {name: 'Sanjay M.', role: 'Logistics', avatar: 'SM', color: '#87CEEB', bg: 'rgba(135,206,235,0.15)', badge: ''},
-      {name: 'Kavita B.', role: 'Translator', avatar: 'KB', color: '#98FB98', bg: 'rgba(152,251,152,0.15)', badge: '🗣'},
-      {name: 'Arun P.', role: 'Volunteer', avatar: 'AP', color: '#DDA0DD', bg: 'rgba(221,160,221,0.15)', badge: ''},
-      {name: 'Lakshmi G.', role: 'First Aid', avatar: 'LG', color: '#FF6B6B', bg: 'rgba(255,107,107,0.15)', badge: '⛑'}
-    ]
+  'medical-camp': { 
+    id:'medical-camp', title:'Free Medical Camp — Rural Areas', ngo:'HealthBridge Foundation', ngoEmoji:'🏥', ngoBg:'rgba(59,130,246,0.08)', 
+    category:'med', categoryLabel:'Healthcare', 
+    longDescription:'HealthBridge Foundation serves 500+ patients. This camp offers general check-ups, eye exams, dental care, and free medicines. Volunteers assist with patient registration, crowd management, and supporting medical staff.', 
+    skills:['Patient Registration','Crowd Management','Basic First Aid','Data Entry'], 
+    location:'Bardhaman Rural Health Center', date:'April 25, 2025', time:'8:00 AM - 4:00 PM', 
+    totalSpots:15, filledSpots:10, xpReward:75, 
+    agenda:[{time:'7:30 AM',activity:'Setup'},{time:'8:00 AM',activity:'Registration'},{time:'12:30 PM',activity:'Lunch'}], 
+    volunteers:[{name:'Dr. Sharma',role:'Lead Doctor',avatar:'DS',color:'#3B82F6',bg:'rgba(59,130,246,0.1)'}] 
   },
-  'digital-literacy': {
-    id: 'digital-literacy',
-    title: 'Digital Literacy Educators',
-    ngo: 'EduForAll Trust',
-    ngoEmoji: '📚',
-    ngoBg: 'rgba(255,179,71,0.15)',
-    category: 'edu',
-    categoryLabel: 'Education',
-    description: 'Teach basic smartphone and internet skills to senior citizens and rural women. This program aims to bridge the digital divide by empowering underserved communities with essential digital skills. Teaching materials, lesson plans, and devices are provided. Sessions are conducted online via video call, making it flexible for volunteers.',
-    longDescription: 'EduForAll Trust has successfully trained 2,000+ individuals through this digital literacy program. The curriculum covers smartphone basics, using WhatsApp, online safety, accessing government services, and digital payments. Volunteers teach in small groups of 3-5 learners per session. This is an ongoing program with flexible scheduling - volunteers can choose time slots that work for them.',
-    skills: ['Teaching', 'Patience', 'Basic Tech Skills', 'Communication', 'Language Skills', 'Empathy'],
-    location: 'Remote / Online',
-    date: 'Starting May 3, 2025 (Ongoing)',
-    time: 'Flexible Schedule (2-3 hours/week)',
-    totalSpots: 30,
-    filledSpots: 18,
-    xpReward: 40,
-    agenda: [
-      {time: 'Week 1', activity: 'Orientation & Training', desc: 'Volunteer onboarding, curriculum overview, and teaching practice sessions'},
-      {time: 'Week 2', activity: 'Smartphone Basics', desc: 'Teaching basic phone operations, settings, and app installation'},
-      {time: 'Week 3', activity: 'Communication Apps', desc: 'WhatsApp, video calling, and messaging safety'},
-      {time: 'Week 4', activity: 'Internet & Safety', desc: 'Browsing, online safety, identifying scams, and secure passwords'},
-      {time: 'Ongoing', activity: 'Advanced Topics', desc: 'Digital payments, government apps, and e-commerce basics'}
-    ],
-    volunteers: [
-      {name: 'Tanvi R.', role: 'Lead Educator', avatar: 'TR', color: '#FFB347', bg: 'rgba(255,179,71,0.15)', badge: '📚'},
-      {name: 'Amit K.', role: 'Tech Support', avatar: 'AK', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)', badge: '💻'},
-      {name: 'Sneha P.', role: 'Educator', avatar: 'SP', color: '#C0C8D8', bg: 'rgba(192,200,216,0.15)', badge: ''},
-      {name: 'Rohan D.', role: 'Educator', avatar: 'RD', color: '#00C896', bg: 'rgba(0,200,150,0.15)', badge: ''},
-      {name: 'Priya N.', role: 'Coordinator', avatar: 'PN', color: '#FF69B4', bg: 'rgba(255,105,180,0.15)', badge: '📋'},
-      {name: 'Karan J.', role: 'Educator', avatar: 'KJ', color: '#FFD700', bg: 'rgba(255,215,0,0.15)', badge: ''},
-      {name: 'Megha S.', role: 'Educator', avatar: 'MS', color: '#87CEEB', bg: 'rgba(135,206,235,0.15)', badge: ''},
-      {name: 'Vikram R.', role: 'Educator', avatar: 'VR', color: '#98FB98', bg: 'rgba(152,251,152,0.15)', badge: ''},
-      {name: 'Anjali T.', role: 'Content Creator', avatar: 'AT', color: '#DDA0DD', bg: 'rgba(221,160,221,0.15)', badge: '✍️'},
-      {name: 'Suresh K.', role: 'Educator', avatar: 'SK', color: '#FF6B6B', bg: 'rgba(255,107,107,0.15)', badge: ''},
-      {name: 'Nandini P.', role: 'Educator', avatar: 'NP', color: '#5BC8FF', bg: 'rgba(91,200,255,0.15)', badge: ''},
-      {name: 'Rajat M.', role: 'Tech Support', avatar: 'RM', color: '#FFB6C1', bg: 'rgba(255,182,193,0.15)', badge: '🔧'},
-      {name: 'Divya S.', role: 'Educator', avatar: 'DS', color: '#B8860B', bg: 'rgba(184,134,11,0.15)', badge: ''},
-      {name: 'Arjun B.', role: 'Educator', avatar: 'AB', color: '#6A5ACD', bg: 'rgba(106,90,205,0.15)', badge: ''},
-      {name: 'Pallavi G.', role: 'Educator', avatar: 'PG', color: '#20B2AA', bg: 'rgba(32,178,170,0.15)', badge: ''},
-      {name: 'Nitin W.', role: 'Educator', avatar: 'NW', color: '#FF7F50', bg: 'rgba(255,127,80,0.15)', badge: ''},
-      {name: 'Shweta K.', role: 'Educator', avatar: 'SK', color: '#9370DB', bg: 'rgba(147,112,219,0.15)', badge: ''},
-      {name: 'Gaurav T.', role: 'Educator', avatar: 'GT', color: '#3CB371', bg: 'rgba(60,179,113,0.15)', badge: ''}
-    ]
+  'digital-literacy': { 
+    id:'digital-literacy', title:'Digital Literacy Educators', ngo:'EduForAll Trust', ngoEmoji:'📚', ngoBg:'rgba(212,160,23,0.08)', 
+    category:'edu', categoryLabel:'Education', 
+    longDescription:'Teach smartphone/internet skills to seniors and rural women. Materials provided. Help bridge the digital divide and empower communities with essential tech skills.', 
+    skills:['Teaching','Patience','Tech Basics','Communication'], 
+    location:'Remote / Online', date:'Starting May 3, 2025', time:'Flexible', 
+    totalSpots:30, filledSpots:18, xpReward:40, 
+    agenda:[{time:'Week 1',activity:'Orientation'},{time:'Week 2-4',activity:'Smartphone Basics & Internet Safety'}], 
+    volunteers:[{name:'Tanvi R.',role:'Lead Educator',avatar:'TR',color:'#D4A017',bg:'rgba(212,160,23,0.1)'}] 
   },
-  'animal-rescue': {
-    id: 'animal-rescue',
-    title: 'Stray Animal Rescue & Rehab',
-    ngo: 'PawsAndHope',
-    ngoEmoji: '🐾',
-    ngoBg: 'rgba(255,182,193,0.15)',
-    category: 'animal',
-    categoryLabel: 'Animals',
-    description: 'Help rescue injured stray animals, assist with feeding rounds, and support adoption events on weekends. Volunteers work alongside veterinarians and experienced animal handlers. Training is provided for all new volunteers. This is a weekend-only opportunity perfect for animal lovers.',
-    longDescription: 'PawsAndHope has rescued and rehabilitated over 2,000 animals since its founding. Our weekend program includes rescue operations, feeding rounds across 8 locations, shelter maintenance, and adoption drives. We also run a spay/neuter awareness campaign. Volunteers can choose to specialize in rescue, care, or adoption events.',
-    skills: ['Animal Handling', 'Basic Care', 'Physical Fitness', 'Driving', 'Photography', 'Event Management'],
-    location: 'Howrah Animal Shelter & Surrounding Areas',
-    date: 'Weekends (Ongoing)',
-    time: 'Saturday & Sunday, 7:00 AM - 2:00 PM',
-    totalSpots: 10,
-    filledSpots: 7,
-    xpReward: 45,
-    agenda: [
-      {time: '7:00 AM', activity: 'Morning Briefing', desc: 'Team meeting, assignment of rescue routes and feeding locations'},
-      {time: '7:30 AM', activity: 'Feeding Rounds', desc: 'Visit designated locations to feed and check on stray animals'},
-      {time: '9:30 AM', activity: 'Rescue Operations', desc: 'Respond to rescue calls, transport injured animals to shelter'},
-      {time: '11:30 AM', activity: 'Shelter Care', desc: 'Clean enclosures, assist with medical treatments, socialize animals'},
-      {time: '1:00 PM', activity: 'Adoption Event (if scheduled)', desc: 'Help set up and manage weekend adoption drives'},
-      {time: '2:00 PM', activity: 'Wrap-up & Documentation', desc: 'Update animal records, feed shelter animals, plan for next day'}
-    ],
-    volunteers: [
-      {name: 'Dr. Mehta', role: 'Veterinarian', avatar: 'DM', color: '#FFB6C1', bg: 'rgba(255,182,193,0.15)', badge: '👨‍⚕️'},
-      {name: 'Ritu K.', role: 'Rescue Lead', avatar: 'RK', color: '#00C896', bg: 'rgba(0,200,150,0.15)', badge: '🐾'},
-      {name: 'Samir D.', role: 'Driver/Rescue', avatar: 'SD', color: '#87CEEB', bg: 'rgba(135,206,235,0.15)', badge: '🚗'},
-      {name: 'Neha T.', role: 'Caretaker', avatar: 'NT', color: '#FF69B4', bg: 'rgba(255,105,180,0.15)', badge: '💕'},
-      {name: 'Arjun M.', role: 'Volunteer', avatar: 'AM', color: '#FFD700', bg: 'rgba(255,215,0,0.15)', badge: ''},
-      {name: 'Kavya S.', role: 'Photographer', avatar: 'KS', color: '#A78BFA', bg: 'rgba(167,139,250,0.15)', badge: '📸'},
-      {name: 'Rohit B.', role: 'Volunteer', avatar: 'RB', color: '#98FB98', bg: 'rgba(152,251,152,0.15)', badge: ''}
-    ]
+  'animal-rescue': { 
+    id:'animal-rescue', title:'Stray Animal Rescue & Rehab', ngo:'PawsAndHope', ngoEmoji:'🐾', ngoBg:'rgba(236,72,153,0.08)', 
+    category:'animal', categoryLabel:'Animals', 
+    longDescription:'Join our dedicated team to rescue and rehabilitate stray animals in need. We provide medical care, shelter, and adoption services for injured and abandoned dogs and cats. Volunteers help with rescue operations, feeding rounds, animal care, and adoption events.', 
+    skills:['Animal Handling','Compassion','Physical Fitness','Basic First Aid'], 
+    location:'Howrah Animal Shelter', date:'Weekends', time:'Sat-Sun 7AM-2PM', 
+    totalSpots:10, filledSpots:7, xpReward:45, 
+    agenda:[{time:'7:00 AM',activity:'Briefing & Animal Check'},{time:'8:00 AM',activity:'Feeding Rounds'},{time:'10:00 AM',activity:'Medical Assistance'},{time:'12:00 PM',activity:'Adoption Support'}], 
+    volunteers:[{name:'Dr. Mehta',role:'Veterinarian',avatar:'DM',color:'#EC4899',bg:'rgba(236,72,153,0.1)'},{name:'Neha K.',role:'Animal Handler',avatar:'NK',color:'#F43F5E',bg:'rgba(244,63,94,0.1)'}] 
+  },
+  'code-camp': { 
+    id:'code-camp', title:'Code Camp for Underprivileged Youth', ngo:'TechForGood', ngoEmoji:'💻', ngoBg:'rgba(91,79,161,0.08)', 
+    category:'tech', categoryLabel:'Technology', 
+    longDescription:'Empower the next generation through technology! This program teaches basic programming and web development to high school students from underprivileged backgrounds. No advanced coding skills required - just patience and enthusiasm.', 
+    skills:['Teaching','Programming Basics','Patience','Communication'], 
+    location:'Durgapur Tech Hub', date:'May 5, 2025', time:'9:00 AM - 1:00 PM', 
+    totalSpots:12, filledSpots:8, xpReward:60, 
+    agenda:[{time:'9:00 AM',activity:'Introduction'},{time:'10:00 AM',activity:'Coding Session'},{time:'12:00 PM',activity:'Project Work'}], 
+    volunteers:[{name:'Amit K.',role:'Tech Lead',avatar:'AK',color:'#5B4FA1',bg:'rgba(91,79,161,0.1)'}] 
+  },
+  'shelter-repair': { 
+    id:'shelter-repair', title:'Community Housing Repair', ngo:'ShelterFirst', ngoEmoji:'🏠', ngoBg:'rgba(15,76,58,0.08)', 
+    category:'shelter', categoryLabel:'Shelter', 
+    longDescription:'Help repair and paint homes for elderly residents in low-income neighborhoods. All tools and materials provided. No prior construction experience needed - just willingness to help!', 
+    skills:['Physical Labor','Teamwork','Basic Handyman Skills'], 
+    location:'Asansol Old Town', date:'April 28, 2025', time:'8:00 AM - 4:00 PM', 
+    totalSpots:15, filledSpots:9, xpReward:55, 
+    agenda:[{time:'8:00 AM',activity:'Briefing'},{time:'9:00 AM',activity:'Repair Work'},{time:'12:00 PM',activity:'Lunch'},{time:'1:00 PM',activity:'Painting'},{time:'3:30 PM',activity:'Cleanup'}], 
+    volunteers:[{name:'Rahul S.',role:'Site Lead',avatar:'RS',color:'#0F4C3A',bg:'rgba(15,76,58,0.1)'}] 
+  },
+  'tree-plantation': { 
+    id:'tree-plantation', title:'Tree Plantation Drive', ngo:'GreenPlanet Trust', ngoEmoji:'🌿', ngoBg:'rgba(15,76,58,0.08)', 
+    category:'env', categoryLabel:'Environment', 
+    longDescription:'Plant 1000 trees across the city! Help with digging, planting, and setting up irrigation systems. Family-friendly event where everyone can contribute to a greener future.', 
+    skills:['Physical Fitness','Teamwork','Environmental Awareness'], 
+    location:'Kolkata Eco-Park', date:'May 8, 2025', time:'7:00 AM - 12:00 PM', 
+    totalSpots:50, filledSpots:35, xpReward:50, 
+    agenda:[{time:'7:00 AM',activity:'Registration'},{time:'7:30 AM',activity:'Tree Planting'},{time:'10:00 AM',activity:'Watering'},{time:'11:30 AM',activity:'Closing'}], 
+    volunteers:[{name:'Priya M.',role:'Coordinator',avatar:'PM',color:'#0F4C3A',bg:'rgba(15,76,58,0.1)'}] 
+  },
+  'vaccination-drive': { 
+    id:'vaccination-drive', title:'Vaccination Drive Support', ngo:'MediCare Volunteers', ngoEmoji:'🏥', ngoBg:'rgba(59,130,246,0.08)', 
+    category:'med', categoryLabel:'Healthcare', 
+    longDescription:'Assist healthcare workers during community vaccination drives. Roles include crowd management, registration support, data entry, and post-vaccination observation. Make a direct impact on public health!', 
+    skills:['Organization','Communication','Data Entry','Empathy'], 
+    location:'Siliguri Community Center', date:'April 30, 2025', time:'8:00 AM - 2:00 PM', 
+    totalSpots:20, filledSpots:12, xpReward:65, 
+    agenda:[{time:'8:00 AM',activity:'Setup'},{time:'9:00 AM',activity:'Registration'},{time:'11:00 AM',activity:'Vaccination Support'},{time:'1:00 PM',activity:'Data Entry'}], 
+    volunteers:[{name:'Dr. Nair',role:'Medical Lead',avatar:'DN',color:'#3B82F6',bg:'rgba(59,130,246,0.1)'}] 
   }
 };
 
-let currentOpportunity = null;
-let isSignedUp = false;
-
-function getCategoryClass(cat) {
-  const classes = {
-    'env': 'env', 'med': 'med', 'edu': 'edu', 'animal': 'animal',
-    'tech': 'tech', 'shelter': 'env'
-  };
-  return classes[cat] || 'env';
+let currentOpportunity = null, isSignedUp = false, currentUser = null;
+function getCategoryEmoji(cat){ let e={env:'🌿',med:'🏥',edu:'📚',animal:'🐾',tech:'💻',shelter:'🏠'}; return e[cat]||'🤝'; }
+function renderOpportunityDetails(opp){
+  currentOpportunity=opp; let spotsLeft=opp.totalSpots-opp.filledSpots, fillPercent=(opp.filledSpots/opp.totalSpots)*100;
+  document.getElementById('breadcrumb-title').textContent=opp.title;
+  document.getElementById('opportunityHero').innerHTML=`<div class="hero-image-container"><img src="${OPP_IMAGES[opp.id]}" class="hero-image" alt="${opp.title}" loading="lazy"></div><div class="hero-content"><div class="opp-header"><div class="opp-title-section"><div class="opp-category">${getCategoryEmoji(opp.category)} ${opp.categoryLabel}</div><h1 class="opp-title">${opp.title}</h1><div class="opp-ngo"><div class="opp-ngo-avatar" style="background:${opp.ngoBg}">${opp.ngoEmoji}</div><div><div class="opp-ngo-name">${opp.ngo}</div><div class="opp-ngo-verified">✓ Verified NGO</div></div></div></div><div class="signup-card"><div class="signup-spots">${spotsLeft}</div><div class="signup-total">spots left out of ${opp.totalSpots}</div><div class="progress-bar"><div class="progress-fill" data-w="${fillPercent}%"></div></div><button class="btn-signup-large ${isSignedUp?'signed':''}" onclick="toggleSignup()">${isSignedUp?'✓ You\'re Signed Up!':'🚀 Sign Up Now'}</button><div class="xp-badge">⚡ Earn ${opp.xpReward} XP on completion</div><div class="share-buttons"><button class="btn-share" onclick="showToast('🔗 Link copied!')">📋 Copy</button><button class="btn-share" onclick="showToast('📱 Shared!')">📱 Share</button></div></div></div></div>`;
+  document.getElementById('detailGridContainer').innerHTML=`<div class="detail-grid"><div class="detail-card"><div class="detail-icon">📍</div><div><div class="detail-label">Location</div><div class="detail-value">${opp.location}</div></div></div><div class="detail-card"><div class="detail-icon">📅</div><div><div class="detail-label">Date & Time</div><div class="detail-value">${opp.date}<br><span style="font-size:12px">${opp.time}</span></div></div></div><div class="detail-card"><div class="detail-icon">👥</div><div><div class="detail-label">Volunteers Joined</div><div class="detail-value">${opp.filledSpots} / ${opp.totalSpots}</div><div class="detail-sub">${spotsLeft} more needed</div></div></div><div class="detail-card"><div class="detail-icon">⚡</div><div><div class="detail-label">XP Reward</div><div class="detail-value">+${opp.xpReward} XP</div></div></div></div>`;
+  document.getElementById('aboutDesc').textContent=opp.longDescription;
+  document.getElementById('skillsList').innerHTML=opp.skills.map((s,i)=>`<span class="skill-tag ${i<3?'highlight':''}">${s}</span>`).join('');
+  document.getElementById('eventAgenda').innerHTML=opp.agenda.map(item=>`<div class="agenda-item"><div class="agenda-time">${item.time}</div><div class="agenda-desc">${item.activity}</div></div>`).join('');
+  document.getElementById('volunteersList').innerHTML=opp.volunteers.map(v=>`<div class="volunteer-card"><div class="volunteer-avatar" style="background:${v.bg}; color:${v.color}">${v.avatar}</div><div><div class="volunteer-name">${v.name}</div><div class="volunteer-role">${v.role}</div></div></div>`).join('');
+  document.getElementById('volunteerCount').textContent=`Showing ${opp.volunteers.length} of ${opp.filledSpots} registered volunteers`;
+  setTimeout(()=>{ document.querySelectorAll('.progress-fill[data-w]').forEach(el=>{ el.style.width=el.getAttribute('data-w'); }); },150);
 }
-
-function getCategoryEmoji(cat) {
-  const emojis = {
-    'env': '🌿', 'med': '🏥', 'edu': '📚', 'animal': '🐾',
-    'tech': '💻', 'shelter': '🏠'
-  };
-  return emojis[cat] || '🤝';
-}
-
-function renderOpportunityDetails(opp) {
-  currentOpportunity = opp;
-  const spotsLeft = opp.totalSpots - opp.filledSpots;
-  const fillPercent = (opp.filledSpots / opp.totalSpots) * 100;
-  
-  document.getElementById('breadcrumb-title').textContent = opp.title;
-  
-  // Hero section
-  document.getElementById('opportunityHero').innerHTML = `
-    <div class="opp-header">
-      <div class="opp-title-section">
-        <div class="opp-category ${getCategoryClass(opp.category)}">${getCategoryEmoji(opp.category)} ${opp.categoryLabel}</div>
-        <h1 class="opp-title">${opp.title}</h1>
-        <div class="opp-ngo">
-          <div class="opp-ngo-avatar" style="background:${opp.ngoBg}">${opp.ngoEmoji}</div>
-          <div>
-            <div class="opp-ngo-name">${opp.ngo}</div>
-            <div class="opp-ngo-verified">✓ Verified NGO</div>
-          </div>
-        </div>
-      </div>
-      <div class="signup-card">
-        <div class="signup-spots">${spotsLeft}</div>
-        <div class="signup-total">spots left out of ${opp.totalSpots}</div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width:0%" data-w="${fillPercent}%"></div>
-        </div>
-        <button class="btn-signup-large ${isSignedUp ? 'signed' : ''}" id="signupBtn" onclick="toggleSignup()">
-          ${isSignedUp ? '✓ You\'re Signed Up!' : '🚀 Sign Up Now'}
-        </button>
-        <div class="xp-badge">⚡ Earn ${opp.xpReward} XP on completion</div>
-        <div class="share-buttons">
-          <button class="btn-share">📋 Copy Link</button>
-          <button class="btn-share">📱 Share</button>
-          <button class="btn-share">📅 Calendar</button>
-        </div>
-      </div>
-    </div>
-  `;
-  
-  // Detail cards
-  const detailGrid = document.createElement('div');
-  detailGrid.className = 'detail-grid';
-  detailGrid.innerHTML = `
-    <div class="detail-card">
-      <div class="detail-icon" style="background:rgba(0,200,150,0.15)">📍</div>
-      <div class="detail-content">
-        <div class="detail-label">Location</div>
-        <div class="detail-value">${opp.location}</div>
-        <div class="detail-sub">Google Maps link available after signup</div>
-      </div>
-    </div>
-    <div class="detail-card">
-      <div class="detail-icon" style="background:rgba(91,200,255,0.15)">📅</div>
-      <div class="detail-content">
-        <div class="detail-label">Date & Time</div>
-        <div class="detail-value">${opp.date}</div>
-        <div class="detail-sub">${opp.time}</div>
-      </div>
-    </div>
-    <div class="detail-card">
-      <div class="detail-icon" style="background:rgba(255,179,71,0.15)">👥</div>
-      <div class="detail-content">
-        <div class="detail-label">Volunteers Joined</div>
-        <div class="detail-value">${opp.filledSpots} / ${opp.totalSpots}</div>
-        <div class="detail-sub">${spotsLeft} more needed</div>
-      </div>
-    </div>
-    <div class="detail-card">
-      <div class="detail-icon" style="background:rgba(167,139,250,0.15)">⚡</div>
-      <div class="detail-content">
-        <div class="detail-label">XP Reward</div>
-        <div class="detail-value">+${opp.xpReward} XP</div>
-        <div class="detail-sub">Plus badge progress</div>
-      </div>
-    </div>
-  `;
-  
-  // Insert after hero
-  const hero = document.getElementById('opportunityHero');
-  hero.parentNode.insertBefore(detailGrid, hero.nextSibling);
-  
-  // About section
-  document.getElementById('aboutDesc').textContent = opp.longDescription;
-  
-  // Skills
-  document.getElementById('skillsList').innerHTML = opp.skills.map((skill, i) => 
-    `<span class="skill-tag ${i < 3 ? 'highlight' : ''}">${skill}</span>`
-  ).join('');
-  
-  // Agenda
-  document.getElementById('eventAgenda').innerHTML = opp.agenda.map(item => `
-    <div class="agenda-item">
-      <div class="agenda-time">${item.time}</div>
-      <div>
-        <div class="agenda-desc">${item.activity}</div>
-        <div class="agenda-sub">${item.desc}</div>
-      </div>
-    </div>
-  `).join('');
-  
-  // Volunteers
-  document.getElementById('volunteersList').innerHTML = opp.volunteers.map((v, i) => `
-    <div class="volunteer-card" style="animation-delay:${i * 0.05}s">
-      <div class="volunteer-avatar" style="background:${v.bg};color:${v.color}">${v.avatar}</div>
-      <div class="volunteer-info">
-        <div class="volunteer-name">${v.name}</div>
-        <div class="volunteer-role">${v.role}</div>
-      </div>
-      ${v.badge ? `<div class="volunteer-badge">${v.badge}</div>` : ''}
-    </div>
-  `).join('');
-  
-  document.getElementById('volunteerCount').textContent = 
-    `Showing ${opp.volunteers.length} of ${opp.filledSpots} registered volunteers`;
-  
-  // Animate progress bar
-  setTimeout(() => {
-    document.querySelectorAll('.progress-fill[data-w]').forEach(el => {
-      el.style.width = el.getAttribute('data-w');
-    });
-  }, 200);
-}
-
-function toggleSignup() {
-  const btn = document.getElementById('signupBtn');
-  if (isSignedUp) {
-    if (confirm('Are you sure you want to cancel your signup?')) {
-      isSignedUp = false;
-      btn.textContent = '🚀 Sign Up Now';
-      btn.classList.remove('signed');
-      currentOpportunity.filledSpots--;
-      renderOpportunityDetails(currentOpportunity);
-      showToast('Signup cancelled');
-    }
-  } else {
-    isSignedUp = true;
-    btn.textContent = '✓ You\'re Signed Up!';
-    btn.classList.add('signed');
-    currentOpportunity.filledSpots++;
-    renderOpportunityDetails(currentOpportunity);
-    showToast('🎉 Successfully signed up! +' + currentOpportunity.xpReward + ' XP earned');
-  }
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// Get opportunity ID from URL
-const urlParams = new URLSearchParams(window.location.search);
-const oppId = urlParams.get('id') || 'river-cleanup';
-
-// Load opportunity
-const opp = OPPORTUNITIES_DB[oppId];
-if (opp) {
-  renderOpportunityDetails(opp);
-} else {
-  document.getElementById('opportunityHero').innerHTML = `
-    <div style="text-align:center;padding:3rem">
-      <div style="font-size:4rem;margin-bottom:1rem">🔍</div>
-      <h2 style="margin-bottom:1rem">Opportunity Not Found</h2>
-      <p style="color:var(--text2);margin-bottom:1.5rem">The opportunity you're looking for doesn't exist or has been removed.</p>
-      <a href="explore.html" class="btn-sm btn-primary">← Back to Explore</a>
-    </div>`;
-}
+function toggleSignup(){ if(isSignedUp){ if(confirm('Cancel your signup?')){ isSignedUp=false; currentOpportunity.filledSpots--; renderOpportunityDetails(currentOpportunity); showToast('❌ Signup cancelled'); } } else { isSignedUp=true; currentOpportunity.filledSpots++; renderOpportunityDetails(currentOpportunity); showToast(`🎉 Signed up! +${currentOpportunity.xpReward} XP earned`); } }
+function showToast(m){ let t=document.getElementById('toast'); t.innerHTML=`✅ ${m}`; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2800); }
+function updateHeaderUI(){ let a=document.getElementById('headerActions'),u=localStorage.getItem('currentUser'); if(u){ currentUser=JSON.parse(u); let n=currentUser.displayName||(currentUser.profile?.name||'Volunteer'),c=n.charAt(0).toUpperCase(),t=currentUser.accountType==='individual'?'Volunteer':'NGO'; a.innerHTML=`<div class="profile-section" id="profileSection"><div class="profile-avatar">${c}</div><div class="profile-info"><div class="profile-name">${n.split(' ')[0]}</div><div class="profile-type">${t}</div></div><i class="fas fa-chevron-down"></i><div class="profile-dropdown"><div class="dropdown-item" onclick="viewProfile()"><i class="fas fa-user-circle"></i> My Profile</div><div class="dropdown-item" onclick="window.location.href='badges.html'"><i class="fas fa-award"></i> My Badges</div><div class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sign Out</div></div></div>`; let p=document.getElementById('profileSection'); if(p){ p.addEventListener('click',(e)=>{ e.stopPropagation(); p.classList.toggle('active'); }); document.addEventListener('click',()=>{ p.classList.remove('active'); }); } } else { a.innerHTML=`<a href="notification.html" class="notif">🔔<div class="notif-dot"></div></a><a href="post.html" class="btn-sm">Post Need</a><a href="login.html" class="btn-sm">Log In</a><a href="signup.html" class="btn-sm btn-primary">Join Now</a>`; } }
+function viewProfile(){ if(currentUser){ let p=currentUser.profile; alert(`📋 Account Details\n\n${currentUser.accountType==='individual'?`Name: ${p.name}\nEmail: ${p.email}\nXP: ${p.xp||80}`:`Organization: ${p.name}\nEmail: ${p.email}`}`); showToast('Profile loaded'); } }
+function viewBadges(){ showToast('✨ Your Badges: Helper Hero, Seed Volunteer'); }
+function logout(){ localStorage.removeItem('currentUser'); currentUser=null; updateHeaderUI(); showToast('👋 Logged out'); setTimeout(()=>window.location.reload(),800); }
+const urlParams=new URLSearchParams(window.location.search), oppId=urlParams.get('id')||'river-cleanup', oppData=OPPORTUNITIES_DB[oppId];
+if(oppData) renderOpportunityDetails(oppData);
+else document.getElementById('opportunityHero').innerHTML=`<div style="text-align:center;padding:3rem"><div>🔍 Opportunity Not Found</div><a href="index.html" class="btn-sm btn-primary" style="margin-top:1rem">← Back to Explore</a></div>`;
+updateHeaderUI();
+window.addEventListener('scroll',()=>{ let h=document.querySelector('header'); if(window.scrollY>20)h.style.background='rgba(255,255,255,0.95)'; else h.style.background='rgba(255,255,255,0.9)'; });
 </script>
 </body>
 </html>

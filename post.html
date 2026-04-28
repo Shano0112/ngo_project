@@ -1,89 +1,584 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Post a Need - HelpingHands</title>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --emerald:#00C896;--emerald-dark:#00A07A;--emerald-glow:#00C89620;
-    --coral:#FF6B6B;--coral-glow:#FF6B6B20;
-    --amber:#FFB347;--amber-glow:#FFB34720;
-    --violet:#7C3AED;--violet-glow:#7C3AED15;
-    --navy:#0F1729;--navy2:#162040;--navy3:#1E2D52;
-    --slate:#8B9ABF;--slate2:#C4CEDE;
-    --white:#FFFFFF;--white80:rgba(255,255,255,0.8);--white10:rgba(255,255,255,0.07);--white05:rgba(255,255,255,0.04);
-    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
-    --text:#E8EDF8;--text2:#A8B4CC;
-    --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  body{font-family:'Satoshi',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden}
-  
-  .bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  .bg-mesh::before{content:'';position:absolute;top:-40%;left:-20%;width:80%;height:80%;background:radial-gradient(ellipse,rgba(0,200,150,0.07) 0%,transparent 70%)}
-  .bg-mesh::after{content:'';position:absolute;bottom:-30%;right:-15%;width:70%;height:70%;background:radial-gradient(ellipse,rgba(124,58,237,0.06) 0%,transparent 70%)}
-  .bg-dots{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:28px 28px}
 
-  .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
-  
-  header{padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:rgba(15,23,41,0.7);position:sticky;top:0;z-index:100}
-  .logo{display:flex;align-items:center;gap:10px;font-family:'Clash Display',sans-serif;font-weight:700;font-size:1.3rem;color:var(--white);text-decoration:none}
-  .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--emerald),#00E5B0);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(0,200,150,0.35)}
-  .logo span{color:var(--emerald)}
-  .header-actions{display:flex;align-items:center;gap:10px}
-  .btn-sm{padding:7px 16px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none}
-  .btn-sm:hover{background:rgba(255,255,255,0.12);color:var(--white)}
-  .btn-primary{background:linear-gradient(135deg,var(--emerald),#00E5B0);border-color:transparent;color:#003320;font-weight:700}
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
-  .notif{width:36px;height:36px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px}
-  .notif-dot{position:absolute;top:7px;right:8px;width:6px;height:6px;background:var(--coral);border-radius:50%;border:1.5px solid var(--navy)}
+  :root {
+    --primary: #0F4C3A;
+    --primary-light: #1A6B4F;
+    --primary-glow: rgba(15, 76, 58, 0.06);
+    --accent: #E85D3A;
+    --accent-glow: rgba(232, 93, 58, 0.06);
+    --gold: #D4A017;
+    --gold-glow: rgba(212, 160, 23, 0.08);
+    --purple: #5B4FA1;
+    --purple-glow: rgba(91, 79, 161, 0.05);
+    --bg: #F7F8FA;
+    --bg2: #FFFFFF;
+    --bg3: #EDEFF3;
+    --slate: #6B7280;
+    --slate2: #9CA3AF;
+    --white: #FFFFFF;
+    --text: #111827;
+    --text2: #4B5563;
+    --border: rgba(0, 0, 0, 0.06);
+    --border2: rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
+    --r8: 8px;
+    --r12: 12px;
+    --r16: 16px;
+    --r20: 20px;
+  }
 
-  nav{padding:0 2rem;border-bottom:1px solid var(--border);background:rgba(15,23,41,0.5);backdrop-filter:blur(10px);display:flex;gap:0;overflow-x:auto}
-  .tab{padding:16px 20px;font-size:13.5px;font-weight:500;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:7px;position:relative;text-decoration:none}
-  .tab:hover{color:var(--white80)}
-  .tab.active{color:var(--emerald);border-bottom-color:var(--emerald)}
-  .tab-icon{font-size:14px}
-  .urgent-tab{color:#FF6B6B !important}
-  .urgent-tab.active{color:#FF6B6B !important;border-bottom-color:#FF6B6B !important}
-  .urgent-pulse{width:7px;height:7px;background:#FF6B6B;border-radius:50%;animation:pulse 1.4s infinite}
-  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-  .badge-count{background:var(--coral);color:white;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:18px;text-align:center}
+  body {
+    font-family: 'Satoshi', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
-  main{flex:1;padding:2rem;max-width:900px;margin:0 auto;width:100%}
+  /* Background Effects */
+  .bg-mesh {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bg-mesh::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(ellipse, rgba(15, 76, 58, 0.03) 0%, transparent 70%);
+  }
+  .bg-mesh::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    right: -15%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(ellipse, rgba(91, 79, 161, 0.025) 0%, transparent 70%);
+  }
+  .bg-dots {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
 
-  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
-  .section-title{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:600;display:flex;align-items:center;gap:8px}
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes resultPopIn {
+    0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+    60% { opacity: 1; transform: translateY(-4px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
 
-  .post-form{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r16);padding:2rem;margin-bottom:2rem;animation:fadeUp .4s ease both}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .form-title{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-  .form-group{display:flex;flex-direction:column;gap:.4rem}
-  .form-group.full{grid-column:1/-1}
-  label{font-size:12.5px;font-weight:600;color:var(--text2)}
-  input,textarea,select{background:var(--navy3);border:1px solid var(--border2);border-radius:var(--r8);padding:10px 13px;color:var(--text);font-family:'Satoshi',sans-serif;font-size:14px;width:100%;outline:none;transition:border-color .2s}
-  input:focus,textarea:focus,select:focus{border-color:rgba(0,200,150,0.5)}
-  select option{background:var(--navy3)}
-  textarea{resize:vertical;min-height:90px}
-  .skill-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.4rem}
-  .skill-tag{padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--white10);font-size:12px;color:var(--text2);cursor:pointer;transition:all .2s}
-  .skill-tag.selected{background:rgba(0,200,150,0.15);border-color:rgba(0,200,150,0.4);color:var(--emerald)}
-  .urgency-toggle{display:flex;align-items:center;gap:12px}
-  .toggle{width:44px;height:24px;border-radius:12px;background:var(--border2);position:relative;cursor:pointer;transition:background .2s}
-  .toggle.on{background:var(--coral)}
-  .toggle-knob{width:18px;height:18px;border-radius:50%;background:white;position:absolute;top:3px;left:3px;transition:left .2s}
-  .toggle.on .toggle-knob{left:23px}
-  .form-actions{display:flex;justify-content:flex-end;gap:.75rem;margin-top:1.25rem}
-  .btn-post{padding:10px 28px;border-radius:var(--r8);border:none;background:linear-gradient(135deg,var(--emerald),#00E5B0);color:#003320;font-family:'Satoshi',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
-  .btn-post:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
+  .shell {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
-  .toast{position:fixed;bottom:2rem;right:2rem;background:linear-gradient(135deg,var(--emerald),#00E5B0);color:#003320;padding:12px 22px;border-radius:var(--r12);font-weight:700;font-size:14px;z-index:9999;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 8px 32px rgba(0,200,150,0.45);display:flex;align-items:center;gap:8px}
-  .toast.show{transform:translateY(0);opacity:1}
+  /* Header & Nav */
+  header {
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.9);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Clash Display', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(15, 76, 58, 0.2);
+    transition: transform 0.2s ease;
+  }
+  .logo:hover .logo-icon { transform: rotate(-5deg) scale(1.05); }
+  .logo span { color: var(--primary-light); }
+  .header-actions { display: flex; align-items: center; gap: 10px; }
+  .btn-sm {
+    padding: 7px 16px;
+    border-radius: var(--r8);
+    border: 1px solid var(--border2);
+    background: var(--white);
+    color: var(--text2);
+    font-family: 'Satoshi', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-sm:hover {
+    background: var(--bg3);
+    color: var(--text);
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-color: transparent;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(15, 76, 58, 0.25);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(15, 76, 58, 0.35);
+    color: #fff;
+  }
+  .notif {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--r8);
+    border: 1px solid var(--border2);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+  .notif:hover { background: var(--bg3); transform: scale(0.98); }
+  .notif-dot {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 1.5px solid #fff;
+  }
 
-  @media(max-width:768px){
-    .form-grid{grid-template-columns:1fr}
+  /* Profile Section */
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 4px 16px 4px 8px;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    border: 1px solid var(--border2);
+    position: relative;
+    animation: slideInRight 0.4s ease;
+  }
+  .profile-section:hover {
+    background: white;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  .profile-avatar {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(15, 76, 58, 0.2);
+  }
+  .profile-info {
+    text-align: left;
+  }
+  .profile-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .profile-type {
+    font-size: 10px;
+    color: var(--slate);
+    font-weight: 500;
+  }
+  .profile-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--white);
+    border-radius: var(--r12);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border);
+    min-width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.25s ease;
+    z-index: 200;
+    overflow: hidden;
+  }
+  .profile-section.active .profile-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .dropdown-item {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+  }
+  .dropdown-item:last-child { border-bottom: none; }
+  .dropdown-item:hover { background: var(--bg3); color: var(--primary); }
+  .dropdown-item i { width: 20px; color: var(--primary-light); }
+
+  nav {
+    padding: 0 2rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    box-shadow: var(--shadow-sm);
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 16px 20px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--slate);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+  }
+  .tab:hover { color: var(--text); transform: translateY(-1px); }
+  .tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    font-weight: 600;
+  }
+  .badge-count {
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 20px;
+    min-width: 18px;
+    text-align: center;
+  }
+  .urgent-pulse {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.4s infinite;
+    display: inline-block;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .section-title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+  }
+
+  /* Form Cards */
+  .post-form {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--r16);
+    padding: 1.75rem;
+    margin-bottom: 2rem;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s;
+    animation: resultPopIn .5s ease both;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+  .post-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 8px;
+    right: 8px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(15, 76, 58, 0.5) 20%, rgba(26, 107, 79, 0.6) 50%, rgba(15, 76, 58, 0.5) 80%, transparent 100%);
+    border-radius: 0 0 4px 4px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .post-form:hover {
+    transform: translateY(-4px);
+    border-color: rgba(15, 76, 58, 0.18);
+    box-shadow: var(--shadow-lg);
+    background: #fcfdfc;
+  }
+  .post-form:hover::before { opacity: 1; left: 0; right: 0; }
+
+  .form-title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .form-group.full {
+    grid-column: 1 / -1;
+  }
+  label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text2);
+  }
+  input, textarea, select {
+    background: var(--white);
+    border: 1px solid var(--border2);
+    border-radius: var(--r8);
+    padding: 10px 13px;
+    color: var(--text);
+    font-family: 'Satoshi', sans-serif;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 2px rgba(15, 76, 58, 0.1);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .skill-tag {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: var(--bg);
+    font-size: 12px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .skill-tag:hover {
+    background: var(--bg3);
+    transform: translateY(-1px);
+  }
+  .skill-tag.selected {
+    background: rgba(15, 76, 58, 0.08);
+    border-color: rgba(15, 76, 58, 0.3);
+    color: var(--primary);
+    font-weight: 500;
+  }
+
+  /* Toggle Switch (urgent) */
+  .urgency-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .toggle {
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--border2);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle.on {
+    background: var(--accent);
+  }
+  .toggle-knob {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: left 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .toggle.on .toggle-knob {
+    left: 23px;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  .btn-post {
+    padding: 10px 28px;
+    border-radius: var(--r8);
+    border: none;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    font-family: 'Satoshi', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 2px 8px rgba(15, 76, 58, 0.2);
+  }
+  .btn-post:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(15, 76, 58, 0.4);
+  }
+  .btn-post:active {
+    transform: translateY(1px);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #fff;
+    color: var(--primary);
+    padding: 12px 22px;
+    border-radius: var(--r12);
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 9999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+  }
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+    main {
+      padding: 1rem;
+    }
+    header, nav {
+      padding: 0 1rem;
+    }
   }
 </style>
 </head>
@@ -97,10 +592,8 @@
     <div class="logo-icon">🌱</div>
     Helping<span>Hands</span>
   </a>
-  <div class="header-actions">
-    <div class="notif" title="Notifications"><a href="notification.html"> 🔔</a><div class="notif-dot"></div></div>
-    <a href="post.html" class="btn-sm">Post Need</a>
-    <a href="#" class="btn-sm btn-primary">Join Now</a>
+  <div class="header-actions" id="headerActions">
+    <!-- Dynamic content injected here -->
   </div>
 </header>
 
@@ -109,7 +602,6 @@
   <a href="urgent.html" class="tab urgent-tab"><span class="tab-icon"><span class="urgent-pulse"></span></span>Urgent<span class="badge-count">4</span></a>
   <a href="individual.html" class="tab"><span class="tab-icon">🤝</span>Individuals</a>
   <a href="leaderboard.html" class="tab"><span class="tab-icon">🏆</span>Leaderboard</a>
-  <a href="badges.html" class="tab"><span class="tab-icon">🎖️</span>My Badges</a>
   <a href="post.html" class="tab active"><span class="tab-icon">✍️</span>Post Need</a>
 </nav>
 
@@ -121,31 +613,37 @@
   <div class="post-form">
     <div class="form-title">📋 NGO Opportunity Listing</div>
     <div class="form-grid">
-      <div class="form-group"><label>Organization Name</label><input type="text" placeholder="e.g. GreenEarth Foundation"></div>
-      <div class="form-group"><label>Category</label><select><option>🌿 Environment</option><option>🏥 Healthcare</option><option>📚 Education</option><option>🏠 Shelter & Housing</option><option>💻 Technology</option><option>🐾 Animals</option><option>🎨 Arts & Culture</option></select></div>
-      <div class="form-group full"><label>Opportunity Title</label><input type="text" placeholder="What volunteers will be doing..."></div>
-      <div class="form-group full"><label>Description</label><textarea placeholder="Describe the role, responsibilities, and expected impact..."></textarea></div>
-      <div class="form-group"><label>Location</label><input type="text" placeholder="City or 'Remote'"></div>
-      <div class="form-group"><label>Volunteers Needed</label><input type="number" min="1" value="10"></div>
-      <div class="form-group"><label>Date / Duration</label><input type="text" placeholder="e.g. Apr 22 · 6 hours"></div>
+      <div class="form-group"><label>Organization Name</label><input type="text" id="ngoName" placeholder="e.g. GreenEarth Foundation"></div>
+      <div class="form-group"><label>Category</label>
+        <select id="category">
+          <option value="env">🌿 Environment</option><option value="med">🏥 Healthcare</option><option value="edu">📚 Education</option>
+          <option value="shelter">🏠 Shelter & Housing</option><option value="tech">💻 Technology</option><option value="animal">🐾 Animals</option>
+          <option value="other">🎨 Arts & Culture</option>
+        </select>
+      </div>
+      <div class="form-group full"><label>Opportunity Title</label><input type="text" id="title" placeholder="What volunteers will be doing..."></div>
+      <div class="form-group full"><label>Description</label><textarea id="desc" placeholder="Describe the role, responsibilities, and expected impact..."></textarea></div>
+      <div class="form-group"><label>Location</label><input type="text" id="location" placeholder="City or 'Remote'"></div>
+      <div class="form-group"><label>Volunteers Needed</label><input type="number" id="spotsNeeded" min="1" value="10"></div>
+      <div class="form-group"><label>Date / Duration</label><input type="text" id="date" placeholder="e.g. Apr 22 · 6 hours"></div>
       <div class="form-group"><label>Urgency</label>
         <div class="urgency-toggle" style="margin-top:.4rem">
-          <div class="toggle" id="urgToggle1" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
-          <span style="font-size:13.5px;color:var(--text2)">Mark as Urgent / Crisis</span>
+          <div class="toggle" id="urgToggle" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+          <span style="font-size:13px; color:var(--text2)">Mark as Urgent / Crisis</span>
         </div>
       </div>
       <div class="form-group full"><label>Skills Required</label>
-        <div class="skill-tags">
-          <div class="skill-tag" onclick="this.classList.toggle('selected')">First Aid</div>
-          <div class="skill-tag" onclick="this.classList.toggle('selected')">Teaching</div>
-          <div class="skill-tag" onclick="this.classList.toggle('selected')">Programming</div>
-          <div class="skill-tag" onclick="this.classList.toggle('selected')">Photography</div>
-          <div class="skill-tag" onclick="this.classList.toggle('selected')">Logistics</div>
-          <div class="skill-tag" onclick="this.classList.toggle('selected')">Fundraising</div>
-          <div class="skill-tag" onclick="this.classList.toggle('selected')">Counseling</div>
-          <div class="skill-tag" onclick="this.classList.toggle('selected')">Translation</div>
-          <div class="skill-tag" onclick="this.classList.toggle('selected')">Driving</div>
-          <div class="skill-tag" onclick="this.classList.toggle('selected')">Construction</div>
+        <div class="skill-tags" id="skillTags">
+          <div class="skill-tag" data-skill="First Aid">First Aid</div>
+          <div class="skill-tag" data-skill="Teaching">Teaching</div>
+          <div class="skill-tag" data-skill="Programming">Programming</div>
+          <div class="skill-tag" data-skill="Photography">Photography</div>
+          <div class="skill-tag" data-skill="Logistics">Logistics</div>
+          <div class="skill-tag" data-skill="Fundraising">Fundraising</div>
+          <div class="skill-tag" data-skill="Counseling">Counseling</div>
+          <div class="skill-tag" data-skill="Translation">Translation</div>
+          <div class="skill-tag" data-skill="Driving">Driving</div>
+          <div class="skill-tag" data-skill="Construction">Construction</div>
         </div>
       </div>
     </div>
@@ -158,29 +656,165 @@
   <div class="post-form" style="animation-delay:.1s">
     <div class="form-title">🤝 Post Individual Help Request</div>
     <div class="form-grid">
-      <div class="form-group full"><label>What do you need help with?</label><textarea placeholder="Describe your situation and how volunteers can help you..."></textarea></div>
-      <div class="form-group"><label>Your Location</label><input type="text" placeholder="City / Area"></div>
-      <div class="form-group"><label>When do you need help?</label><input type="text" placeholder="Date or ASAP"></div>
+      <div class="form-group full"><label>What do you need help with?</label><textarea id="individualDesc" placeholder="Describe your situation and how volunteers can help you..."></textarea></div>
+      <div class="form-group"><label>Your Location</label><input type="text" id="individualLoc" placeholder="City / Area"></div>
+      <div class="form-group"><label>When do you need help?</label><input type="text" id="individualDate" placeholder="Date or ASAP"></div>
     </div>
-    <div class="form-actions"><button class="btn-post" onclick="handlePost()">🤝 Submit Request</button></div>
+    <div class="form-actions"><button class="btn-post" onclick="handleIndividualPost()">🤝 Submit Request</button></div>
   </div>
 </main>
-
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-function handlePost(){
-  showToast('🚀 Published! Your listing is now live.');
+let currentUser = null;
+
+function handlePost() {
+  const ngoName = document.getElementById('ngoName').value.trim();
+  const title = document.getElementById('title').value.trim();
+  const desc = document.getElementById('desc').value.trim();
+  const location = document.getElementById('location').value.trim();
+  const spots = document.getElementById('spotsNeeded').value;
+  const date = document.getElementById('date').value.trim();
+  const category = document.getElementById('category').value;
+  const isUrgent = document.getElementById('urgToggle').classList.contains('on');
+  
+  if (!ngoName || !title || !desc || !location || !date) {
+    showToast('⚠️ Please fill all required fields', true);
+    return;
+  }
+  
+  // Get selected skills
+  const selectedSkills = [];
+  document.querySelectorAll('#skillTags .skill-tag.selected').forEach(tag => {
+    selectedSkills.push(tag.getAttribute('data-skill') || tag.textContent);
+  });
+  
+  showToast('🚀 Published! Your listing is now live.', false);
+  
+  // Reset form
+  document.getElementById('ngoName').value = '';
+  document.getElementById('title').value = '';
+  document.getElementById('desc').value = '';
+  document.getElementById('location').value = '';
+  document.getElementById('date').value = '';
+  document.getElementById('urgToggle').classList.remove('on');
+  document.querySelectorAll('#skillTags .skill-tag.selected').forEach(tag => tag.classList.remove('selected'));
 }
 
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+function handleIndividualPost() {
+  const desc = document.getElementById('individualDesc').value.trim();
+  const loc = document.getElementById('individualLoc').value.trim();
+  const date = document.getElementById('individualDate').value.trim();
+  
+  if (!desc || !loc || !date) {
+    showToast('⚠️ Please fill all fields', true);
+    return;
+  }
+  
+  showToast('🤝 Request submitted! Volunteers will see your need.', false);
+  
+  document.getElementById('individualDesc').value = '';
+  document.getElementById('individualLoc').value = '';
+  document.getElementById('individualDate').value = '';
 }
+
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.innerHTML = isError ? `⚠️ ${msg}` : `✅ ${msg}`;
+  t.classList.add('show');
+  clearTimeout(t._to);
+  t._to = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Profile & Auth Functions
+function updateHeaderUI() {
+  const actionsDiv = document.getElementById('headerActions');
+  const storedUser = localStorage.getItem('currentUser');
+  
+  if (storedUser) {
+    currentUser = JSON.parse(storedUser);
+    const displayName = currentUser.displayName || (currentUser.profile?.name || 'Volunteer');
+    const firstChar = displayName.charAt(0).toUpperCase();
+    const accountType = currentUser.accountType === 'individual' ? 'Volunteer' : 'NGO';
+    
+    actionsDiv.innerHTML = `
+      <div class="notif" onclick="window.location.href='notifiaction.html'">🔔<div class="notif-dot"></div></div>
+      <div class="profile-section" id="profileSection">
+        <div class="profile-avatar">${firstChar}</div>
+        <div class="profile-info">
+          <div class="profile-name">${displayName.split(' ')[0]}</div>
+          <div class="profile-type">${accountType}</div>
+        </div>
+        <i class="fas fa-chevron-down" style="font-size:10px; color:var(--slate); transition:transform 0.2s"></i>
+        <div class="profile-dropdown">
+          <div class="dropdown-item" onclick="viewProfile()"><i class="fas fa-user-circle"></i> My Profile</div>
+          <div class="dropdown-item" onclick="window.location.href='badges.html'"><i class="fas fa-award"></i> My Badges</div>
+          <div class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sign Out</div>
+        </div>
+      </div>
+    `;
+    
+    const profileSection = document.getElementById('profileSection');
+    if (profileSection) {
+      profileSection.addEventListener('click', (e) => { 
+        e.stopPropagation(); 
+        profileSection.classList.toggle('active'); 
+      });
+      document.addEventListener('click', () => { 
+        profileSection.classList.remove('active'); 
+      });
+    }
+  } else {
+    actionsDiv.innerHTML = `
+      <div class="notif">🔔<div class="notif-dot"></div></div>
+      <a href="post.html" class="btn-sm">Post Need</a>
+      <a href="login.html" class="btn-sm">Log In</a>
+      <a href="signup.html" class="btn-sm btn-primary">Join Now</a>
+    `;
+  }
+}
+
+function viewProfile() {
+  if (!currentUser) return;
+  const profile = currentUser.profile;
+  const details = currentUser.accountType === 'individual' ? 
+    `Name: ${profile.name}\nEmail: ${profile.email}\nGender: ${profile.gender || 'N/A'}\nAddress: ${profile.address || 'N/A'}\nXP: ${profile.xp || 80}\nBadges: ${(profile.badges || ['🌱 New Changemaker']).join(', ')}` :
+    `Organization: ${profile.name}\nEmail: ${profile.email}\nAddress: ${profile.address || 'N/A'}\nStatus: ${profile.verifiedStatus === 'verified' ? '✓ Verified' : '⏳ Pending Verification'}`;
+  alert(`📋 Account Details\n\n${details}`);
+  showToast('Profile loaded');
+}
+
+function viewBadges() { 
+  showToast('✨ Your Badges: Community Builder, Seed Volunteer'); 
+}
+
+function logout() { 
+  localStorage.removeItem('currentUser'); 
+  currentUser = null; 
+  updateHeaderUI(); 
+  showToast('👋 Logged out successfully'); 
+  setTimeout(() => window.location.reload(), 800); 
+}
+
+// Skill tag click handlers
+document.querySelectorAll('.skill-tag').forEach(tag => {
+  tag.addEventListener('click', function(e) {
+    e.stopPropagation();
+    this.classList.toggle('selected');
+  });
+});
+
+// Initialize
+updateHeaderUI();
+
+// Header scroll effect
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('header');
+  if (window.scrollY > 20) header.style.background = 'rgba(255, 255, 255, 0.95)';
+  else header.style.background = 'rgba(255, 255, 255, 0.9)';
+});
 </script>
 </body>
 </html>

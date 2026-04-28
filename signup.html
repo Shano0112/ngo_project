@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>HelpingHands — Secure Signup | Individual & NGO</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --mint: #34D399;
+  --mint-mid: #10B981;
+  --mint-deep: #059669;
+  --mint-pale: #D1FAE5;
+  --mint-glow: rgba(52, 211, 153, 0.25);
+  --bg: #F5FAF7;
+  --bg2: #EDFAF3;
+  --surface: #FFFFFF;
+  --ink: #0C1E15;
+  --ink2: #2D5240;
+  --ink3: #5A8A72;
+  --ink4: #8BB8A0;
+  --coral: #F87171;
+  --amber: #F59E0B;
+  --border: rgba(16, 185, 129, 0.14);
+  --border2: rgba(16, 185, 129, 0.22);
+  --shadow-sm: 0 1px 4px rgba(12,30,21,0.06);
+  --shadow-md: 0 12px 28px rgba(12,30,21,0.08);
+  --shadow-lg: 0 25px 45px -12px rgba(12,30,21,0.2);
+  --shadow-glow: 0 0 28px rgba(52,211,153,0.25);
+  --r14: 14px; --r18: 18px; --r24: 24px; --r32: 32px;
+  --ease-spring: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-smooth: cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* background orbs + grid */
+.bg-layer {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.bg-orb {
+  position: absolute; border-radius: 50%; filter: blur(90px);
+  animation: floatOrb 20s infinite alternate ease-in-out;
+}
+.bg-orb-1 { width: 700px; height: 700px; top: -300px; right: -200px; background: radial-gradient(circle, rgba(52,211,153,0.2), transparent 70%); }
+.bg-orb-2 { width: 550px; height: 550px; bottom: -250px; left: -150px; background: radial-gradient(circle, rgba(16,185,129,0.12), transparent 70%); animation-delay: -5s; }
+.bg-orb-3 { width: 400px; height: 400px; top: 40%; left: 20%; background: radial-gradient(circle, rgba(52,211,153,0.08), transparent 70%); animation-delay: -10s; }
+@keyframes floatOrb {
+  0% { transform: translate(0,0) scale(1); }
+  100% { transform: translate(50px, 30px) scale(1.08); }
+}
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0;
+  background-image: linear-gradient(rgba(16,185,129,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,0.045) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none;
+}
+
+/* floating particles */
+.particles {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+}
+.particle {
+  position: absolute;
+  background: var(--mint);
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: particleDrift 14s infinite linear;
+}
+@keyframes particleDrift {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.5; }
+  90% { opacity: 0.2; }
+  100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+.shell { position: relative; z-index: 5; display: flex; flex-direction: column; min-height: 100vh; }
+
+/* header */
+header {
+  height: 70px;
+  padding: 0 max(2rem, calc((100% - 1280px)/2 + 2rem));
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(245,250,247,0.82);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+  font-family: 'Fraunces', serif;
+  font-weight: 700; font-size: 1.4rem;
+  color: var(--ink);
+}
+.logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--mint), var(--mint-mid));
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(52,211,153,0.4);
+  transition: transform 0.2s var(--ease-spring);
+}
+.logo:hover .logo-icon { transform: rotate(-6deg) scale(1.05); }
+.logo em { color: var(--mint-deep); font-style: normal; }
+.btn-ghost, .btn-cta {
+  padding: 8px 20px; border-radius: 40px;
+  font-weight: 500; font-size: 13px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-ghost {
+  border: 1.5px solid var(--border2);
+  background: transparent;
+  color: var(--ink2);
+}
+.btn-ghost:hover { border-color: var(--mint-mid); background: var(--mint-glow2); color: var(--mint-deep); transform: translateY(-1px); }
+.btn-cta {
+  background: linear-gradient(135deg, var(--mint), var(--mint-mid));
+  color: white;
+  box-shadow: 0 4px 12px rgba(52,211,153,0.4);
+}
+.btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(52,211,153,0.5); }
+
+/* main container */
+main {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+/* flip card container - smooth, no lag */
+.flip-container {
+  perspective: 1500px;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.flipper {
+  position: relative;
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+.flipper.flipped {
+  transform: rotateY(180deg);
+}
+.front, .back {
+  backface-visibility: hidden;
+  background: var(--surface);
+  border-radius: var(--r32);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  width: 100%;
+}
+.front {
+  transform: rotateY(0deg);
+}
+.back {
+  transform: rotateY(180deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.panel-inner {
+  padding: 2rem 2rem 2.2rem;
+}
+@media (max-width: 680px) {
+  .panel-inner { padding: 1.5rem; }
+}
+
+/* role toggles */
+.role-switch {
+  background: var(--bg2);
+  border-radius: 100px;
+  display: flex;
+  margin-bottom: 2rem;
+  padding: 6px;
+  gap: 6px;
+  border: 1px solid var(--border);
+}
+.role-btn {
+  flex: 1;
+  text-align: center;
+  padding: 12px 10px;
+  font-weight: 700;
+  border-radius: 60px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-spring);
+  background: transparent;
+  color: var(--ink3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+.role-btn i { font-size: 1.1rem; }
+.role-btn.active {
+  background: var(--surface);
+  color: var(--mint-deep);
+  box-shadow: var(--shadow-sm);
+  transform: scale(0.98);
+}
+.role-btn:not(.active):hover {
+  background: var(--mint-glow2);
+  color: var(--mint-mid);
+  transform: translateY(-1px);
+}
+
+/* form styles */
+.input-group {
+  margin-bottom: 1.4rem;
+}
+.input-group label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink2);
+  margin-bottom: 6px;
+}
+.icon-input {
+  position: relative;
+}
+.icon-input i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink4);
+  font-size: 1rem;
+  pointer-events: none;
+}
+.icon-input input, .icon-input textarea, .icon-input select {
+  width: 100%;
+  padding: 13px 16px 13px 44px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  border-radius: 20px;
+  border: 1.5px solid var(--border2);
+  background: var(--surface);
+  transition: all 0.2s;
+  outline: none;
+}
+.icon-input textarea {
+  padding-top: 13px;
+  resize: vertical;
+  min-height: 85px;
+}
+.icon-input input:focus, .icon-input textarea:focus {
+  border-color: var(--mint-mid);
+  box-shadow: 0 0 0 3px var(--mint-glow);
+}
+
+/* password field with toggle */
+.password-wrapper {
+  position: relative;
+}
+.password-wrapper i.toggle-pw {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--ink4);
+  z-index: 10;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+.password-wrapper i.toggle-pw:hover { color: var(--mint-mid); }
+
+/* gender chips */
+.gender-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+.gender-chip {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.gender-chip.active {
+  background: linear-gradient(135deg, var(--mint), var(--mint-mid));
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 6px 12px rgba(52,211,153,0.3);
+  transform: scale(1.02);
+}
+.gender-chip:hover { transform: translateY(-2px); background: var(--mint-pale); }
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 60px;
+  background: linear-gradient(125deg, var(--mint), var(--mint-mid));
+  border: none;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.25s;
+  margin-top: 0.8rem;
+  box-shadow: 0 6px 16px rgba(52,211,153,0.4);
+}
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(52,211,153,0.5); letter-spacing: 0.3px; }
+.flip-hint {
+  text-align: center;
+  margin-top: 1.2rem;
+  font-size: 0.8rem;
+}
+.flip-link {
+  color: var(--mint-deep);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+.flip-link:hover { opacity: 0.75; }
+.terms-note {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--ink4);
+  margin-top: 1.4rem;
+}
+/* toast */
+.toast-notify {
+  position: fixed; bottom: 2rem; right: 2rem;
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  border-left: 5px solid var(--mint-mid);
+  box-shadow: var(--shadow-lg);
+  padding: 0.9rem 1.8rem;
+  border-radius: 60px;
+  font-weight: 600;
+  z-index: 1000;
+  transform: translateX(150%);
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.toast-notify.show { transform: translateX(0); }
+.toast-notify i { font-size: 1.3rem; color: var(--mint-mid); }
+
+/* micro pulse */
+.pulse-click { animation: microPulse 0.25s ease-out; }
+@keyframes microPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+</div>
+<div class="bg-grid"></div>
+<div class="particles" id="particlesContainer"></div>
+
+<div class="shell">
+  <header>
+    <a href="index.html" class="logo"><div class="logo-icon">🌱</div>Helping<em>Hands</em></a>
+    <div class="header-actions">
+      <a href="login.html" class="btn-ghost"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+      <!-- <a href="#" class="btn-cta"><i class="fas fa-hand-sparkles"></i> Join Now</a> -->
+    </div>
+  </header>
+
+  <main>
+    <div class="flip-container">
+      <div class="flipper" id="flipper">
+        <!-- Front: Individual Form -->
+        <div class="front">
+          <div class="panel-inner">
+            <div class="role-switch" id="frontRoleSwitch">
+              <div class="role-btn active" data-role="individual"><i class="fas fa-user-astronaut"></i> Individual</div>
+              <div class="role-btn" data-role="ngo"><i class="fas fa-seedling"></i> NGO</div>
+            </div>
+            <form id="individualSignupForm">
+              <div class="input-group">
+                <label><i class="far fa-user"></i> Full Name</label>
+                <div class="icon-input"><i class="fas fa-user-circle"></i><input type="text" id="indName" placeholder="Alex Johnson / Priya Mehta" autocomplete="off"></div>
+              </div>
+              <div class="input-group">
+                <label><i class="far fa-envelope"></i> Email Address</label>
+                <div class="icon-input"><i class="fas fa-envelope"></i><input type="email" id="indEmail" placeholder="hello@volunteer.com"></div>
+              </div>
+              <div class="input-group">
+                <label><i class="fas fa-lock"></i> Password</label>
+                <div class="icon-input password-wrapper">
+                  <i class="fas fa-key"></i>
+                  <input type="password" id="indPassword" placeholder="Create a strong password">
+                  <i class="fas fa-eye-slash toggle-pw" id="toggleIndPassword"></i>
+                </div>
+              </div>
+              <div class="input-group">
+                <label><i class="fas fa-venus-mars"></i> Gender</label>
+                <div class="gender-chips" id="genderChips">
+                  <div class="gender-chip" data-gender="Male">♂️ Male</div>
+                  <div class="gender-chip" data-gender="Female">♀️ Female</div>
+                  <div class="gender-chip" data-gender="Non-binary">🌈 Non-binary</div>
+                  <div class="gender-chip" data-gender="Prefer not to say">🤫 Prefer not to say</div>
+                </div>
+                <input type="hidden" id="selectedGenderValue">
+              </div>
+              <div class="input-group">
+                <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                <div class="icon-input"><i class="fas fa-location-dot"></i><textarea id="indAddress" rows="2" placeholder="Street, city, postal code ..."></textarea></div>
+              </div>
+              <button type="submit" class="submit-btn" id="submitIndividualBtn"><span>✨</span> Start Volunteering <i class="fas fa-arrow-right"></i></button>
+            </form>
+            <div class="flip-hint">🌍 Representing an organization? <span class="flip-link" id="flipToNgoTrigger">Switch to NGO signup →</span></div>
+            <div class="terms-note">By joining, you agree to our <a href="#">Community Guidelines</a> & <a href="#">Impact Pledge</a>.</div>
+          </div>
+        </div>
+
+        <!-- Back: NGO Form -->
+        <div class="back">
+          <div class="panel-inner">
+            <div class="role-switch" id="backRoleSwitch">
+              <div class="role-btn" data-role="individual"><i class="fas fa-user-friends"></i> Individual</div>
+              <div class="role-btn active" data-role="ngo"><i class="fas fa-hand-holding-heart"></i> NGO</div>
+            </div>
+            <form id="ngoSignupForm">
+              <div class="input-group">
+                <label><i class="fas fa-building"></i> Organization Name</label>
+                <div class="icon-input"><i class="fas fa-globe"></i><input type="text" id="ngoName" placeholder="GreenFuture Foundation / Care India Trust"></div>
+              </div>
+              <div class="input-group">
+                <label><i class="fas fa-address-card"></i> Organization Address</label>
+                <div class="icon-input"><i class="fas fa-map-pin"></i><textarea id="ngoAddress" rows="2" placeholder="Full address, city, state, country"></textarea></div>
+              </div>
+              <div class="input-group">
+                <label><i class="far fa-paper-plane"></i> Official NGO Email</label>
+                <div class="icon-input"><i class="fas fa-inbox"></i><input type="email" id="ngoEmail" placeholder="contact@ngo.org"></div>
+              </div>
+              <div class="input-group">
+                <label><i class="fas fa-lock"></i> Password</label>
+                <div class="icon-input password-wrapper">
+                  <i class="fas fa-key"></i>
+                  <input type="password" id="ngoPassword" placeholder="Create a secure password">
+                  <i class="fas fa-eye-slash toggle-pw" id="toggleNgoPassword"></i>
+                </div>
+              </div>
+              <button type="submit" class="submit-btn" id="submitNgoBtn"><span>🌟</span> Register NGO & Make Impact</button>
+            </form>
+            <div class="flip-hint">🤝 Want to volunteer as an individual? <span class="flip-link" id="flipToIndividualTrigger">Back to Individual signup →</span></div>
+            <div class="terms-note">NGO accounts get verified badge & ability to post opportunities.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast-notify" id="globalToast"><i class="fas fa-leaf"></i> <span id="toastMessage">Welcome!</span></div>
+
+<script>
+  // Particles animation
+  function initParticles() {
+    const container = document.getElementById('particlesContainer');
+    for(let i=0; i<55; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      const size = Math.random() * 6 + 2;
+      p.style.width = size+'px';
+      p.style.height = size+'px';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = 9 + Math.random() * 14 + 's';
+      p.style.animationDelay = Math.random() * 8 + 's';
+      p.style.background = `rgba(52,211,153,${0.2+Math.random()*0.3})`;
+      container.appendChild(p);
+    }
+  }
+  initParticles();
+
+  // Password visibility toggles
+  function setupPasswordToggle(inputId, toggleId) {
+    const input = document.getElementById(inputId);
+    const toggle = document.getElementById(toggleId);
+    if(!input || !toggle) return;
+    toggle.addEventListener('click', () => {
+      const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+      input.setAttribute('type', type);
+      toggle.classList.toggle('fa-eye');
+      toggle.classList.toggle('fa-eye-slash');
+    });
+  }
+  setupPasswordToggle('indPassword', 'toggleIndPassword');
+  setupPasswordToggle('ngoPassword', 'toggleNgoPassword');
+
+  // Smooth Flip Logic
+  const flipper = document.getElementById('flipper');
+  const flipToNgo = document.getElementById('flipToNgoTrigger');
+  const flipToIndividual = document.getElementById('flipToIndividualTrigger');
+  
+  function flipToNgoSide() { if(!flipper.classList.contains('flipped')) flipper.classList.add('flipped'); }
+  function flipToIndividualSide() { if(flipper.classList.contains('flipped')) flipper.classList.remove('flipped'); }
+  flipToNgo.addEventListener('click', flipToNgoSide);
+  flipToIndividual.addEventListener('click', flipToIndividualSide);
+  
+  const frontRoles = document.querySelectorAll('#frontRoleSwitch .role-btn');
+  const backRoles = document.querySelectorAll('#backRoleSwitch .role-btn');
+  
+  frontRoles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const role = btn.getAttribute('data-role');
+      if(role === 'ngo') flipToNgoSide();
+      else flipToIndividualSide();
+      frontRoles.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+  backRoles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const role = btn.getAttribute('data-role');
+      if(role === 'individual') flipToIndividualSide();
+      else flipToNgoSide();
+      backRoles.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  function showToast(message, isError = false) {
+    const toastEl = document.getElementById('globalToast');
+    const msgSpan = document.getElementById('toastMessage');
+    msgSpan.innerText = message;
+    toastEl.classList.add('show');
+    if(isError) {
+      toastEl.style.borderLeftColor = '#F87171';
+      toastEl.querySelector('i').style.color = '#F87171';
+    } else {
+      toastEl.style.borderLeftColor = '#10B981';
+      toastEl.querySelector('i').style.color = '#10B981';
+    }
+    setTimeout(() => {
+      toastEl.classList.remove('show');
+      setTimeout(() => {
+        toastEl.style.borderLeftColor = '#10B981';
+        toastEl.querySelector('i').style.color = '#10B981';
+      }, 200);
+    }, 3200);
+  }
+
+  function addPulse(el) { el.classList.add('pulse-click'); setTimeout(() => el.classList.remove('pulse-click'), 250); }
+
+  // Gender chip interaction
+  const genderChips = document.querySelectorAll('.gender-chip');
+  let selectedGender = '';
+  genderChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      genderChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedGender = chip.getAttribute('data-gender');
+      document.getElementById('selectedGenderValue').value = selectedGender;
+      addPulse(chip);
+    });
+  });
+
+  // LocalStorage helpers
+  function getStoredUsers() { return JSON.parse(localStorage.getItem('helpinghands_users') || '[]'); }
+  function storeUser(userObj) {
+    const users = getStoredUsers();
+    const duplicate = users.some(u => u.email === userObj.email && u.accountType === userObj.accountType);
+    if(duplicate) throw new Error(`An account with email ${userObj.email} already exists.`);
+    users.push(userObj);
+    localStorage.setItem('helpinghands_users', JSON.stringify(users));
+    return true;
+  }
+
+  // INDIVIDUAL SUBMIT with password
+  const indForm = document.getElementById('individualSignupForm');
+  const indSubmitBtn = document.getElementById('submitIndividualBtn');
+  indForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('indName').value.trim();
+    const email = document.getElementById('indEmail').value.trim();
+    const password = document.getElementById('indPassword').value;
+    const address = document.getElementById('indAddress').value.trim();
+    if(!name || !email || !password || !address || !selectedGender) {
+      showToast('Please fill all fields and select gender', true);
+      return;
+    }
+    if(password.length < 6) {
+      showToast('Password must be at least 6 characters', true);
+      return;
+    }
+    if(!email.includes('@') || email.split('@')[1]?.length < 3) {
+      showToast('Enter a valid email address', true);
+      return;
+    }
+    const individualData = {
+      accountType: 'individual',
+      fullName: name,
+      email: email,
+      password: btoa(password), // simple encoding (demo)
+      gender: selectedGender,
+      address: address,
+      joinedAt: new Date().toISOString(),
+      xpEarned: 80,
+      badges: ['🌱 New Changemaker']
+    };
+    try {
+      storeUser(individualData);
+      showToast(`🎉 Welcome, ${name}! Your impact journey starts now. +80 XP`, false);
+      indForm.reset();
+      genderChips.forEach(c => c.classList.remove('active'));
+      selectedGender = '';
+      document.getElementById('selectedGenderValue').value = '';
+      document.getElementById('indPassword').value = '';
+      setTimeout(() => {
+        if(confirm('✨ Amazing! Ready to explore volunteer opportunities?')) {
+          window.location.href = 'index.html';
+        }
+      }, 400);
+    } catch(err) {
+      showToast(err.message, true);
+    }
+    addPulse(indSubmitBtn);
+  });
+
+  // NGO SUBMIT with password
+  const ngoForm = document.getElementById('ngoSignupForm');
+  const ngoSubmitBtn = document.getElementById('submitNgoBtn');
+  ngoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const orgName = document.getElementById('ngoName').value.trim();
+    const orgAddress = document.getElementById('ngoAddress').value.trim();
+    const orgEmail = document.getElementById('ngoEmail').value.trim();
+    const password = document.getElementById('ngoPassword').value;
+    if(!orgName || !orgAddress || !orgEmail || !password) {
+      showToast('Please complete all NGO fields', true);
+      return;
+    }
+    if(password.length < 6) {
+      showToast('Password must be at least 6 characters', true);
+      return;
+    }
+    if(!orgEmail.includes('@') || orgEmail.split('@')[1]?.indexOf('.') === -1) {
+      showToast('Please provide a valid organization email', true);
+      return;
+    }
+    const ngoData = {
+      accountType: 'ngo',
+      organizationName: orgName,
+      address: orgAddress,
+      email: orgEmail,
+      password: btoa(password), // simple encoding (demo)
+      joinedAt: new Date().toISOString(),
+      verifiedStatus: 'pending_verification',
+      totalOpportunities: 0
+    };
+    try {
+      storeUser(ngoData);
+      showToast(`🏢 ${orgName} successfully registered! Our team will verify soon.`, false);
+      ngoForm.reset();
+      document.getElementById('ngoPassword').value = '';
+      setTimeout(() => {
+        if(confirm('🚀 NGO dashboard ready! Would you like to post a volunteering opportunity?')) {
+          window.location.href = 'post.html';
+        }
+      }, 400);
+    } catch(err) {
+      showToast(err.message, true);
+    }
+    addPulse(ngoSubmitBtn);
+  });
+
+  // input focus effects
+  const allIconInputs = document.querySelectorAll('.icon-input input, .icon-input textarea');
+  allIconInputs.forEach(input => {
+    input.addEventListener('focus', () => {
+      input.parentElement.style.transform = 'scale(1.01)';
+      input.parentElement.style.transition = '0.15s';
+    });
+    input.addEventListener('blur', () => {
+      input.parentElement.style.transform = 'scale(1)';
+    });
+  });
+
+  // header scroll
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    if(window.scrollY > 20) header.style.background = 'rgba(245,250,247,0.96)';
+    else header.style.background = 'rgba(245,250,247,0.82)';
+  });
+  
+  console.log('✅ Signup ready with password fields, smooth flip, localStorage');
+</script>
+</body>
+</html>
