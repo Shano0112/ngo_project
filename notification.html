@@ -1,125 +1,700 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Notifications - HelpingHands</title>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --emerald:#00C896;--emerald-dark:#00A07A;--emerald-glow:#00C89620;
-    --coral:#FF6B6B;--coral-glow:#FF6B6B20;
-    --amber:#FFB347;--amber-glow:#FFB34720;
-    --violet:#7C3AED;--violet-glow:#7C3AED15;
-    --navy:#0F1729;--navy2:#162040;--navy3:#1E2D52;
-    --slate:#8B9ABF;--slate2:#C4CEDE;
-    --white:#FFFFFF;--white80:rgba(255,255,255,0.8);--white10:rgba(255,255,255,0.07);--white05:rgba(255,255,255,0.04);
-    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
-    --text:#E8EDF8;--text2:#A8B4CC;
-    --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  body{font-family:'Satoshi',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden}
-  
-  .bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  .bg-mesh::before{content:'';position:absolute;top:-40%;left:-20%;width:80%;height:80%;background:radial-gradient(ellipse,rgba(0,200,150,0.07) 0%,transparent 70%)}
-  .bg-mesh::after{content:'';position:absolute;bottom:-30%;right:-15%;width:70%;height:70%;background:radial-gradient(ellipse,rgba(124,58,237,0.06) 0%,transparent 70%)}
-  .bg-dots{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:28px 28px}
 
-  .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
-  
-  header{padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:rgba(15,23,41,0.7);position:sticky;top:0;z-index:100}
-  .logo{display:flex;align-items:center;gap:10px;font-family:'Clash Display',sans-serif;font-weight:700;font-size:1.3rem;color:var(--white);text-decoration:none}
-  .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--emerald),#00E5B0);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(0,200,150,0.35)}
-  .logo span{color:var(--emerald)}
-  .header-actions{display:flex;align-items:center;gap:10px}
-  .btn-sm{padding:7px 16px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none}
-  .btn-sm:hover{background:rgba(255,255,255,0.12);color:var(--white)}
-  .btn-primary{background:linear-gradient(135deg,var(--emerald),#00E5B0);border-color:transparent;color:#003320;font-weight:700}
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
-  .notif{width:36px;height:36px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px;text-decoration:none}
-  .notif-dot{position:absolute;top:7px;right:8px;width:6px;height:6px;background:var(--coral);border-radius:50%;border:1.5px solid var(--navy)}
+  :root {
+    --primary: #0F4C3A;
+    --primary-light: #1A6B4F;
+    --primary-glow: rgba(15, 76, 58, 0.06);
+    --accent: #E85D3A;
+    --accent-glow: rgba(232, 93, 58, 0.06);
+    --gold: #D4A017;
+    --gold-glow: rgba(212, 160, 23, 0.08);
+    --purple: #5B4FA1;
+    --purple-glow: rgba(91, 79, 161, 0.05);
+    --bg: #F7F8FA;
+    --bg2: #FFFFFF;
+    --bg3: #EDEFF3;
+    --slate: #6B7280;
+    --slate2: #9CA3AF;
+    --white: #FFFFFF;
+    --text: #111827;
+    --text2: #4B5563;
+    --border: rgba(0, 0, 0, 0.06);
+    --border2: rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
+    --r8: 8px;
+    --r12: 12px;
+    --r16: 16px;
+    --r20: 20px;
+  }
 
-  nav{padding:0 2rem;border-bottom:1px solid var(--border);background:rgba(15,23,41,0.5);backdrop-filter:blur(10px);display:flex;gap:0;overflow-x:auto}
-  .tab{padding:16px 20px;font-size:13.5px;font-weight:500;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:7px;position:relative;text-decoration:none}
-  .tab:hover{color:var(--white80)}
-  .tab.active{color:var(--emerald);border-bottom-color:var(--emerald)}
-  .tab-icon{font-size:14px}
-  .urgent-tab{color:#FF6B6B !important}
-  .urgent-tab.active{color:#FF6B6B !important;border-bottom-color:#FF6B6B !important}
-  .urgent-pulse{width:7px;height:7px;background:#FF6B6B;border-radius:50%;animation:pulse 1.4s infinite}
-  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-  .badge-count{background:var(--coral);color:white;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:18px;text-align:center}
+  body {
+    font-family: 'Satoshi', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
-  main{flex:1;padding:2rem;max-width:1000px;margin:0 auto;width:100%}
+  /* Background Effects */
+  .bg-mesh {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bg-mesh::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(ellipse, rgba(15, 76, 58, 0.03) 0%, transparent 70%);
+  }
+  .bg-mesh::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    right: -15%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(ellipse, rgba(91, 79, 161, 0.025) 0%, transparent 70%);
+  }
+  .bg-dots {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
 
-  .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
-  .page-title{font-family:'Clash Display',sans-serif;font-size:1.8rem;font-weight:700}
-  .page-title span{background:linear-gradient(90deg,var(--emerald),#5BC8FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .header-actions-group{display:flex;gap:.5rem}
-  .btn-action{padding:8px 16px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-family:'Satoshi',sans-serif;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
-  .btn-action:hover{background:rgba(255,255,255,0.12);color:var(--white)}
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes resultPopIn {
+    0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+    60% { opacity: 1; transform: translateY(-4px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
 
-  .notification-filters{display:flex;gap:0;margin-bottom:1.5rem;background:var(--navy2);border-radius:var(--r12);border:1px solid var(--border);overflow:hidden}
-  .notif-filter{padding:10px 20px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent;flex:1;text-align:center;user-select:none}
-  .notif-filter:hover{color:var(--white80);background:var(--white05)}
-  .notif-filter.active{color:var(--emerald);border-bottom-color:var(--emerald);background:rgba(0,200,150,0.05)}
-  .notif-filter .count{font-size:10px;background:var(--border2);padding:1px 6px;border-radius:10px;margin-left:4px}
-  .notif-filter.active .count{background:rgba(0,200,150,0.2);color:var(--emerald)}
+  .shell {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
-  .notification-list{display:flex;flex-direction:column;gap:.5rem}
-  
-  .notification-item{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r12);padding:1rem 1.25rem;display:flex;gap:1rem;transition:all .25s;cursor:pointer;animation:fadeIn .4s ease both;position:relative}
-  @keyframes fadeIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
-  .notification-item:hover{border-color:rgba(255,255,255,0.15);transform:translateX(4px)}
-  .notification-item.unread{background:rgba(0,200,150,0.03);border-color:rgba(0,200,150,0.2)}
-  .notification-item.unread::before{content:'';position:absolute;left:0;top:15px;width:3px;height:calc(100% - 30px);background:var(--emerald);border-radius:0 3px 3px 0}
-  
-  .notif-icon-container{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-  
-  .notif-content{flex:1}
-  .notif-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.3rem}
-  .notif-title{font-size:13.5px;font-weight:600;color:var(--text);line-height:1.3}
-  .notif-time{font-size:11px;color:var(--slate);white-space:nowrap;margin-left:1rem}
-  .notif-message{font-size:12.5px;color:var(--text2);line-height:1.5;margin-bottom:.4rem}
-  .notif-meta{display:flex;gap:1rem;flex-wrap:wrap;font-size:11px;color:var(--slate)}
-  .notif-meta span{display:flex;align-items:center;gap:4px}
-  
-  .notif-actions{display:flex;gap:.4rem;margin-top:.5rem}
-  .btn-notif-action{padding:5px 12px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-size:11.5px;font-weight:500;cursor:pointer;transition:all .2s}
-  .btn-notif-action:hover{background:rgba(255,255,255,0.12);color:var(--white)}
-  .btn-notif-action.primary{border-color:rgba(0,200,150,0.3);background:rgba(0,200,150,0.1);color:var(--emerald)}
-  .btn-notif-action.primary:hover{background:rgba(0,200,150,0.2)}
-  .btn-notif-action.danger{border-color:rgba(255,107,107,0.3);background:rgba(255,107,107,0.1);color:var(--coral)}
-  .btn-notif-action.danger:hover{background:rgba(255,107,107,0.2)}
+  /* Header & Nav */
+  header {
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.9);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Clash Display', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(15, 76, 58, 0.2);
+    transition: transform 0.2s ease;
+  }
+  .logo:hover .logo-icon { transform: rotate(-5deg) scale(1.05); }
+  .logo span { color: var(--primary-light); }
+  .header-actions { display: flex; align-items: center; gap: 10px; }
+  .btn-sm {
+    padding: 7px 16px;
+    border-radius: var(--r8);
+    border: 1px solid var(--border2);
+    background: var(--white);
+    color: var(--text2);
+    font-family: 'Satoshi', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-sm:hover {
+    background: var(--bg3);
+    color: var(--text);
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-color: transparent;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(15, 76, 58, 0.25);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(15, 76, 58, 0.35);
+    color: #fff;
+  }
+  .notif {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--r8);
+    border: 1px solid var(--border2);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+  .notif:hover { background: var(--bg3); transform: scale(0.98); }
+  .notif-dot {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 1.5px solid #fff;
+  }
 
-  .urgent-alert{background:linear-gradient(90deg,rgba(255,107,107,0.08),rgba(255,179,71,0.04));border:1px solid rgba(255,107,107,0.3);border-radius:var(--r12);padding:1rem 1.25rem;margin-bottom:1.5rem;animation:slideDown .4s ease both}
-  @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-  .urgent-alert-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
-  .urgent-alert-title{font-weight:700;color:var(--coral);font-size:14px}
-  .urgent-alert-msg{font-size:13px;color:var(--text2);line-height:1.5}
+  /* Profile Section */
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 4px 16px 4px 8px;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    border: 1px solid var(--border2);
+    position: relative;
+    animation: slideInRight 0.4s ease;
+  }
+  .profile-section:hover {
+    background: white;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  .profile-avatar {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(15, 76, 58, 0.2);
+  }
+  .profile-info {
+    text-align: left;
+  }
+  .profile-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .profile-type {
+    font-size: 10px;
+    color: var(--slate);
+    font-weight: 500;
+  }
+  .profile-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--white);
+    border-radius: var(--r12);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border);
+    min-width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.25s ease;
+    z-index: 200;
+    overflow: hidden;
+  }
+  .profile-section.active .profile-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .dropdown-item {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+  }
+  .dropdown-item:last-child { border-bottom: none; }
+  .dropdown-item:hover { background: var(--bg3); color: var(--primary); }
+  .dropdown-item i { width: 20px; color: var(--primary-light); }
 
-  .empty-state{text-align:center;padding:4rem 2rem;color:var(--text2)}
-  .empty-icon{font-size:3.5rem;margin-bottom:1rem;display:block}
-  .empty-title{font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
-  .empty-desc{font-size:13px;line-height:1.5}
+  nav {
+    padding: 0 2rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    box-shadow: var(--shadow-sm);
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 16px 20px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--slate);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+  }
+  .tab:hover { color: var(--text); transform: translateY(-1px); }
+  .tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    font-weight: 600;
+  }
+  .badge-count {
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 20px;
+    min-width: 18px;
+    text-align: center;
+  }
+  .urgent-pulse {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.4s infinite;
+    display: inline-block;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
 
-  .toast{position:fixed;bottom:2rem;right:2rem;background:linear-gradient(135deg,var(--emerald),#00E5B0);color:#003320;padding:12px 22px;border-radius:var(--r12);font-weight:700;font-size:14px;z-index:9999;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 8px 32px rgba(0,200,150,0.45);display:flex;align-items:center;gap:8px}
-  .toast.show{transform:translateY(0);opacity:1}
+  main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+  }
 
-  .notification-item:nth-child(1){animation-delay:.05s}
-  .notification-item:nth-child(2){animation-delay:.1s}
-  .notification-item:nth-child(3){animation-delay:.15s}
-  .notification-item:nth-child(4){animation-delay:.2s}
-  .notification-item:nth-child(5){animation-delay:.25s}
-  .notification-item:nth-child(6){animation-delay:.3s}
-  .notification-item:nth-child(7){animation-delay:.35s}
-  .notification-item:nth-child(8){animation-delay:.4s}
+  /* Page Header */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .page-title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  .page-title span {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .btn-action {
+    padding: 8px 16px;
+    border-radius: var(--r8);
+    border: 1px solid var(--border2);
+    background: var(--white);
+    color: var(--text2);
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-action:hover {
+    background: var(--bg3);
+    color: var(--text);
+    border-color: rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+  }
 
-  @media(max-width:768px){
-    .page-header{flex-direction:column;align-items:flex-start}
-    .notification-filters{overflow-x:auto}
-    .notif-filter{padding:10px 14px;font-size:12px}
+  /* Urgent Alert Banner */
+  .urgent-alert {
+    background: linear-gradient(90deg, rgba(232, 93, 58, 0.06), rgba(212, 160, 23, 0.04));
+    border: 1px solid rgba(232, 93, 58, 0.25);
+    border-radius: var(--r12);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.4s ease both;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .urgent-alert:hover {
+    background: linear-gradient(90deg, rgba(232, 93, 58, 0.1), rgba(212, 160, 23, 0.08));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+  .urgent-alert-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+  }
+  .urgent-alert-title {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 14px;
+  }
+  .urgent-alert-msg {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+  .urgent-alert-msg a {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  /* Notification Filters */
+  .notification-filters {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1.5rem;
+    background: var(--bg2);
+    border-radius: var(--r12);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .notif-filter {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+    flex: 1;
+    text-align: center;
+    user-select: none;
+  }
+  .notif-filter:hover {
+    background: var(--bg3);
+    color: var(--text);
+  }
+  .notif-filter.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    background: rgba(15, 76, 58, 0.04);
+  }
+  .notif-filter .count {
+    font-size: 10px;
+    background: var(--border2);
+    padding: 1px 6px;
+    border-radius: 10px;
+    margin-left: 4px;
+  }
+  .notif-filter.active .count {
+    background: rgba(15, 76, 58, 0.15);
+    color: var(--primary);
+  }
+
+  /* Notification Items */
+  .notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .notification-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--r16);
+    padding: 1rem 1.25rem;
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s;
+    animation: resultPopIn .4s ease both;
+    cursor: pointer;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+  }
+  .notification-item:hover {
+    transform: translateX(6px) translateY(-2px);
+    border-color: rgba(15, 76, 58, 0.2);
+    box-shadow: var(--shadow-md);
+    background: #fcfdfc;
+  }
+  .notification-item.unread {
+    background: rgba(15, 76, 58, 0.02);
+    border-color: rgba(15, 76, 58, 0.12);
+  }
+  .notification-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 3px;
+    height: calc(100% - 24px);
+    background: var(--primary);
+    border-radius: 0 3px 3px 0;
+  }
+  .notif-icon-container {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    transition: transform 0.3s;
+  }
+  .notification-item:hover .notif-icon-container {
+    transform: scale(1.05);
+  }
+  .notif-content {
+    flex: 1;
+  }
+  .notif-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.3rem;
+  }
+  .notif-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .notif-time {
+    font-size: 11px;
+    color: var(--slate);
+    white-space: nowrap;
+    margin-left: 1rem;
+  }
+  .notif-message {
+    font-size: 12.5px;
+    color: var(--text2);
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+  }
+  .notif-meta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--slate);
+    margin-top: 0.2rem;
+  }
+  .notif-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .notif-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+  }
+  .btn-notif-action {
+    padding: 5px 12px;
+    border-radius: var(--r8);
+    border: 1px solid var(--border2);
+    background: var(--white);
+    color: var(--text2);
+    font-size: 11.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-notif-action:hover {
+    background: var(--bg3);
+    color: var(--text);
+    transform: translateY(-1px);
+  }
+  .btn-notif-action.primary {
+    border-color: rgba(15, 76, 58, 0.3);
+    background: rgba(15, 76, 58, 0.06);
+    color: var(--primary);
+  }
+  .btn-notif-action.primary:hover {
+    background: rgba(15, 76, 58, 0.12);
+  }
+  .btn-notif-action.danger {
+    border-color: rgba(232, 93, 58, 0.3);
+    background: rgba(232, 93, 58, 0.05);
+    color: var(--accent);
+  }
+  .btn-notif-action.danger:hover {
+    background: rgba(232, 93, 58, 0.1);
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: var(--bg2);
+    border-radius: var(--r16);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    box-shadow: var(--shadow-sm);
+  }
+  .empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .empty-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .empty-desc {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #fff;
+    color: var(--primary);
+    padding: 12px 22px;
+    border-radius: var(--r12);
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 9999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+  }
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Animation delays */
+  .notification-item:nth-child(1) { animation-delay: 0.03s; }
+  .notification-item:nth-child(2) { animation-delay: 0.07s; }
+  .notification-item:nth-child(3) { animation-delay: 0.11s; }
+  .notification-item:nth-child(4) { animation-delay: 0.15s; }
+  .notification-item:nth-child(5) { animation-delay: 0.19s; }
+  .notification-item:nth-child(6) { animation-delay: 0.23s; }
+  .notification-item:nth-child(7) { animation-delay: 0.27s; }
+  .notification-item:nth-child(8) { animation-delay: 0.31s; }
+
+  @media (max-width: 768px) {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .notification-filters {
+      overflow-x: auto;
+    }
+    .notif-filter {
+      padding: 8px 14px;
+      font-size: 12px;
+    }
+    header, nav {
+      padding: 0 1rem;
+    }
+    main {
+      padding: 1rem;
+    }
   }
 </style>
 </head>
@@ -133,10 +708,8 @@
     <div class="logo-icon">🌱</div>
     Helping<span>Hands</span>
   </a>
-  <div class="header-actions">
-    <a href="notification.html" class="notif" title="Notifications">🔔<div class="notif-dot"></div></a>
-    <a href="post.html" class="btn-sm">Post Need</a>
-    <a href="#" class="btn-sm btn-primary">Join Now</a>
+  <div class="header-actions" id="headerActions">
+    <!-- Dynamic content injected here -->
   </div>
 </header>
 
@@ -145,7 +718,6 @@
   <a href="urgent.html" class="tab urgent-tab"><span class="tab-icon"><span class="urgent-pulse"></span></span>Urgent<span class="badge-count">4</span></a>
   <a href="individual.html" class="tab"><span class="tab-icon">🤝</span>Individuals</a>
   <a href="leaderboard.html" class="tab"><span class="tab-icon">🏆</span>Leaderboard</a>
-  <a href="badges.html" class="tab"><span class="tab-icon">🎖️</span>My Badges</a>
   <a href="post.html" class="tab"><span class="tab-icon">✍️</span>Post Need</a>
 </nav>
 
@@ -163,7 +735,7 @@
       <span>🚨</span>
       <span class="urgent-alert-title">Crisis Alert Active</span>
     </div>
-    <div class="urgent-alert-msg">West Bengal flooding requires immediate volunteer response. <a href="urgent.html" style="color:var(--coral);text-decoration:underline">Respond now →</a></div>
+    <div class="urgent-alert-msg">West Bengal flooding requires immediate volunteer response. <a href="urgent.html">Respond now →</a></div>
   </div>
 
   <div class="notification-filters" id="notifFilters">
@@ -183,165 +755,26 @@
 
 <script>
 const NOTIFICATIONS = [
-  {
-    id: 1,
-    type: 'alert',
-    unread: true,
-    icon: '🚨',
-    iconBg: 'rgba(255,107,107,0.15)',
-    title: 'Urgent: Flood Relief Volunteers Needed',
-    message: 'Crisis response team requesting immediate volunteers for West Bengal flood relief operations. First aid and rescue experience preferred.',
-    time: '10 min ago',
-    location: 'Burdwan District',
-    priority: 'Critical',
-    actions: ['Respond', 'View Details']
-  },
-  {
-    id: 2,
-    type: 'update',
-    unread: true,
-    icon: '✅',
-    iconBg: 'rgba(0,200,150,0.15)',
-    title: 'Sign-up Confirmed: River Cleanup Drive',
-    message: 'You\'ve successfully registered for the River Ganga Cleanup Drive. Check your dashboard for event details and preparation guidelines.',
-    time: '1 hour ago',
-    location: 'Kolkata',
-    xp: '+50 XP',
-    actions: ['View Event', 'Add to Calendar']
-  },
-  {
-    id: 3,
-    type: 'message',
-    unread: true,
-    icon: '💬',
-    iconBg: 'rgba(167,139,250,0.15)',
-    title: 'New Message from Ananya B.',
-    message: '"Thank you for offering to help with the counseling sessions. Can we connect this weekend to discuss the schedule?"',
-    time: '2 hours ago',
-    sender: 'Ananya B.',
-    actions: ['Reply', 'View Chat']
-  },
-  {
-    id: 4,
-    type: 'update',
-    unread: false,
-    icon: '🎖️',
-    iconBg: 'rgba(255,179,71,0.15)',
-    title: 'Badge Unlocked: Flood Hero',
-    message: 'Congratulations! You\'ve earned the Flood Hero badge for participating in emergency crisis response. +25 bonus XP awarded.',
-    time: '5 hours ago',
-    xp: '+25 XP',
-    badge: '💧 Flood Hero',
-    actions: ['View Badge', 'Share']
-  },
-  {
-    id: 5,
-    type: 'alert',
-    unread: false,
-    icon: '🩺',
-    iconBg: 'rgba(91,200,255,0.15)',
-    title: 'Blood Donation Camp - Tomorrow',
-    message: 'Reminder: The emergency blood donation camp in Durgapur is tomorrow. B+ and O- donors urgently needed. Please arrive by 8 AM.',
-    time: '8 hours ago',
-    location: 'Durgapur',
-    priority: 'High',
-    actions: ['View Details', 'Set Reminder']
-  },
-  {
-    id: 6,
-    type: 'update',
-    unread: false,
-    icon: '📊',
-    iconBg: 'rgba(124,58,237,0.15)',
-    title: 'Weekly Impact Report Available',
-    message: 'Your weekly volunteering report is ready. You contributed 12 hours this week and helped 45+ people across 3 different initiatives.',
-    time: '1 day ago',
-    hours: '12h',
-    impact: '45+ people',
-    actions: ['View Report', 'Download']
-  },
-  {
-    id: 7,
-    type: 'message',
-    unread: false,
-    icon: '🤝',
-    iconBg: 'rgba(0,200,150,0.15)',
-    title: 'Team Coordination: HealthBridge Foundation',
-    message: 'The HealthBridge team lead has shared the updated schedule and role assignments for the upcoming medical camp.',
-    time: '1 day ago',
-    sender: 'Dr. Sharma',
-    actions: ['View Schedule', 'Reply']
-  },
-  {
-    id: 8,
-    type: 'update',
-    unread: false,
-    icon: '🔥',
-    iconBg: 'rgba(255,179,71,0.15)',
-    title: '7-Day Streak Maintained!',
-    message: 'You\'ve maintained your volunteer streak for 7 consecutive days. Keep going to earn the "On Fire" badge upgrade and bonus XP.',
-    time: '2 days ago',
-    xp: '+10 XP',
-    streak: '7 days',
-    actions: ['View Streak', 'See Rewards']
-  },
-  {
-    id: 9,
-    type: 'alert',
-    unread: false,
-    icon: '⏰',
-    iconBg: 'rgba(255,107,107,0.15)',
-    title: 'Registration Closing Soon: Digital Literacy',
-    message: 'Only 3 spots remaining for the Digital Literacy Educators program. Registration closes in 24 hours.',
-    time: '2 days ago',
-    deadline: '24h',
-    spots: '3 left',
-    actions: ['Register Now', 'View Details']
-  },
-  {
-    id: 10,
-    type: 'message',
-    unread: false,
-    icon: '📋',
-    iconBg: 'rgba(167,139,250,0.15)',
-    title: 'Feedback Request: Animal Rescue Drive',
-    message: 'PawsAndHope would like your feedback on last weekend\'s animal rescue drive. Your input helps improve future events.',
-    time: '3 days ago',
-    sender: 'PawsAndHope NGO',
-    actions: ['Give Feedback', 'Skip']
-  },
-  {
-    id: 11,
-    type: 'update',
-    unread: false,
-    icon: '🏆',
-    iconBg: 'rgba(255,215,0,0.15)',
-    title: 'Leaderboard Update: You Moved Up!',
-    message: 'Great news! You\'ve moved from #14 to #12 on the all-time leaderboard. Just 340 XP to break into the Top 10.',
-    time: '4 days ago',
-    rank: '#12',
-    xpNeeded: '340 XP',
-    actions: ['View Leaderboard', 'Earn More XP']
-  },
-  {
-    id: 12,
-    type: 'alert',
-    unread: false,
-    icon: '🌊',
-    iconBg: 'rgba(91,200,255,0.15)',
-    title: 'Weather Advisory: Weekend Events',
-    message: 'Heavy rain forecast for Saturday. Some outdoor volunteering events may be rescheduled. Check the app for updates.',
-    time: '5 days ago',
-    affected: '3 events',
-    actions: ['Check Updates', 'View Events']
-  }
+  { id: 1, type: 'alert', unread: true, icon: '🚨', iconBg: 'rgba(232,93,58,0.1)', title: 'Urgent: Flood Relief Volunteers Needed', message: 'Crisis response team requesting immediate volunteers for West Bengal flood relief operations. First aid and rescue experience preferred.', time: '10 min ago', location: 'Burdwan District', priority: 'Critical', actions: ['Respond', 'View Details'] },
+  { id: 2, type: 'update', unread: true, icon: '✅', iconBg: 'rgba(15,76,58,0.08)', title: 'Sign-up Confirmed: River Cleanup Drive', message: 'You\'ve successfully registered for the River Ganga Cleanup Drive. Check your dashboard for event details.', time: '1 hour ago', location: 'Kolkata', xp: '+50 XP', actions: ['View Event', 'Add to Calendar'] },
+  { id: 3, type: 'message', unread: true, icon: '💬', iconBg: 'rgba(91,79,161,0.08)', title: 'New Message from Ananya B.', message: '"Thank you for offering to help with the counseling sessions. Can we connect this weekend?"', time: '2 hours ago', sender: 'Ananya B.', actions: ['Reply', 'View Chat'] },
+  { id: 4, type: 'update', unread: false, icon: '🎖️', iconBg: 'rgba(212,160,23,0.08)', title: 'Badge Unlocked: Flood Hero', message: 'Congratulations! You\'ve earned the Flood Hero badge for participating in emergency crisis response.', time: '5 hours ago', xp: '+25 XP', badge: '💧 Flood Hero', actions: ['View Badge', 'Share'] },
+  { id: 5, type: 'alert', unread: false, icon: '🩺', iconBg: 'rgba(59,130,246,0.08)', title: 'Blood Donation Camp - Tomorrow', message: 'Reminder: The emergency blood donation camp in Durgapur is tomorrow. B+ and O- donors urgently needed.', time: '8 hours ago', location: 'Durgapur', priority: 'High', actions: ['View Details', 'Set Reminder'] },
+  { id: 6, type: 'update', unread: false, icon: '📊', iconBg: 'rgba(124,58,237,0.08)', title: 'Weekly Impact Report Available', message: 'Your weekly volunteering report is ready. You contributed 12 hours this week.', time: '1 day ago', hours: '12h', impact: '45+ people', actions: ['View Report', 'Download'] },
+  { id: 7, type: 'message', unread: false, icon: '🤝', iconBg: 'rgba(15,76,58,0.08)', title: 'Team Coordination: HealthBridge Foundation', message: 'The HealthBridge team lead has shared the updated schedule for the upcoming medical camp.', time: '1 day ago', sender: 'Dr. Sharma', actions: ['View Schedule', 'Reply'] },
+  { id: 8, type: 'update', unread: false, icon: '🔥', iconBg: 'rgba(212,160,23,0.08)', title: '7-Day Streak Maintained!', message: 'You\'ve maintained your volunteer streak for 7 consecutive days. Keep going!', time: '2 days ago', xp: '+10 XP', streak: '7 days', actions: ['View Streak', 'See Rewards'] },
+  { id: 9, type: 'alert', unread: false, icon: '⏰', iconBg: 'rgba(232,93,58,0.08)', title: 'Registration Closing Soon: Digital Literacy', message: 'Only 3 spots remaining for the Digital Literacy Educators program. Registration closes in 24 hours.', time: '2 days ago', deadline: '24h', spots: '3 left', actions: ['Register Now', 'View Details'] },
+  { id: 10, type: 'message', unread: false, icon: '📋', iconBg: 'rgba(91,79,161,0.08)', title: 'Feedback Request: Animal Rescue Drive', message: 'PawsAndHope would like your feedback on last weekend\'s animal rescue drive.', time: '3 days ago', sender: 'PawsAndHope NGO', actions: ['Give Feedback', 'Skip'] },
+  { id: 11, type: 'update', unread: false, icon: '🏆', iconBg: 'rgba(212,160,23,0.08)', title: 'Leaderboard Update: You Moved Up!', message: 'Great news! You\'ve moved from #14 to #12 on the all-time leaderboard.', time: '4 days ago', rank: '#12', xpNeeded: '340 XP', actions: ['View Leaderboard', 'Earn More XP'] },
+  { id: 12, type: 'alert', unread: false, icon: '🌊', iconBg: 'rgba(59,130,246,0.08)', title: 'Weather Advisory: Weekend Events', message: 'Heavy rain forecast for Saturday. Some outdoor volunteering events may be rescheduled.', time: '5 days ago', affected: '3 events', actions: ['Check Updates', 'View Events'] }
 ];
 
 let currentNotifFilter = 'all';
+let currentUser = null;
 
 function getTimeColor(time) {
-  if (time.includes('min')) return 'var(--coral)';
-  if (time.includes('hour')) return 'var(--amber)';
+  if (time.includes('min')) return 'var(--accent)';
+  if (time.includes('hour')) return 'var(--gold)';
   return 'var(--slate)';
 }
 
@@ -354,48 +787,35 @@ function renderNotifications(filter = 'all') {
   else filtered = NOTIFICATIONS.filter(n => n.type === filter);
   
   if (filtered.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <span class="empty-icon">🔔</span>
-        <div class="empty-title">No notifications</div>
-        <div class="empty-desc">You're all caught up! New notifications will appear here.</div>
-      </div>`;
+    container.innerHTML = `<div class="empty-state"><span class="empty-icon">🔔</span><div class="empty-title">No notifications</div><div class="empty-desc">You're all caught up! New notifications will appear here.</div></div>`;
     return;
   }
   
   container.innerHTML = filtered.map((n, index) => `
-    <div class="notification-item ${n.unread ? 'unread' : ''}" style="animation-delay:${index * 0.05}s" onclick="${n.unread ? `markAsRead(${n.id})` : ''}">
+    <div class="notification-item ${n.unread ? 'unread' : ''}" style="animation-delay:${index * 0.04}s" onclick="${n.unread ? `markAsRead(${n.id})` : ''}">
       <div class="notif-icon-container" style="background:${n.iconBg}">${n.icon}</div>
       <div class="notif-content">
         <div class="notif-header">
-          <div class="notif-title">${n.title}${n.unread ? ' <span style="font-size:9px;background:var(--emerald);color:#003320;padding:1px 6px;border-radius:10px;margin-left:6px">NEW</span>' : ''}</div>
+          <div class="notif-title">${n.title}${n.unread ? ' <span style="font-size:9px;background:var(--primary);color:#fff;padding:1px 6px;border-radius:10px;margin-left:6px">NEW</span>' : ''}</div>
           <div class="notif-time" style="color:${getTimeColor(n.time)}">${n.time}</div>
         </div>
         <div class="notif-message">${n.message}</div>
         <div class="notif-meta">
           ${n.location ? `<span>📍 ${n.location}</span>` : ''}
-          ${n.priority ? `<span style="color:var(--coral)">⚠ ${n.priority}</span>` : ''}
-          ${n.xp ? `<span style="color:var(--emerald)">⚡ ${n.xp}</span>` : ''}
-          ${n.badge ? `<span style="color:var(--amber)">🏅 ${n.badge}</span>` : ''}
+          ${n.priority ? `<span style="color:var(--accent)">⚠ ${n.priority}</span>` : ''}
+          ${n.xp ? `<span style="color:var(--primary)">⚡ ${n.xp}</span>` : ''}
+          ${n.badge ? `<span style="color:var(--gold)">🏅 ${n.badge}</span>` : ''}
           ${n.sender ? `<span>👤 ${n.sender}</span>` : ''}
           ${n.hours ? `<span>🕐 ${n.hours}</span>` : ''}
           ${n.impact ? `<span>🎯 ${n.impact}</span>` : ''}
           ${n.streak ? `<span>🔥 ${n.streak}</span>` : ''}
-          ${n.deadline ? `<span style="color:var(--coral)">⏰ ${n.deadline}</span>` : ''}
-          ${n.spots ? `<span style="color:var(--coral)">🎫 ${n.spots}</span>` : ''}
-          ${n.rank ? `<span style="color:var(--violet)">🏆 ${n.rank}</span>` : ''}
-          ${n.xpNeeded ? `<span style="color:var(--emerald)">⚡ ${n.xpNeeded} to Top 10</span>` : ''}
-          ${n.affected ? `<span style="color:var(--amber)">📅 ${n.affected}</span>` : ''}
+          ${n.deadline ? `<span style="color:var(--accent)">⏰ ${n.deadline}</span>` : ''}
+          ${n.spots ? `<span style="color:var(--accent)">🎫 ${n.spots}</span>` : ''}
+          ${n.rank ? `<span style="color:var(--purple)">🏆 ${n.rank}</span>` : ''}
+          ${n.xpNeeded ? `<span style="color:var(--primary)">⚡ ${n.xpNeeded}</span>` : ''}
+          ${n.affected ? `<span style="color:var(--gold)">📅 ${n.affected}</span>` : ''}
         </div>
-        ${n.actions ? `
-          <div class="notif-actions">
-            ${n.actions.map((action, i) => {
-              let btnClass = 'btn-notif-action';
-              if (i === 0) btnClass += ' primary';
-              if (action.includes('Skip') || action.includes('Clear')) btnClass += ' danger';
-              return `<button class="${btnClass}" onclick="event.stopPropagation(); handleAction('${action}', ${n.id})">${action}</button>`;
-            }).join('')}
-          </div>` : ''}
+        ${n.actions ? `<div class="notif-actions">${n.actions.map((action, i) => { let btnClass = 'btn-notif-action'; if (i === 0) btnClass += ' primary'; if (action.includes('Skip') || action.includes('Clear')) btnClass += ' danger'; return `<button class="${btnClass}" onclick="event.stopPropagation(); handleAction('${action}', ${n.id})">${action}</button>`; }).join('')}</div>` : ''}
       </div>
     </div>
   `).join('');
@@ -403,7 +823,7 @@ function renderNotifications(filter = 'all') {
 
 function markAsRead(id) {
   const notification = NOTIFICATIONS.find(n => n.id === id);
-  if (notification) {
+  if (notification && notification.unread) {
     notification.unread = false;
     renderNotifications(currentNotifFilter);
     updateFilterCounts();
@@ -432,10 +852,8 @@ function clearNotifications() {
 
 function handleAction(action, id) {
   const notification = NOTIFICATIONS.find(n => n.id === id);
-  if (notification && notification.unread) {
-    markAsRead(id);
-  }
-  showToast(`📋 "${action}" clicked for notification #${id}`);
+  if (notification && notification.unread) markAsRead(id);
+  showToast(`📋 "${action}" clicked`);
 }
 
 function updateFilterCounts() {
@@ -445,22 +863,86 @@ function updateFilterCounts() {
   const alerts = NOTIFICATIONS.filter(n => n.type === 'alert').length;
   const messages = NOTIFICATIONS.filter(n => n.type === 'message').length;
   
-  document.querySelector('[data-filter="all"] .count').textContent = total;
-  document.querySelector('[data-filter="unread"] .count').textContent = unread;
-  document.querySelector('[data-filter="updates"] .count').textContent = updates;
-  document.querySelector('[data-filter="alerts"] .count').textContent = alerts;
-  document.querySelector('[data-filter="messages"] .count').textContent = messages;
+  const allCount = document.querySelector('[data-filter="all"] .count');
+  const unreadCount = document.querySelector('[data-filter="unread"] .count');
+  const updatesCount = document.querySelector('[data-filter="updates"] .count');
+  const alertsCount = document.querySelector('[data-filter="alerts"] .count');
+  const messagesCount = document.querySelector('[data-filter="messages"] .count');
+  
+  if (allCount) allCount.textContent = total;
+  if (unreadCount) unreadCount.textContent = unread;
+  if (updatesCount) updatesCount.textContent = updates;
+  if (alertsCount) alertsCount.textContent = alerts;
+  if (messagesCount) messagesCount.textContent = messages;
 }
 
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  clearTimeout(t._to);
+  t._to = setTimeout(() => t.classList.remove('show'), 3000);
 }
+
+// Profile & Auth Functions
+function updateHeaderUI() {
+  const actionsDiv = document.getElementById('headerActions');
+  const storedUser = localStorage.getItem('currentUser');
+  
+  if (storedUser) {
+    currentUser = JSON.parse(storedUser);
+    const displayName = currentUser.displayName || (currentUser.profile?.name || 'Volunteer');
+    const firstChar = displayName.charAt(0).toUpperCase();
+    const accountType = currentUser.accountType === 'individual' ? 'Volunteer' : 'NGO';
+    
+    actionsDiv.innerHTML = `
+      <div class="profile-section" id="profileSection">
+        <div class="profile-avatar">${firstChar}</div>
+        <div class="profile-info">
+          <div class="profile-name">${displayName.split(' ')[0]}</div>
+          <div class="profile-type">${accountType}</div>
+        </div>
+        <i class="fas fa-chevron-down" style="font-size:10px; color:var(--slate); transition:transform 0.2s"></i>
+        <div class="profile-dropdown">
+          <div class="dropdown-item" onclick="viewProfile()"><i class="fas fa-user-circle"></i> My Profile</div>
+          <div class="dropdown-item" onclick="window.location.href='badges.html'"><i class="fas fa-award"></i> My Badges</div>
+          <div class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sign Out</div>
+        </div>
+      </div>
+    `;
+    
+    const profileSection = document.getElementById('profileSection');
+    if (profileSection) {
+      profileSection.addEventListener('click', (e) => { e.stopPropagation(); profileSection.classList.toggle('active'); });
+      document.addEventListener('click', () => { profileSection.classList.remove('active'); });
+    }
+  } else {
+    actionsDiv.innerHTML = `
+      <a href="notification.html" class="notif">🔔<div class="notif-dot"></div></a>
+      <a href="post.html" class="btn-sm">Post Need</a>
+      <a href="login.html" class="btn-sm">Log In</a>
+      <a href="signup.html" class="btn-sm btn-primary">Join Now</a>
+    `;
+  }
+}
+
+function viewProfile() {
+  if (!currentUser) return;
+  const profile = currentUser.profile;
+  const details = currentUser.accountType === 'individual' ? 
+    `Name: ${profile.name}\nEmail: ${profile.email}\nGender: ${profile.gender || 'N/A'}\nAddress: ${profile.address || 'N/A'}\nXP: ${profile.xp || 80}\nBadges: ${(profile.badges || ['🌱 New Changemaker']).join(', ')}` :
+    `Organization: ${profile.name}\nEmail: ${profile.email}\nAddress: ${profile.address || 'N/A'}\nStatus: ${profile.verifiedStatus === 'verified' ? '✓ Verified' : '⏳ Pending Verification'}`;
+  alert(`📋 Account Details\n\n${details}`);
+  showToast('Profile loaded');
+}
+
+function viewBadges() { showToast('✨ Your Badges: Helper Hero, Seed Volunteer, Rising Star'); }
+function logout() { localStorage.removeItem('currentUser'); currentUser = null; updateHeaderUI(); showToast('👋 Logged out successfully'); setTimeout(() => window.location.reload(), 800); }
 
 // Initialize
 renderNotifications();
+updateFilterCounts();
+updateHeaderUI();
 
 // Notification filter tabs
 document.querySelectorAll('.notif-filter').forEach(filter => {
@@ -478,6 +960,13 @@ document.getElementById('urgentAlert').addEventListener('click', function(e) {
   this.style.opacity = '0';
   this.style.transition = 'opacity 0.3s';
   setTimeout(() => this.style.display = 'none', 300);
+});
+
+// Header scroll effect
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('header');
+  if (window.scrollY > 20) header.style.background = 'rgba(255, 255, 255, 0.95)';
+  else header.style.background = 'rgba(255, 255, 255, 0.9)';
 });
 </script>
 </body>

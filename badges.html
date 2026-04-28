@@ -1,100 +1,190 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Badges - HelpingHands</title>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --emerald:#00C896;--emerald-dark:#00A07A;--emerald-glow:#00C89620;
-    --coral:#FF6B6B;--coral-glow:#FF6B6B20;
-    --amber:#FFB347;--amber-glow:#FFB34720;
-    --violet:#7C3AED;--violet-glow:#7C3AED15;
-    --navy:#0F1729;--navy2:#162040;--navy3:#1E2D52;
-    --slate:#8B9ABF;--slate2:#C4CEDE;
-    --white:#FFFFFF;--white80:rgba(255,255,255,0.8);--white10:rgba(255,255,255,0.07);--white05:rgba(255,255,255,0.04);
-    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
-    --text:#E8EDF8;--text2:#A8B4CC;
-    --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #0F4C3A;
+    --primary-light: #1A6B4F;
+    --accent: #E85D3A;
+    --gold: #D4A017;
+    --purple: #5B4FA1;
+    --bg: #F7F8FA;
+    --bg2: #FFFFFF;
+    --bg3: #EDEFF3;
+    --slate: #6B7280;
+    --white: #FFFFFF;
+    --text: #111827;
+    --text2: #4B5563;
+    --border: rgba(0, 0, 0, 0.06);
+    --border2: rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --r8: 8px;
+    --r12: 12px;
+    --r16: 16px;
+    --r20: 20px;
   }
-  body{font-family:'Satoshi',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden}
-  
-  .bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  .bg-mesh::before{content:'';position:absolute;top:-40%;left:-20%;width:80%;height:80%;background:radial-gradient(ellipse,rgba(0,200,150,0.07) 0%,transparent 70%)}
-  .bg-mesh::after{content:'';position:absolute;bottom:-30%;right:-15%;width:70%;height:70%;background:radial-gradient(ellipse,rgba(124,58,237,0.06) 0%,transparent 70%)}
-  .bg-dots{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:28px 28px}
 
-  .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
-  
-  header{padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:rgba(15,23,41,0.7);position:sticky;top:0;z-index:100}
-  .logo{display:flex;align-items:center;gap:10px;font-family:'Clash Display',sans-serif;font-weight:700;font-size:1.3rem;color:var(--white);text-decoration:none}
-  .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--emerald),#00E5B0);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(0,200,150,0.35)}
-  .logo span{color:var(--emerald)}
-  .header-actions{display:flex;align-items:center;gap:10px}
-  .btn-sm{padding:7px 16px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none}
-  .btn-sm:hover{background:rgba(255,255,255,0.12);color:var(--white)}
-  .btn-primary{background:linear-gradient(135deg,var(--emerald),#00E5B0);border-color:transparent;color:#003320;font-weight:700}
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
-  .notif{width:36px;height:36px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px}
-  .notif-dot{position:absolute;top:7px;right:8px;width:6px;height:6px;background:var(--coral);border-radius:50%;border:1.5px solid var(--navy)}
+  body { font-family: 'Satoshi', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+  .bg-mesh { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .bg-mesh::before { content: ''; position: absolute; top: -40%; left: -20%; width: 80%; height: 80%; background: radial-gradient(ellipse, rgba(15, 76, 58, 0.03) 0%, transparent 70%); }
+  .bg-mesh::after { content: ''; position: absolute; bottom: -30%; right: -15%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(91, 79, 161, 0.025) 0%, transparent 70%); }
+  .bg-dots { position: fixed; inset: 0; z-index: 0; pointer-events: none; background-image: radial-gradient(circle, rgba(0, 0, 0, 0.03) 1px, transparent 1px); background-size: 28px 28px; }
 
-  nav{padding:0 2rem;border-bottom:1px solid var(--border);background:rgba(15,23,41,0.5);backdrop-filter:blur(10px);display:flex;gap:0;overflow-x:auto}
-  .tab{padding:16px 20px;font-size:13.5px;font-weight:500;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:7px;position:relative;text-decoration:none}
-  .tab:hover{color:var(--white80)}
-  .tab.active{color:var(--emerald);border-bottom-color:var(--emerald)}
-  .tab-icon{font-size:14px}
-  .urgent-tab{color:#FF6B6B !important}
-  .urgent-tab.active{color:#FF6B6B !important;border-bottom-color:#FF6B6B !important}
-  .urgent-pulse{width:7px;height:7px;background:#FF6B6B;border-radius:50%;animation:pulse 1.4s infinite}
-  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-  .badge-count{background:var(--coral);color:white;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:18px;text-align:center}
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes resultPopIn { 0% { opacity: 0; transform: translateY(20px) scale(0.95); } 60% { opacity: 1; transform: translateY(-4px) scale(1.02); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes slideInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
-  main{flex:1;padding:2rem;max-width:1200px;margin:0 auto;width:100%}
+  .shell { position: relative; z-index: 1; display: flex; flex-direction: column; min-height: 100vh; }
 
-  .hero{background:linear-gradient(120deg,rgba(255,179,71,0.08),rgba(124,58,237,0.06));border:1px solid var(--border);border-radius:var(--r20);padding:2rem 2.5rem;margin-bottom:2rem;animation:fadeUp .5s ease both}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .hero-text h1{font-family:'Clash Display',sans-serif;font-size:2rem;font-weight:700;line-height:1.2;margin-bottom:.6rem}
-  .hero-text h1 span{background:linear-gradient(90deg,var(--amber),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .hero-text p{color:var(--text2);font-size:14px;line-height:1.6}
+  /* Header & Nav */
+  header {
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.9);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: 'Clash Display', sans-serif; font-weight: 700; font-size: 1.3rem; color: var(--primary); text-decoration: none; }
+  .logo-icon { width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #fff; box-shadow: 0 2px 12px rgba(15, 76, 58, 0.2); transition: transform 0.2s ease; }
+  .logo:hover .logo-icon { transform: rotate(-5deg) scale(1.05); }
+  .logo span { color: var(--primary-light); }
+  .header-actions { display: flex; align-items: center; gap: 10px; }
+  .btn-sm { padding: 7px 16px; border-radius: var(--r8); border: 1px solid var(--border2); background: var(--white); color: var(--text2); font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.25s ease; text-decoration: none; box-shadow: var(--shadow-sm); }
+  .btn-sm:hover { background: var(--bg3); color: var(--text); border-color: rgba(0, 0, 0, 0.15); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-color: transparent; color: #fff; font-weight: 600; box-shadow: 0 2px 12px rgba(15, 76, 58, 0.25); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(15, 76, 58, 0.35); color: #fff; }
+  .notif { width: 36px; height: 36px; border-radius: var(--r8); border: 1px solid var(--border2); background: var(--white); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; font-size: 16px; text-decoration: none; box-shadow: var(--shadow-sm); transition: all 0.2s ease; }
+  .notif:hover { background: var(--bg3); transform: scale(0.98); }
+  .notif-dot { position: absolute; top: 7px; right: 8px; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; border: 1.5px solid #fff; }
 
-  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
-  .section-title{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:600;display:flex;align-items:center;gap:8px}
-  .section-link{font-size:12.5px;color:var(--emerald);cursor:pointer;font-weight:500}
+  /* Profile Section */
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 4px 16px 4px 8px;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    border: 1px solid var(--border2);
+    position: relative;
+    animation: slideInRight 0.4s ease;
+  }
+  .profile-section:hover { background: white; box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .profile-avatar { width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 16px; box-shadow: 0 2px 8px rgba(15, 76, 58, 0.2); }
+  .profile-info { text-align: left; }
+  .profile-name { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .profile-type { font-size: 10px; color: var(--slate); font-weight: 500; }
+  .profile-dropdown { position: absolute; top: calc(100% + 8px); right: 0; background: var(--white); border-radius: var(--r12); box-shadow: var(--shadow-lg); border: 1px solid var(--border); min-width: 220px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.25s ease; z-index: 200; overflow: hidden; }
+  .profile-section.active .profile-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+  .dropdown-item { padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-size: 13px; cursor: pointer; transition: background 0.2s; border-bottom: 1px solid var(--border); color: var(--text2); }
+  .dropdown-item:last-child { border-bottom: none; }
+  .dropdown-item:hover { background: var(--bg3); color: var(--primary); }
+  .dropdown-item i { width: 20px; color: var(--primary-light); }
 
-  .badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.75rem;margin-bottom:2.5rem}
-  .badge-card{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r12);padding:1.25rem;text-align:center;transition:all .25s;cursor:pointer;animation:fadeUp .4s ease both}
-  .badge-card:hover{border-color:rgba(255,255,255,0.2);transform:translateY(-2px)}
-  .badge-card.earned{border-color:rgba(255,179,71,0.35);background:rgba(255,179,71,0.04)}
-  .badge-card.locked{opacity:.45}
-  .badge-emoji{font-size:2.2rem;display:block;margin-bottom:.5rem;line-height:1}
-  .badge-title{font-size:12.5px;font-weight:700;margin-bottom:.2rem}
-  .badge-desc{font-size:11px;color:var(--text2);line-height:1.4}
-  .badge-earned-label{font-size:10px;color:var(--amber);font-weight:600;margin-top:.4rem}
-  .lock-icon{font-size:11px;color:var(--slate);margin-top:.3rem}
+  nav { padding: 0 2rem; border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); display: flex; gap: 0; overflow-x: auto; box-shadow: var(--shadow-sm); }
+  nav::-webkit-scrollbar { display: none; }
+  .tab { padding: 16px 20px; font-size: 13.5px; font-weight: 500; color: var(--slate); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.25s ease; display: flex; align-items: center; gap: 7px; text-decoration: none; }
+  .tab:hover { color: var(--text); transform: translateY(-1px); }
+  .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+  .badge-count { background: var(--accent); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 20px; min-width: 18px; text-align: center; }
+  .urgent-pulse { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; animation: pulse 1.4s infinite; display: inline-block; }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
 
-  .xp-section{margin-bottom:1.5rem}
-  .xp-header{display:flex;justify-content:space-between;font-size:12px;margin-bottom:.4rem}
-  .xp-bar{height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;max-width:400px}
-  .xp-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--violet),var(--emerald));width:68%;transition:width 1s ease}
+  main { flex: 1; padding: 2rem; max-width: 1200px; margin: 0 auto; width: 100%; }
 
-  .badge-card:nth-child(1){animation-delay:.05s}
-  .badge-card:nth-child(2){animation-delay:.1s}
-  .badge-card:nth-child(3){animation-delay:.15s}
-  .badge-card:nth-child(4){animation-delay:.2s}
-  .badge-card:nth-child(5){animation-delay:.25s}
-  .badge-card:nth-child(6){animation-delay:.3s}
-  .badge-card:nth-child(7){animation-delay:.35s}
-  .badge-card:nth-child(8){animation-delay:.4s}
-  .badge-card:nth-child(9){animation-delay:.45s}
-  .badge-card:nth-child(10){animation-delay:.5s}
-  .badge-card:nth-child(11){animation-delay:.55s}
-  .badge-card:nth-child(12){animation-delay:.6s}
+  .hero {
+    background: linear-gradient(135deg, #fff, #F9FAFB);
+    border: 1px solid var(--border);
+    border-radius: var(--r20);
+    padding: 2rem 2.5rem;
+    margin-bottom: 2rem;
+    animation: fadeUp .5s ease both;
+    box-shadow: var(--shadow-md);
+  }
+  .hero-text h1 { font-family: 'Clash Display', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .hero-text h1 span { background: linear-gradient(135deg, var(--primary), var(--primary-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-text p { color: var(--text2); font-size: 14px; line-height: 1.6; }
+  .xp-section { margin-top: 1.5rem; max-width: 500px; }
+  .xp-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 0.4rem; }
+  .xp-bar { height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
+  .xp-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--primary), var(--primary-light)); width: 68%; transition: width 1s ease; }
 
-  @media(max-width:768px){
-    .badges-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
-    .hero-text h1{font-size:1.5rem}
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+  .section-title { font-family: 'Clash Display', sans-serif; font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .section-link { font-size: 12.5px; color: var(--primary-light); cursor: pointer; font-weight: 500; transition: opacity 0.2s; }
+  .section-link:hover { opacity: 0.8; }
+  .badges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+  .badge-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--r12);
+    padding: 1.25rem;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: resultPopIn .4s ease both;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+  }
+  .badge-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: rgba(15, 76, 58, 0.2);
+    box-shadow: var(--shadow-md);
+    background: #fcfdfc;
+  }
+  .badge-card.earned { border-color: rgba(15, 76, 58, 0.2); background: rgba(15, 76, 58, 0.02); }
+  .badge-card.locked { opacity: 0.6; }
+  .badge-emoji { font-size: 2.2rem; display: block; margin-bottom: 0.5rem; line-height: 1; transition: transform 0.3s; }
+  .badge-card:hover .badge-emoji { transform: scale(1.1); }
+  .badge-title { font-size: 12.5px; font-weight: 700; margin-bottom: 0.2rem; }
+  .badge-desc { font-size: 11px; color: var(--text2); line-height: 1.4; }
+  .badge-earned-label { font-size: 10px; color: var(--primary); font-weight: 600; margin-top: 0.4rem; }
+  .lock-icon { font-size: 11px; color: var(--slate); margin-top: 0.3rem; }
+
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #fff;
+    color: var(--primary);
+    padding: 12px 22px;
+    border-radius: var(--r12);
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 9999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  @media (max-width: 768px) { 
+    .hero-text h1 { font-size: 1.5rem; } 
+    .badges-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+    header, nav { padding: 0 1rem; }
+    main { padding: 1rem; }
   }
 </style>
 </head>
@@ -104,15 +194,8 @@
 <div class="shell">
 
 <header>
-  <a href="index.html" class="logo">
-    <div class="logo-icon">🌱</div>
-    Helping<span>Hands</span>
-  </a>
-  <div class="header-actions">
-    <div class="notif" title="Notifications"><a href="notification.html"> 🔔</a><div class="notif-dot"></div></div>
-    <a href="post.html" class="btn-sm">Post Need</a>
-    <a href="#" class="btn-sm btn-primary">Join Now</a>
-  </div>
+  <a href="index.html" class="logo"><div class="logo-icon">🌱</div>Helping<span>Hands</span></a>
+  <div class="header-actions" id="headerActions"></div>
 </header>
 
 <nav>
@@ -126,56 +209,146 @@
 
 <main>
   <div class="hero">
-    <div class="hero-text">
-      <h1>🎖️ <span>Achievements & Badges</span></h1>
-      <p>Complete volunteering tasks and reach milestones to unlock these badges. Each badge carries prestige and bonus XP.</p>
-    </div>
-    <div style="margin-top:1.5rem">
-      <div class="xp-section">
-        <div class="xp-header"><span style="color:var(--text2);font-size:12px">Level 4 — <span style="color:#A78BFA">ChangeAgent</span></span><span style="font-size:12px;color:var(--text2)">1,360 / 2,000 XP</span></div>
-        <div class="xp-bar"><div class="xp-fill"></div></div>
-      </div>
-    </div>
+    <div class="hero-text"><h1>🎖️ <span>Achievements & Badges</span></h1><p>Complete volunteering tasks and reach milestones to unlock these badges.</p></div>
+    <div class="xp-section"><div class="xp-header"><span>Level 4 — <span style="color:var(--primary)">ChangeAgent</span></span><span>1,360 / 2,000 XP</span></div><div class="xp-bar"><div class="xp-fill"></div></div></div>
   </div>
-
-  <div class="section-header">
-    <div class="section-title">🎖️ All Badges</div>
-    <div class="section-link">5 / 12 Earned</div>
-  </div>
-
+  <div class="section-header"><div class="section-title">🎖️ All Badges</div><div class="section-link" id="earnedCountDisplay">5 / 12 Earned</div></div>
   <div class="badges-grid" id="badges-grid"></div>
 </main>
-
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-const BADGES=[
-  {emoji:'🌟',title:'First Step',desc:'Complete your first task',earned:true,date:'Mar 12'},
-  {emoji:'🔥',title:'On Fire',desc:'7-day volunteer streak',earned:true,date:'Mar 29'},
-  {emoji:'🌿',title:'Earth Guardian',desc:'10 environmental tasks',earned:true,date:'Apr 1'},
-  {emoji:'💧',title:'Flood Hero',desc:'Emergency crisis response',earned:true,date:'Apr 18'},
-  {emoji:'📚',title:'Educator',desc:'Teach in 5 sessions',earned:true,date:'Apr 10'},
-  {emoji:'🏆',title:'Top 10',desc:'Reach leaderboard top 10',earned:false},
-  {emoji:'🩺',title:'Lifesaver',desc:'25 healthcare tasks',earned:false},
-  {emoji:'🕐',title:'100 Hours',desc:'Give 100 volunteer hours',earned:false},
-  {emoji:'🌍',title:'Global Citizen',desc:'Help in 3 different states',earned:false},
-  {emoji:'🤝',title:'Community Pillar',desc:'50 total tasks done',earned:false},
-  {emoji:'🦁',title:'Crisis Commander',desc:'Lead 3 emergency teams',earned:false},
-  {emoji:'🎓',title:'Mentor',desc:'Guide 5 new volunteers',earned:false},
+const BADGES = [
+  { emoji:'🌟', title:'First Step', desc:'Complete your first task', earned:true, date:'Mar 12' },
+  { emoji:'🔥', title:'On Fire', desc:'7-day volunteer streak', earned:true, date:'Mar 29' },
+  { emoji:'🌿', title:'Earth Guardian', desc:'10 environmental tasks', earned:true, date:'Apr 1' },
+  { emoji:'💧', title:'Flood Hero', desc:'Emergency crisis response', earned:true, date:'Apr 18' },
+  { emoji:'📚', title:'Educator', desc:'Teach in 5 sessions', earned:true, date:'Apr 10' },
+  { emoji:'🏆', title:'Top 10', desc:'Reach leaderboard top 10', earned:false },
+  { emoji:'🩺', title:'Lifesaver', desc:'25 healthcare tasks', earned:false },
+  { emoji:'🕐', title:'100 Hours', desc:'Give 100 volunteer hours', earned:false },
+  { emoji:'🌍', title:'Global Citizen', desc:'Help in 3 different states', earned:false },
+  { emoji:'🤝', title:'Community Pillar', desc:'50 total tasks done', earned:false },
+  { emoji:'🦁', title:'Crisis Commander', desc:'Lead 3 emergency teams', earned:false },
+  { emoji:'🎓', title:'Mentor', desc:'Guide 5 new volunteers', earned:false }
 ];
 
-function renderBadges(){
-  const c=document.getElementById('badges-grid');
-  c.innerHTML=BADGES.map(b=>`
-    <div class="badge-card${b.earned?' earned':' locked'}">
+let currentUser = null;
+
+function renderBadges() {
+  const container = document.getElementById('badges-grid');
+  const earnedCount = BADGES.filter(b => b.earned).length;
+  const totalCount = BADGES.length;
+  document.getElementById('earnedCountDisplay').textContent = `${earnedCount} / ${totalCount} Earned`;
+  
+  container.innerHTML = BADGES.map((b, idx) => `
+    <div class="badge-card ${b.earned ? 'earned' : 'locked'}" onclick="showBadgeDetail('${b.title}', ${b.earned}, '${b.date || ''}')" style="animation-delay:${idx * 0.03}s">
       <span class="badge-emoji">${b.emoji}</span>
-      <div class="badge-title" style="color:${b.earned?'var(--text)':'var(--text2)'}">${b.title}</div>
+      <div class="badge-title">${b.title}</div>
       <div class="badge-desc">${b.desc}</div>
-      ${b.earned?`<div class="badge-earned-label">✓ Earned ${b.date}</div>`:`<div class="lock-icon">🔒 Locked</div>`}
-    </div>`).join('');
+      ${b.earned ? `<div class="badge-earned-label">✓ Earned ${b.date}</div>` : `<div class="lock-icon">🔒 Locked</div>`}
+    </div>
+  `).join('');
 }
 
+function showBadgeDetail(title, earned, date) {
+  if (earned) {
+    showToast(`🎖️ ${title} badge earned on ${date}`);
+  } else {
+    showToast(`🔒 ${title} badge is locked. Complete more tasks to unlock it!`);
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = `🎖️ ${msg}`;
+  t.classList.add('show');
+  clearTimeout(t._to);
+  t._to = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Profile & Auth Functions
+function updateHeaderUI() {
+  const actionsDiv = document.getElementById('headerActions');
+  const storedUser = localStorage.getItem('currentUser');
+  
+  if (storedUser) {
+    currentUser = JSON.parse(storedUser);
+    const displayName = currentUser.displayName || (currentUser.profile?.name || 'Volunteer');
+    const firstChar = displayName.charAt(0).toUpperCase();
+    const accountType = currentUser.accountType === 'individual' ? 'Volunteer' : 'NGO';
+    
+    actionsDiv.innerHTML = `
+      <div class="profile-section" id="profileSection">
+        <div class="profile-avatar">${firstChar}</div>
+        <div class="profile-info">
+          <div class="profile-name">${displayName.split(' ')[0]}</div>
+          <div class="profile-type">${accountType}</div>
+        </div>
+        <i class="fas fa-chevron-down" style="font-size:10px; color:var(--slate); transition:transform 0.2s"></i>
+        <div class="profile-dropdown">
+          <div class="dropdown-item" onclick="viewProfile()"><i class="fas fa-user-circle"></i> My Profile</div>
+          <div class="dropdown-item" onclick="viewBadges()"><i class="fas fa-award"></i> My Badges</div>
+          <div class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sign Out</div>
+        </div>
+      </div>
+    `;
+    
+    const profileSection = document.getElementById('profileSection');
+    if (profileSection) {
+      profileSection.addEventListener('click', (e) => { 
+        e.stopPropagation(); 
+        profileSection.classList.toggle('active'); 
+      });
+      document.addEventListener('click', () => { 
+        profileSection.classList.remove('active'); 
+      });
+    }
+  } else {
+    actionsDiv.innerHTML = `
+      <a href="notification.html" class="notif">🔔<div class="notif-dot"></div></a>
+      <a href="post.html" class="btn-sm">Post Need</a>
+      <a href="login.html" class="btn-sm">Log In</a>
+      <a href="signup.html" class="btn-sm btn-primary">Join Now</a>
+    `;
+  }
+}
+
+function viewProfile() {
+  if (!currentUser) return;
+  const profile = currentUser.profile;
+  const details = currentUser.accountType === 'individual' ? 
+    `Name: ${profile.name}\nEmail: ${profile.email}\nGender: ${profile.gender || 'N/A'}\nAddress: ${profile.address || 'N/A'}\nXP: ${profile.xp || 80}\nBadges Earned: ${BADGES.filter(b=>b.earned).length} badges` :
+    `Organization: ${profile.name}\nEmail: ${profile.email}\nAddress: ${profile.address || 'N/A'}\nStatus: ${profile.verifiedStatus === 'verified' ? '✓ Verified' : '⏳ Pending Verification'}`;
+  alert(`📋 Account Details\n\n${details}`);
+  showToast('Profile loaded');
+}
+
+function viewBadges() { 
+  const earnedBadges = BADGES.filter(b => b.earned).map(b => b.title).join(', ');
+  showToast(`✨ Your badges: ${earnedBadges || 'None yet. Keep volunteering!'}`);
+}
+
+function logout() { 
+  localStorage.removeItem('currentUser'); 
+  currentUser = null; 
+  updateHeaderUI(); 
+  showToast('👋 Logged out successfully'); 
+  setTimeout(() => window.location.reload(), 800); 
+}
+
+// Initialize
 renderBadges();
+updateHeaderUI();
+
+// Header scroll effect
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('header');
+  if (window.scrollY > 20) header.style.background = 'rgba(255, 255, 255, 0.95)';
+  else header.style.background = 'rgba(255, 255, 255, 0.9)';
+});
 </script>
 </body>
 </html>

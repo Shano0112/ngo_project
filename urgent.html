@@ -1,110 +1,650 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Urgent Needs - HelpingHands</title>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --emerald:#00C896;--emerald-dark:#00A07A;--emerald-glow:#00C89620;
-    --coral:#FF6B6B;--coral-glow:#FF6B6B20;
-    --amber:#FFB347;--amber-glow:#FFB34720;
-    --violet:#7C3AED;--violet-glow:#7C3AED15;
-    --navy:#0F1729;--navy2:#162040;--navy3:#1E2D52;
-    --slate:#8B9ABF;--slate2:#C4CEDE;
-    --white:#FFFFFF;--white80:rgba(255,255,255,0.8);--white10:rgba(255,255,255,0.07);--white05:rgba(255,255,255,0.04);
-    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
-    --text:#E8EDF8;--text2:#A8B4CC;
-    --r8:8px;--r12:12px;--r16:16px;--r20:20px;
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  body{font-family:'Satoshi',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+  :root {
+    --primary: #0F4C3A;
+    --primary-light: #1A6B4F;
+    --accent: #E85D3A;
+    --gold: #D4A017;
+    --purple: #5B4FA1;
+    --bg: #F7F8FA;
+    --bg2: #FFFFFF;
+    --bg3: #EDEFF3;
+    --slate: #6B7280;
+    --slate2: #9CA3AF;
+    --white: #FFFFFF;
+    --text: #111827;
+    --text2: #4B5563;
+    --border: rgba(0, 0, 0, 0.06);
+    --border2: rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
+    --r8: 8px;
+    --r12: 12px;
+    --r16: 16px;
+    --r20: 20px;
+  }
+
+  body {
+    font-family: 'Satoshi', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background Effects */
+  .bg-mesh {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bg-mesh::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -20%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(ellipse, rgba(15, 76, 58, 0.03) 0%, transparent 70%);
+  }
+  .bg-mesh::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    right: -15%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(ellipse, rgba(91, 79, 161, 0.025) 0%, transparent 70%);
+  }
+  .bg-dots {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes resultPopIn {
+    0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+    60% { opacity: 1; transform: translateY(-4px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes gentlePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(232, 93, 58, 0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(232, 93, 58, 0); }
+  }
+
+  .shell {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Header & Nav */
+  header {
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.9);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Clash Display', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(15, 76, 58, 0.2);
+    transition: transform 0.2s ease;
+  }
+  .logo:hover .logo-icon { transform: rotate(-5deg) scale(1.05); }
+  .logo span { color: var(--primary-light); }
+  .header-actions { display: flex; align-items: center; gap: 10px; }
   
-  .bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  .bg-mesh::before{content:'';position:absolute;top:-40%;left:-20%;width:80%;height:80%;background:radial-gradient(ellipse,rgba(0,200,150,0.07) 0%,transparent 70%)}
-  .bg-mesh::after{content:'';position:absolute;bottom:-30%;right:-15%;width:70%;height:70%;background:radial-gradient(ellipse,rgba(124,58,237,0.06) 0%,transparent 70%)}
-  .bg-dots{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:28px 28px}
-
-  .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
+  .btn-sm {
+    padding: 7px 16px;
+    border-radius: var(--r8);
+    border: 1px solid var(--border2);
+    background: var(--white);
+    color: var(--text2);
+    font-family: 'Satoshi', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-sm:hover {
+    background: var(--bg3);
+    color: var(--text);
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-color: transparent;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(15, 76, 58, 0.25);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(15, 76, 58, 0.35);
+    color: #fff;
+  }
   
-  header{padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:rgba(15,23,41,0.7);position:sticky;top:0;z-index:100}
-  .logo{display:flex;align-items:center;gap:10px;font-family:'Clash Display',sans-serif;font-weight:700;font-size:1.3rem;color:var(--white);text-decoration:none}
-  .logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--emerald),#00E5B0);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(0,200,150,0.35)}
-  .logo span{color:var(--emerald)}
-  .header-actions{display:flex;align-items:center;gap:10px}
-  .btn-sm{padding:7px 16px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);color:var(--text2);font-family:'Satoshi',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none}
-  .btn-sm:hover{background:rgba(255,255,255,0.12);color:var(--white)}
-  .btn-primary{background:linear-gradient(135deg,var(--emerald),#00E5B0);border-color:transparent;color:#003320;font-weight:700}
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4)}
-  .notif{width:36px;height:36px;border-radius:var(--r8);border:1px solid var(--border2);background:var(--white10);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:16px}
-  .notif-dot{position:absolute;top:7px;right:8px;width:6px;height:6px;background:var(--coral);border-radius:50%;border:1.5px solid var(--navy)}
+  .notif {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--r8);
+    border: 1px solid var(--border2);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+  .notif:hover { background: var(--bg3); transform: scale(0.98); }
+  .notif-dot {
+    position: absolute;
+    top: 7px;
+    right: 8px;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 1.5px solid #fff;
+  }
 
-  nav{padding:0 2rem;border-bottom:1px solid var(--border);background:rgba(15,23,41,0.5);backdrop-filter:blur(10px);display:flex;gap:0;overflow-x:auto}
-  .tab{padding:16px 20px;font-size:13.5px;font-weight:500;color:var(--slate);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:7px;position:relative;text-decoration:none}
-  .tab:hover{color:var(--white80)}
-  .tab.active{color:var(--emerald);border-bottom-color:var(--emerald)}
-  .tab-icon{font-size:14px}
-  .urgent-tab{color:#FF6B6B !important}
-  .urgent-tab.active{color:#FF6B6B !important;border-bottom-color:#FF6B6B !important}
-  .urgent-pulse{width:7px;height:7px;background:#FF6B6B;border-radius:50%;animation:pulse 1.4s infinite}
-  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-  .badge-count{background:var(--coral);color:white;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;min-width:18px;text-align:center}
+  /* Profile Section */
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 4px 16px 4px 8px;
+    border-radius: 980px;
+    background: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    border: 1px solid var(--border2);
+    position: relative;
+    animation: slideInRight 0.4s ease;
+  }
+  .profile-section:hover {
+    background: white;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  .profile-avatar {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(15, 76, 58, 0.2);
+  }
+  .profile-info {
+    text-align: left;
+  }
+  .profile-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .profile-type {
+    font-size: 10px;
+    color: var(--slate);
+    font-weight: 500;
+  }
+  .profile-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--white);
+    border-radius: var(--r12);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border);
+    min-width: 220px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.25s ease;
+    z-index: 200;
+    overflow: hidden;
+  }
+  .profile-section.active .profile-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .dropdown-item {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+  }
+  .dropdown-item:last-child { border-bottom: none; }
+  .dropdown-item:hover { background: var(--bg3); color: var(--primary); }
+  .dropdown-item i { width: 20px; color: var(--primary-light); }
 
-  main{flex:1;padding:2rem;max-width:1200px;margin:0 auto;width:100%}
+  nav {
+    padding: 0 2rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    box-shadow: var(--shadow-sm);
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 16px 20px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--slate);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+  }
+  .tab:hover { color: var(--text); transform: translateY(-1px); }
+  .tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    font-weight: 600;
+  }
+  .urgent-tab.active {
+    color: var(--accent) !important;
+    border-bottom-color: var(--accent) !important;
+  }
+  .badge-count {
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 20px;
+    min-width: 18px;
+    text-align: center;
+  }
+  .urgent-pulse {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.4s infinite;
+    display: inline-block;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
 
-  .alert-banner{background:linear-gradient(90deg,rgba(255,107,107,0.1),rgba(255,179,71,0.08));border:1px solid rgba(255,107,107,0.3);border-radius:var(--r12);padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;animation:slideIn .4s ease both}
-  @keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
-  .alert-icon{font-size:20px}
-  .alert-text{flex:1;font-size:13.5px;line-height:1.45}
-  .alert-text strong{color:var(--coral)}
-  .alert-close{color:var(--slate);cursor:pointer;font-size:18px;line-height:1;padding:2px 6px}
+  main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
 
-  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
-  .section-title{font-family:'Clash Display',sans-serif;font-size:1.1rem;font-weight:600;display:flex;align-items:center;gap:8px}
-  .section-link{font-size:12.5px;color:var(--coral);cursor:pointer;font-weight:500}
+  /* Alert Banner */
+  .alert-banner {
+    background: linear-gradient(90deg, rgba(232, 93, 58, 0.06), rgba(212, 160, 23, 0.04));
+    border: 1px solid rgba(232, 93, 58, 0.25);
+    border-radius: var(--r12);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.4s ease both;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .alert-banner:hover {
+    background: linear-gradient(90deg, rgba(232, 93, 58, 0.1), rgba(212, 160, 23, 0.08));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+  .alert-icon { font-size: 20px; }
+  .alert-text { flex: 1; font-size: 13.5px; line-height: 1.45; color: var(--text2); }
+  .alert-text strong { color: var(--accent); }
+  .alert-close {
+    color: var(--slate);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 2px 6px;
+    transition: color 0.2s;
+  }
+  .alert-close:hover { color: var(--accent); }
 
-  .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem;margin-bottom:2.5rem}
-  
-  .opp-card{background:var(--navy2);border:1px solid var(--border);border-radius:var(--r16);padding:1.5rem;cursor:pointer;transition:all .25s;animation:fadeUp .5s ease both;position:relative;overflow:hidden}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .opp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--emerald),transparent);opacity:0;transition:.3s}
-  .opp-card:hover{border-color:rgba(0,200,150,0.3);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.35)}
-  .opp-card:hover::before{opacity:1}
-  .opp-card.urgent-card{border-color:rgba(255,107,107,0.3)}
-  .opp-card.urgent-card::before{background:linear-gradient(90deg,var(--coral),transparent);opacity:1}
-  .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.85rem}
-  .ngo-info{display:flex;align-items:center;gap:9px}
-  .ngo-avatar{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
-  .ngo-name{font-size:12.5px;font-weight:600;color:var(--text)}
-  .ngo-verified{font-size:11px;color:var(--emerald);margin-top:1px}
-  .card-badges{display:flex;gap:6px;flex-wrap:wrap}
-  .badge{padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.01em}
-  .badge-urgent{background:rgba(255,107,107,0.15);color:#FF8A8A;border:1px solid rgba(255,107,107,0.3)}
-  .card-title{font-family:'Clash Display',sans-serif;font-size:1rem;font-weight:600;margin-bottom:.5rem;line-height:1.3}
-  .card-desc{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:1rem}
-  .card-meta{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
-  .meta-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--slate2)}
-  .meta-icon{font-size:12px;opacity:.7}
-  .card-footer{display:flex;align-items:center;justify-content:space-between}
-  .spots{font-size:12px;color:var(--text2)}
-  .spots strong{color:var(--coral)}
-  .progress-bar{height:4px;background:rgba(255,255,255,0.08);border-radius:4px;margin-top:6px;overflow:hidden}
-  .progress-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--coral),var(--amber));transition:width .8s ease}
-  .btn-signup{padding:8px 18px;border-radius:var(--r8);border:none;background:linear-gradient(135deg,var(--coral),var(--amber));color:white;font-family:'Satoshi',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
-  .btn-signup:hover{transform:scale(1.03);box-shadow:0 0 16px rgba(255,107,107,0.5)}
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .section-title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+  }
+  .section-link {
+    font-size: 12.5px;
+    color: var(--accent);
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .section-link:hover { opacity: 0.8; }
 
-  .urgency-timer{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--coral);font-weight:600;margin-bottom:.75rem}
-  .timer-icon{animation:blink 1s step-end infinite}
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
 
-  .toast{position:fixed;bottom:2rem;right:2rem;background:linear-gradient(135deg,var(--emerald),#00E5B0);color:#003320;padding:12px 22px;border-radius:var(--r12);font-weight:700;font-size:14px;z-index:9999;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 8px 32px rgba(0,200,150,0.45);display:flex;align-items:center;gap:8px}
-  .toast.show{transform:translateY(0);opacity:1}
+  /* Urgent Card */
+  .opp-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--r16);
+    padding: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    animation: resultPopIn .5s ease both;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.35s;
+  }
+  .opp-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 8px;
+    right: 8px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent) 20%, var(--accent) 80%, transparent 100%);
+    border-radius: 0 0 4px 4px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .opp-card.urgent-card {
+    border-left: 3px solid var(--accent);
+  }
+  .opp-card.urgent-card::before {
+    opacity: 1;
+    left: 0;
+    right: 0;
+  }
+  .opp-card:hover {
+    border-color: rgba(232, 93, 58, 0.25);
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.09);
+    background: #fcfdfc;
+  }
+  .opp-card:hover::before {
+    opacity: 1;
+    left: 0;
+    right: 0;
+  }
 
-  .opp-card:nth-child(1){animation-delay:.05s}
-  .opp-card:nth-child(2){animation-delay:.1s}
-  .opp-card:nth-child(3){animation-delay:.15s}
-  .opp-card:nth-child(4){animation-delay:.2s}
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.85rem;
+  }
+  .ngo-info {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .ngo-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+    background: var(--bg3);
+    transition: transform 0.3s;
+  }
+  .opp-card:hover .ngo-avatar {
+    transform: scale(1.1);
+  }
+  .ngo-name {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .ngo-verified {
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 1px;
+    font-weight: 500;
+  }
+  .badge-urgent {
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(232, 93, 58, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(232, 93, 58, 0.25);
+  }
+  .urgency-timer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    background: rgba(232, 93, 58, 0.05);
+    padding: 4px 10px;
+    border-radius: 20px;
+    width: fit-content;
+  }
+  .timer-icon {
+    animation: gentlePulse 1.2s infinite;
+  }
+  .card-title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+    color: var(--text);
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.55;
+    margin-bottom: 1rem;
+  }
+  .card-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--slate);
+  }
+  .spots {
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .spots strong {
+    color: var(--accent);
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--bg3);
+    border-radius: 4px;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    transition: width 0.8s cubic-bezier(.25, .8, .25, 1.2);
+    width: 0%;
+  }
+  .btn-signup {
+    padding: 8px 18px;
+    border-radius: var(--r8);
+    border: none;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    color: #fff;
+    font-family: 'Satoshi', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 2px 8px rgba(232, 93, 58, 0.3);
+  }
+  .btn-signup:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(232, 93, 58, 0.5);
+  }
+  .btn-signup:active {
+    transform: scale(0.97);
+  }
+  .btn-signup.signed {
+    background: var(--bg3);
+    color: var(--slate);
+    cursor: default;
+    pointer-events: none;
+    box-shadow: none;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #fff;
+    color: var(--primary);
+    padding: 12px 22px;
+    border-radius: var(--r12);
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 9999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(.175,.885,.32,1.275);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+  }
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+    header, nav { padding: 0 1rem; }
+    main { padding: 1rem; }
+  }
 </style>
 </head>
 <body>
@@ -117,10 +657,8 @@
     <div class="logo-icon">🌱</div>
     Helping<span>Hands</span>
   </a>
-  <div class="header-actions">
-    <div class="notif" title="Notifications"><a href="notification.html"> 🔔</a><div class="notif-dot"></div></div>
-    <a href="post.html" class="btn-sm">Post Need</a>
-    <a href="#" class="btn-sm btn-primary">Join Now</a>
+  <div class="header-actions" id="headerActions">
+    <!-- Dynamic content injected here -->
   </div>
 </header>
 
@@ -129,7 +667,6 @@
   <a href="urgent.html" class="tab urgent-tab active"><span class="tab-icon"><span class="urgent-pulse"></span></span>Urgent<span class="badge-count">4</span></a>
   <a href="individual.html" class="tab"><span class="tab-icon">🤝</span>Individuals</a>
   <a href="leaderboard.html" class="tab"><span class="tab-icon">🏆</span>Leaderboard</a>
-  <a href="badges.html" class="tab"><span class="tab-icon">🎖️</span>My Badges</a>
   <a href="post.html" class="tab"><span class="tab-icon">✍️</span>Post Need</a>
 </nav>
 
@@ -140,78 +677,166 @@
     <div class="alert-close" onclick="document.getElementById('urgentBanner').style.display='none'">✕</div>
   </div>
   <div class="section-header">
-    <div class="section-title" style="color:var(--coral)">🚨 Urgent & Crisis Needs</div>
+    <div class="section-title" style="color:var(--accent)">🚨 Urgent & Crisis Needs</div>
     <div class="section-link">4 Active Crises</div>
   </div>
   <div class="cards-grid" id="urgent-cards"></div>
 </main>
-
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const URGENT=[
-  {ngo:'Disaster Relief Cell',emoji:'🚨',cat:'urg',title:'Flood Relief — West Bengal',desc:'URGENT: Severe flooding in low-lying areas. Need volunteers with boats, swimming ability, and first aid for immediate rescue operations.',loc:'Burdwan District',date:'NOW · Ongoing',spots:2,total:20,fill:90,timer:'Responding in: 4h 12m'},
-  {ngo:'Red Cross India',emoji:'🩺',cat:'urg',title:'Blood Donation Crisis Camp',desc:'Critical shortage of B+ and O- blood types. Organize and run emergency donation camps across the city. Medical background preferred.',loc:'Durgapur',date:'Apr 20 · Urgent',spots:6,total:25,fill:76,timer:'Deadline: 36h'},
-  {ngo:'HungerFree Initiative',emoji:'🍱',cat:'urg',title:'Emergency Food Distribution',desc:'Cyclone aftermath — 500+ families displaced without food. Help cook, package and distribute meals at relief centers.',loc:'Midnapore',date:'Apr 19–22',spots:4,total:30,fill:87,timer:'Responding in: 2h'},
-  {ngo:'ShelterNow NGO',emoji:'🏠',cat:'urg',title:'Temporary Shelter Construction',desc:'Help build temporary shelters for flood-displaced families. Construction experience a plus but not required — trainers present.',loc:'Hooghly',date:'Apr 20–24',spots:10,total:40,fill:75,timer:'Starts in: 18h'},
+const URGENT = [
+  { ngo:'Disaster Relief Cell', emoji:'🚨', title:'Flood Relief — West Bengal', desc:'URGENT: Severe flooding in low-lying areas. Need volunteers with boats, swimming ability, and first aid for immediate rescue operations.', loc:'Burdwan District', date:'NOW · Ongoing', spots:2, total:20, fill:90, timer:'Responding in: 4h 12m', xp:150 },
+  { ngo:'Red Cross India', emoji:'🩺', title:'Blood Donation Crisis Camp', desc:'Critical shortage of B+ and O- blood types. Organize and run emergency donation camps across the city. Medical background preferred.', loc:'Durgapur', date:'Apr 20 · Urgent', spots:6, total:25, fill:76, timer:'Deadline: 36h', xp:150 },
+  { ngo:'HungerFree Initiative', emoji:'🍱', title:'Emergency Food Distribution', desc:'Cyclone aftermath — 500+ families displaced without food. Help cook, package and distribute meals at relief centers.', loc:'Midnapore', date:'Apr 19–22', spots:4, total:30, fill:87, timer:'Responding in: 2h', xp:150 },
+  { ngo:'ShelterNow NGO', emoji:'🏠', title:'Temporary Shelter Construction', desc:'Help build temporary shelters for flood-displaced families. Construction experience a plus but not required — trainers present.', loc:'Hooghly', date:'Apr 20–24', spots:10, total:40, fill:75, timer:'Starts in: 18h', xp:150 }
 ];
 
-function catBadge(){
-  return'<span class="badge badge-urgent">🚨 URGENT</span>';
+let signupState = {};
+let currentUser = null;
+
+function fillProgress(p) {
+  return `<div class="progress-bar"><div class="progress-fill" style="width:0%" data-w="${p}%"></div></div>`;
 }
 
-function fillProgress(p){
-  return`<div class="progress-bar"><div class="progress-fill urgent-fill" style="width:0%" data-w="${p}%"></div></div>`;
+function animateBars() {
+  setTimeout(() => {
+    document.querySelectorAll('.progress-fill[data-w]').forEach(el => {
+      el.style.width = el.getAttribute('data-w');
+    });
+  }, 150);
 }
 
-function renderUrgent(){
-  const c=document.getElementById('urgent-cards');
-  c.innerHTML=URGENT.map(o=>`
-    <div class="opp-card urgent-card">
+function renderUrgent() {
+  const container = document.getElementById('urgent-cards');
+  container.innerHTML = URGENT.map((o, idx) => `
+    <div class="opp-card urgent-card" onclick="window.location.href='opportunities.html?id=${o.ngo.toLowerCase().replace(/\s/g,'')}'">
       <div class="card-top">
-        <div class="ngo-info"><div class="ngo-avatar" style="background:rgba(255,107,107,0.15)">${o.emoji}</div><div><div class="ngo-name">${o.ngo}</div><div class="ngo-verified" style="color:var(--coral)">⚠ Crisis Response</div></div></div>
-        ${catBadge()}
+        <div class="ngo-info">
+          <div class="ngo-avatar" style="background:rgba(232,93,58,0.08)">${o.emoji}</div>
+          <div><div class="ngo-name">${o.ngo}</div><div class="ngo-verified">⚠ Crisis Response</div></div>
+        </div>
+        <span class="badge-urgent">🚨 URGENT</span>
       </div>
-      <div class="urgency-timer"><span class="timer-icon">⏱</span>${o.timer}</div>
+      <div class="urgency-timer"><span class="timer-icon">⏱</span> ${o.timer}</div>
       <div class="card-title">${o.title}</div>
       <div class="card-desc">${o.desc}</div>
       <div class="card-meta">
         <div class="meta-item"><span class="meta-icon">📍</span>${o.loc}</div>
         <div class="meta-item"><span class="meta-icon">📅</span>${o.date}</div>
       </div>
-      <div class="spots"><strong style="color:var(--coral)">${o.total-Math.round(o.total*o.fill/100)}</strong> spots left — ${Math.round(o.total*o.fill/100)} already signed ${fillProgress(o.fill)}</div>
-      <div class="card-footer" style="margin-top:.75rem">
-        <span style="font-size:11.5px;color:var(--coral);font-weight:600">+150 XP · Crisis Bonus</span>
-        <button class="btn-signup" onclick="signup(this)">Respond Now</button>
+      <div class="spots"><strong>${o.total - Math.round(o.total * o.fill / 100)}</strong> spots left — ${Math.round(o.total * o.fill / 100)} already signed ${fillProgress(o.fill)}</div>
+      <div class="card-footer" style="margin-top:.75rem; display:flex; justify-content:space-between; align-items:center">
+        <span style="font-size:11.5px; color:var(--accent); font-weight:600">+${o.xp} XP · Crisis Bonus</span>
+        <button class="btn-signup ${signupState[o.ngo] ? 'signed' : ''}" onclick="event.stopPropagation(); signup(this, '${o.ngo}')">${signupState[o.ngo] ? '✓ Responded' : 'Respond Now'}</button>
       </div>
-    </div>`).join('');
+    </div>
+  `).join('');
   animateBars();
 }
 
-function animateBars(){
-  setTimeout(()=>{
-    document.querySelectorAll('.progress-fill[data-w]').forEach(el=>{el.style.width=el.getAttribute('data-w')});
-  },200);
-}
-
-function signup(btn){
-  btn.textContent='✓ Responding!';
-  btn.style.background='linear-gradient(135deg,#444,#333)';
-  btn.style.color='var(--text2)';
-  btn.disabled=true;
+function signup(btn, ngoName) {
+  if (signupState[ngoName]) return;
+  signupState[ngoName] = true;
+  btn.textContent = '✓ Responded';
+  btn.classList.add('signed');
+  btn.style.transform = 'scale(1.08)';
+  setTimeout(() => { btn.style.transform = 'scale(1)'; }, 200);
   showToast('🚨 Crisis response confirmed! +150 XP earned');
 }
 
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = `🚨 ${msg}`;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+  clearTimeout(t._to);
+  t._to = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
+// Profile & Auth Functions
+function updateHeaderUI() {
+  const actionsDiv = document.getElementById('headerActions');
+  const storedUser = localStorage.getItem('currentUser');
+  
+  if (storedUser) {
+    currentUser = JSON.parse(storedUser);
+    const displayName = currentUser.displayName || (currentUser.profile?.name || 'Volunteer');
+    const firstChar = displayName.charAt(0).toUpperCase();
+    const accountType = currentUser.accountType === 'individual' ? 'Volunteer' : 'NGO';
+    
+    actionsDiv.innerHTML = `
+      <div class="notif" onclick="window.location.href='notification.html'">🔔<div class="notif-dot"></div></div>
+      <div class="profile-section" id="profileSection">
+        <div class="profile-avatar">${firstChar}</div>
+        <div class="profile-info">
+          <div class="profile-name">${displayName.split(' ')[0]}</div>
+          <div class="profile-type">${accountType}</div>
+        </div>
+        <i class="fas fa-chevron-down" style="font-size:10px; color:var(--slate); transition:transform 0.2s"></i>
+        <div class="profile-dropdown">
+          <div class="dropdown-item" onclick="viewProfile()"><i class="fas fa-user-circle"></i> My Profile</div>
+          <div class="dropdown-item" onclick="window.location.href='badges.html'"><i class="fas fa-award"></i> My Badges</div>
+          <div class="dropdown-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sign Out</div>
+        </div>
+      </div>
+    `;
+    function openBadges() {
+      location.href = "badges.html";
+    }
+    const profileSection = document.getElementById('profileSection');
+    if (profileSection) {
+      profileSection.addEventListener('click', (e) => { 
+        e.stopPropagation(); 
+        profileSection.classList.toggle('active'); 
+      });
+      document.addEventListener('click', () => { 
+        profileSection.classList.remove('active'); 
+      });
+    }
+  } else {
+    actionsDiv.innerHTML = `
+      <div class="notif">🔔<div class="notif-dot"></div></div>
+      <a href="post.html" class="btn-sm">Post Need</a>
+      <a href="login.html" class="btn-sm">Log In</a>
+      <a href="signup.html" class="btn-sm btn-primary">Join Now</a>
+    `;
+  }
+}
+
+function viewProfile() {
+  if (!currentUser) return;
+  const profile = currentUser.profile;
+  const details = currentUser.accountType === 'individual' ? 
+    `Name: ${profile.name}\nEmail: ${profile.email}\nGender: ${profile.gender || 'N/A'}\nAddress: ${profile.address || 'N/A'}\nXP: ${profile.xp || 80}\nBadges: ${(profile.badges || ['🌱 New Changemaker']).join(', ')}` :
+    `Organization: ${profile.name}\nEmail: ${profile.email}\nAddress: ${profile.address || 'N/A'}\nStatus: ${profile.verifiedStatus === 'verified' ? '✓ Verified' : '⏳ Pending Verification'}`;
+  alert(`📋 Account Details\n\n${details}`);
+  showToast('Profile loaded');
+}
+
+function viewBadges() { 
+  showToast('✨ Your Badges: Crisis Responder, Seed Volunteer, Rising Star'); 
+}
+
+function logout() { 
+  localStorage.removeItem('currentUser'); 
+  currentUser = null; 
+  updateHeaderUI(); 
+  showToast('👋 Logged out successfully'); 
+  setTimeout(() => window.location.reload(), 800); 
+}
+
+// Initialize
+updateHeaderUI();
 renderUrgent();
+
+// Header scroll effect
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('header');
+  if (window.scrollY > 20) header.style.background = 'rgba(255, 255, 255, 0.95)';
+  else header.style.background = 'rgba(255, 255, 255, 0.9)';
+});
 </script>
 </body>
 </html>
